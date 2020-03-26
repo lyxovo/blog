@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lyxwachs.dao.BlogFriendlyLinksMapper">
+  <resultMap id="BaseResultMap" type="top.lyxwachs.bean.BlogFriendlyLinks">
+    <id column="fl_id" jdbcType="INTEGER" property="flId" />
+    <result column="fl_url" jdbcType="VARCHAR" property="flUrl" />
+    <result column="fl_text" jdbcType="VARCHAR" property="flText" />
+    <result column="create_user" jdbcType="INTEGER" property="createUser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    fl_id, fl_url, fl_text, create_user
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blog_friendly_links
+    where fl_id = #{flId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog_friendly_links
+    where fl_id = #{flId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="top.lyxwachs.bean.BlogFriendlyLinks">
+    insert into blog_friendly_links (fl_id, fl_url, fl_text, 
+      create_user)
+    values (#{flId,jdbcType=INTEGER}, #{flUrl,jdbcType=VARCHAR}, #{flText,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="top.lyxwachs.bean.BlogFriendlyLinks">
+    insert into blog_friendly_links
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="flId != null">
+        fl_id,
+      </if>
+      <if test="flUrl != null">
+        fl_url,
+      </if>
+      <if test="flText != null">
+        fl_text,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="flId != null">
+        #{flId,jdbcType=INTEGER},
+      </if>
+      <if test="flUrl != null">
+        #{flUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="flText != null">
+        #{flText,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lyxwachs.bean.BlogFriendlyLinks">
+    update blog_friendly_links
+    <set>
+      <if test="flUrl != null">
+        fl_url = #{flUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="flText != null">
+        fl_text = #{flText,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=INTEGER},
+      </if>
+    </set>
+    where fl_id = #{flId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lyxwachs.bean.BlogFriendlyLinks">
+    update blog_friendly_links
+    set fl_url = #{flUrl,jdbcType=VARCHAR},
+      fl_text = #{flText,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=INTEGER}
+    where fl_id = #{flId,jdbcType=INTEGER}
+  </update>
+</mapper>

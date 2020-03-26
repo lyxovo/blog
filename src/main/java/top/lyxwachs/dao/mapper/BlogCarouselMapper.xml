@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lyxwachs.dao.BlogCarouselMapper">
+  <resultMap id="BaseResultMap" type="top.lyxwachs.bean.BlogCarousel">
+    <id column="carousel_id" jdbcType="INTEGER" property="carouselId" />
+    <result column="carousel_url" jdbcType="VARCHAR" property="carouselUrl" />
+    <result column="carousel_name" jdbcType="VARCHAR" property="carouselName" />
+    <result column="create_user" jdbcType="INTEGER" property="createUser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    carousel_id, carousel_url, carousel_name, create_user
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blog_carousel
+    where carousel_id = #{carouselId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog_carousel
+    where carousel_id = #{carouselId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="top.lyxwachs.bean.BlogCarousel">
+    insert into blog_carousel (carousel_id, carousel_url, carousel_name, 
+      create_user)
+    values (#{carouselId,jdbcType=INTEGER}, #{carouselUrl,jdbcType=VARCHAR}, #{carouselName,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="top.lyxwachs.bean.BlogCarousel">
+    insert into blog_carousel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="carouselId != null">
+        carousel_id,
+      </if>
+      <if test="carouselUrl != null">
+        carousel_url,
+      </if>
+      <if test="carouselName != null">
+        carousel_name,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="carouselId != null">
+        #{carouselId,jdbcType=INTEGER},
+      </if>
+      <if test="carouselUrl != null">
+        #{carouselUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="carouselName != null">
+        #{carouselName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lyxwachs.bean.BlogCarousel">
+    update blog_carousel
+    <set>
+      <if test="carouselUrl != null">
+        carousel_url = #{carouselUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="carouselName != null">
+        carousel_name = #{carouselName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=INTEGER},
+      </if>
+    </set>
+    where carousel_id = #{carouselId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lyxwachs.bean.BlogCarousel">
+    update blog_carousel
+    set carousel_url = #{carouselUrl,jdbcType=VARCHAR},
+      carousel_name = #{carouselName,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=INTEGER}
+    where carousel_id = #{carouselId,jdbcType=INTEGER}
+  </update>
+</mapper>

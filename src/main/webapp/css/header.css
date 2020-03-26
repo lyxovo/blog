@@ -1,0 +1,100 @@
+		body{
+			text-align: center;
+		}
+		#header_main{
+			background: #fff;
+			height:50px;
+			position: fixed;
+			top:0px;
+			left:0px;
+			right:0px;
+			z-index: 12;
+			box-shadow: 0 0 3px #888;
+		}
+		#header{
+			width:1110px;
+			height:50px;
+			margin: 0 auto;
+		}
+		#logo{
+			float: left;
+		}
+		#logo img{
+			height:50px;
+			width:auto;
+			margin-left: 0px;
+			margin-right:15px;
+		}
+		#nav{
+			float:left;
+		}
+		#nav ul{
+			width:500px;
+			height:50px;
+			margin:0 auto;
+			padding: 0;
+			margin-left: 10px;
+		}
+		#nav ul li{
+			list-style: none;
+			float:left;
+			margin-top: 1px;
+		}
+		#nav ul li a{
+			display: block;
+			width:80px;
+			line-height: 50px;
+			color:#000;
+			text-decoration: none;
+			text-align:center;
+		}
+		#nav ul li a:hover{
+			color:#14a7ed;
+		}
+		#nav ul li a.nav_on{
+			color:#14a7ed;
+		}
+		#searchBox{
+			float: right;
+		}
+		#searchBox form{
+			height: 50px;
+			width:250px;
+			position:relative;
+		}
+		#searchBox form button{
+			position:absolute;
+			background: #fff;
+			border:none;
+			width:30px;
+			height:27px;
+			border-radius: 0 14px 14px 0;
+			cursor: pointer;
+			font-size: 17px;
+			line-height: 27px;
+			margin-top:12px;
+			outline: none;
+			color:#666;
+			right:2px;
+			z-index: 13;
+		}
+		#searchBox form input{
+			position:absolute;
+			width:120px;
+			height:31px;
+			border:1px solid #ccc;
+			border-radius: 14px 14px 14px 14px;
+			outline: none;
+			font-size: 13px;
+			margin-top:10px;
+			right:0;
+			padding-left: 12px;
+			transition: .2s linear;
+			line-height: 31px;
+			background: #fff;
+		}
+		input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px white inset;}
+		#searchBox form input::-webkit-input-placeholder{color:#666;}
+		#searchBox form input:focus, #searchBox form:hover input{
+			width:250px;
+		}

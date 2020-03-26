@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<!-- 其他js -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="个人博客">
+	<meta name="description" content="个人博客！">
+	<meta name="renderer" content="webkit">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+	<link rel="icon" href="./images/title.ico" type="image/x-icon"/>
+	<script type="text/javascript" src="../js/jquery.min.js"></script><!-- 引入jquery文件 -->
+	
+	<link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+  	<script src="../layui/layui.js" charset="utf-8"></script>
+	
+	<link rel="stylesheet" href="../css/left_middle.css">
+	<link rel="stylesheet" href="../css/footer.css">
+	<link rel="stylesheet" href="../css/header.css">
+	<link rel="stylesheet" href="../css/right.css">
+	<link rel="stylesheet" href="../css/font-awesome.min.css">
+	
+	<title>个人博客！</title>
+<!-- 	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "https://hm.baidu.com/hm.js?af5a6a050f9e051e640522a77c87ba79";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script> -->
+	
+	<!-- 友情链接 -->
+	<script>
+	window.onload=
+        function(){
+            var oDiv = document.getElementById("friendly_link"),
+                H = 0,
+                Y = oDiv        
+            while (Y) {
+                H += Y.offsetTop; 
+                Y = Y.offsetParent;
+            }
+            window.onscroll = function()
+            {
+                var s = document.body.scrollTop || document.documentElement.scrollTop
+                if(s> H - 70) {
+                    oDiv.style = "position:fixed;top:70px;"
+                } else {
+                    oDiv.style = ""
+                }
+            }
+        }
+</script>
+
+<!-- 获取当前页面的title -->
+<script>
+	//获取当前页面的title，首页
+/* 	var title = $('title').text();
+	var nav_len = $('#nav ul li').length;
+	for(var i = 0; i < nav_len; i++){
+		var nav_text = $('#nav ul li:eq('+i+') a').text();
+		if(title.indexOf(nav_text) != -1){
+			$('#nav ul li:eq('+0+') a').removeClass('nav_on');
+			$('#nav ul li:eq('+i+') a').addClass('nav_on');
+			break;
+		}
+	} */
+
+</script>
+
+<!--layui 图片轮播 -->
+<script>
+layui.use(['carousel', 'form'], function(){
+  var carousel = layui.carousel
+  ,form = layui.form;
+  
+  //图片轮播
+  carousel.render({
+    elem: '#slide_show'
+    ,width: '578px'
+    ,height: '340px'
+    ,interval: 1000
+  });
+  
+}); 
+</script>
+	
+</head>
+
+
+<body>
+	<!-- 顶部栏目html -->
+	<div id="header_main">
+		<div id="header">
+		<!-- logo -->
+			<div id="logo">
+				<a href=https://www.qsp.net.cn><img src=static/picture/360294_ubang.png alt=""></a>
+			</div>
+			<div id="nav">
+				<ul>
+					<li><a href=https://www.qsp.net.cn class="nav_on">首页</a></li>
+					<li><a href="../edit.jsp" class="nav_on">添加</a></li>
+				</ul>
+			</div>
+			<div id="searchBox">
+				<form action="./search/" method="get" target="_blank">
+					<button type = "submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+					<input type="search" placeholder="搜索本站" name="keywords">
+				</form>
+			</div>
+		</div> 
+	</div>
+	<!-- 左右html -->
+	<div id="main">
+		<div id="left">
+			<div id = "left-nav">
+				 <ul>
+					<li>
+						<a href="https://www.qsp.net.cn" class="now_on">推荐</a>
+					</li>
+					<li>
+						<a href="./index?cat=热门" >热门</a>
+					</li>
+					<li><a href="./index?cat=程序与算法" >程序与算法</a></li>
+					<li><a href="./index?cat=web" >web</a></li>
+					<li><a href="./index?cat=java" >java</a></li>
+					<li><a href="./index?cat=计算机与服务器" >计算机与服务器</a></li>
+					<li><a href="./index?cat=数据库" >数据库</a></li>
+					<li><a href="./index?cat=阅读" >阅读</a></li>
+					<li><a href="./index?cat=考研" >考研</a></li>
+					<li><a href="./index?cat=其他" >其他</a></li>
+				</ul>
+			</div>
+			<!-- 中间部分（点击左边触发） -->
+			<div id="left-middle">
+				<!-- 中间列表2 -->
+				<div id="slide_show"  class="layui-carousel"><!-- 滑动幻灯片 -->
+				  <div carousel-item="">
+				    <div><img src="../picture/ubang_image_20190903391582.png"></div>
+				    <div><img src="../picture/ubang_image_20190903882007.png"></div>
+				    <div><img src="../picture/ubang_image_20190903391582.png"></div>
+				    <div>条目5</div>
+				  </div>
+					
+				</div>
+
+				<!-- 中间列表2 -->
+				<div id="art-list">
+					<div id="art-head">
+						<div id="art-list-title">
+							推荐						
+						</div>
+					</div>
+						<ul>
+							<li>
+								<div class="art_img"><a href="/art/191.html" target="_blank" ><img src=static/picture/20200324150406725493.png alt=""></a></div>								
+								<div class="title_and_info">
+									<div class="art_title">
+										<a target="_blank" href=/art/191.html>计算机考研，考研408全套资料，王道2020、2021全程班，王道、天勤单科书PDF，408推荐教材PDF，算法笔记PDF</a>
+									</div>
+									
+									<div class="art_info">
+										<span style="color:#14a7ed;">考研 ⋅ </span>
+										<span>谯胜平 ⋅ </span>
+										<span>2020-03-24 15:10:16 ⋅ </span>
+										<span>浏览(3) ⋅ </span>
+										<span>评论(0)</span>
+									</div>
+								</div>
+									
+							</li>
+							<li>
+								<div class="title_and_info">
+									<div class="art_title">
+										<a target="_blank" href=/art/190.html>解决谷歌创建新账号时验证手机号不存在的解决方法。</a>
+									</div>
+									
+									<div class="art_info">
+										<span style="color:#14a7ed;">计算机与服务器 ⋅ </span>
+										<span>谯胜平 ⋅ </span>
+										<span>2020-03-19 15:38:23 ⋅ </span>
+										<span>浏览(11) ⋅ </span>
+										<span>评论(0)</span>
+									</div>
+								</div>
+							</li>
+			
+						<li style="display: block;height: 60px;border-bottom: none;">
+							<div style="text-align: center;color:#777;line-height: 60px;">没有了</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			
+		</div>
+	
+		<div id="right">
+			<div id="hot_art" ><!-- 热门文章 -->
+				<div class="right_title">
+					<div class="title_content">&nbsp;热门文章</div>
+				</div>
+				<ul>
+						    <li><div class="row_dot"></div><a href=./art/101.html  target="_blank">shadowsocks一键翻墙脚本</a></li>
+						    <li><div class="row_dot"></div><a href=./art/100.html  target="_blank">2017年浙大计算机384分考研经验</a></li>
+						    <li><div class="row_dot"></div><a href=./art/103.html  target="_blank">情人节搞笑表白程序</a></li>
+						    <li><div class="row_dot"></div><a href=./art/102.html  target="_blank">codeup.字符串连接</a></li>
+						    <li><div class="row_dot"></div><a href=./art/104.html  target="_blank">卖米-飞花</a></li>
+						    <li><div class="row_dot"></div><a href=./art/105.html  target="_blank">codeup.首字母大写</a></li>
+						    <li><div class="row_dot"></div><a href=./art/168.html  target="_blank">推荐几个非常不错的富文本编辑器</a></li>
+						    <li><div class="row_dot"></div><a href=./art/114.html  target="_blank">17-19年浙大计科考研经验帖汇总</a></li>
+						    <li><div class="row_dot"></div><a href=./art/113.html  target="_blank">【配置教程】sublime text3出现there are no packages available for installation</a></li>
+						    <li><div class="row_dot"></div><a href=./art/111.html  target="_blank">计算机专业大学排名（基于第四轮学科评估）</a></li>
+				</ul>
+			</div>
+
+	<div id="art_tag" ><!-- 文章标签 -->
+		<div class="right_title">
+			<div class="title_content">&nbsp;文章标签</div>
+		</div>
+
+		
+		<ul>
+											<li><a href=./tag/考研经验 style="background: #EB6841;" title="考研经验(10)">考研经验(10)</a></li>
+											<li><a href=./tag/计算机考研 style="background: #EB6841;" title="计算机考研(8)">计算机考研(8)</a></li>
+											<li><a href=./tag/408 style="background: #EB6841;" title="408(1)">408(1)</a></li>
+											<li><a href=./tag/数学一 style="background: #8A9B0F;" title="数学一(1)">数学一(1)</a></li>
+											<li><a href=./tag/shadowsocks style="background: #FC9D9A;" title="shadowsocks(2)">shadowsocks(2)</a></li>
+											<li><a href=./tag/科学上网 style="background: #f3a557;" title="科学上网(3)">科学上网(3)</a></li>
+											<li><a href=./tag/codeup style="background: #f3a557;" title="codeup(4)">codeup(4)</a></li>
+											<li><a href=./tag/字符串处理 style="background: #f3a557;" title="字符串处理(5)">字符串处理(5)</a></li>
+											<li><a href=./tag/web style="background: #f3a557;" title="web(3)">web(3)</a></li>
+											<li><a href=./tag/散文 style="background: #83AF9B;" title="散文(1)">散文(1)</a></li>
+											<li><a href=./tag/学科评估 style="background: #3FB8AF;" title="学科评估(2)">学科评估(2)</a></li>
+											<li><a href=./tag/scanf style="background: #C8C8A9;" title="scanf(2)">scanf(2)</a></li>
+											<li><a href=./tag/gets style="background: #43ac6a;" title="gets(1)">gets(1)</a></li>
+											<li><a href=./tag/getchar style="background: #FE4365;" title="getchar(1)">getchar(1)</a></li>
+											<li><a href=./tag/sublime text style="background: #3FB8AF;" title="sublime text(2)">sublime text(2)</a></li>
+											<li><a href=./tag/java style="background: #8A9B0F;" title="java(1)">java(1)</a></li>
+											<li><a href=./tag/五子棋 style="background: #EB6841;" title="五子棋(1)">五子棋(1)</a></li>
+											<li><a href=./tag/printf style="background: #EB6841;" title="printf(1)">printf(1)</a></li>
+											<li><a href=./tag/最大公约数 style="background: #f3a557;" title="最大公约数(1)">最大公约数(1)</a></li>
+											<li><a href=./tag/最小公倍数 style="background: #34afd8;" title="最小公倍数(1)">最小公倍数(1)</a></li>
+											<li><a href=./tag/mysql style="background: #EDC951;" title="mysql(1)">mysql(1)</a></li>
+											<li><a href=./tag/BBR style="background: #f3a557;" title="BBR(1)">BBR(1)</a></li>
+											<li><a href=./tag/STL style="background: #43ac6a;" title="STL(1)">STL(1)</a></li>
+											<li><a href=./tag/PAT style="background: #83AF9B;" title="PAT(2)">PAT(2)</a></li>
+											<li><a href=./tag/富文本编辑器 style="background: #34afd8;" title="富文本编辑器(1)">富文本编辑器(1)</a></li>
+											<li><a href=./tag/数据类型 style="background: #FC9D9A;" title="数据类型(1)">数据类型(1)</a></li>
+											<li><a href=./tag/完全二叉树 style="background: #036564;" title="完全二叉树(1)">完全二叉树(1)</a></li>
+											<li><a href=./tag/晴天的魔法乐园 style="background: #C8C8A9;" title="晴天的魔法乐园(7)">晴天的魔法乐园(7)</a></li>
+											<li><a href=./tag/递归 style="background: #83AF9B;" title="递归(1)">递归(1)</a></li>
+											<li><a href=./tag/棋盘覆盖问题 style="background: #EB6841;" title="棋盘覆盖问题(1)">棋盘覆盖问题(1)</a></li>
+											<li><a href=./tag/实用工具 style="background: #8A9B0F;" title="实用工具(1)">实用工具(1)</a></li>
+											<li><a href=./tag/谷歌 style="background: #43ac6a;" title="谷歌(1)">谷歌(1)</a></li>
+											<li><a href=./tag/考研资料 style="background: #FE4365;" title="考研资料(1)">考研资料(1)</a></li>
+											<li><a href=./tag/unzip style="background: #34afd8;" title="unzip(1)">unzip(1)</a></li>
+											<li><a href=./tag/gcc style="background: #EDC951;" title="gcc(1)">gcc(1)</a></li>
+											<li><a href=./tag/ubuntu style="background: #8A9B0F;" title="ubuntu(1)">ubuntu(1)</a></li>
+											<li><a href=./tag/getline() style="background: #43ac6a;" title="getline()(1)">getline()(1)</a></li>
+											<li><a href=./tag/日历 style="background: #EDC951;" title="日历(1)">日历(1)</a></li>
+		</ul>
+	</div>
+
+   <div id="friendly_link" ><!-- 友情链接 -->
+					<div class="right_title">
+						<div class="title_content">&nbsp;友情链接</div>
+					</div>
+					<ul>
+						    <li><a href=https://www.qsp.net.cn  target="_blank">谯胜平个人博客</a></li>
+						    <li><a href=http://www.glh.org.cn  target="_blank">贵联会</a></li>
+					</ul>
+	</div>
+	
+	</div>
+	
+	</div>
+	<!-- 底部 -->
+	<div id="footer">
+		<div id="footer_nav">
+			<ul>
+				<li class="footer_nav_comm"><a href="./help/关于本站">关于本站</a></li>
+				<li class="footer_nav_comm"><a href="./help/联系我们">联系我们</a></li>
+				<li class="footer_nav_comm"><a href="./help/申请友链">申请友链</a></li>
+				<li class="footer_nav_comm"><a href="./help/投诉建议">投诉建议</a></li>
+				<li><a href="./help/网站地图">网站地图</a></li>
+			</ul>
+		</div>
+		<div id="footer_right">©2018-2019 6.0 www.qsp.net.cn All Rights Reserved. <a href="http://www.beian.miit.gov.cn/" target="_blank">黔ICP备17002805号-5</a></div>
+	</div>
+</body>	
+
+</html>	 

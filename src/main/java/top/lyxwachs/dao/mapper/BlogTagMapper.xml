@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lyxwachs.dao.BlogTagMapper">
+  <resultMap id="BaseResultMap" type="top.lyxwachs.bean.BlogTag">
+    <id column="tag_id" jdbcType="INTEGER" property="tagId" />
+    <result column="tag_name" jdbcType="VARCHAR" property="tagName" />
+    <result column="tag_number" jdbcType="INTEGER" property="tagNumber" />
+    <result column="b_id" jdbcType="INTEGER" property="bId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    tag_id, tag_name, tag_number, b_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blog_tag
+    where tag_id = #{tagId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog_tag
+    where tag_id = #{tagId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="top.lyxwachs.bean.BlogTag">
+    insert into blog_tag (tag_id, tag_name, tag_number, 
+      b_id)
+    values (#{tagId,jdbcType=INTEGER}, #{tagName,jdbcType=VARCHAR}, #{tagNumber,jdbcType=INTEGER}, 
+      #{bId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="top.lyxwachs.bean.BlogTag">
+    insert into blog_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tagId != null">
+        tag_id,
+      </if>
+      <if test="tagName != null">
+        tag_name,
+      </if>
+      <if test="tagNumber != null">
+        tag_number,
+      </if>
+      <if test="bId != null">
+        b_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tagId != null">
+        #{tagId,jdbcType=INTEGER},
+      </if>
+      <if test="tagName != null">
+        #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagNumber != null">
+        #{tagNumber,jdbcType=INTEGER},
+      </if>
+      <if test="bId != null">
+        #{bId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lyxwachs.bean.BlogTag">
+    update blog_tag
+    <set>
+      <if test="tagName != null">
+        tag_name = #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagNumber != null">
+        tag_number = #{tagNumber,jdbcType=INTEGER},
+      </if>
+      <if test="bId != null">
+        b_id = #{bId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where tag_id = #{tagId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lyxwachs.bean.BlogTag">
+    update blog_tag
+    set tag_name = #{tagName,jdbcType=VARCHAR},
+      tag_number = #{tagNumber,jdbcType=INTEGER},
+      b_id = #{bId,jdbcType=INTEGER}
+    where tag_id = #{tagId,jdbcType=INTEGER}
+  </update>
+  
+     <insert id="insertBatchTag" parameterType="java.util.List">
+        insert into blog_tag (b_id,tag_name,tag_number)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.bId,jdbcType=INTEGER}, #{item.tagName,jdbcType=VARCHAR},#{item.tagNumber,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+  
+</mapper>

@@ -1,0 +1,110 @@
+		li{
+			list-style: none;
+		}
+		a{
+			text-decoration: none;
+			text-align:center;
+		}
+		#hot_art, #art_tag, #friendly_link{
+			width:300px;
+			margin-bottom: 20px;
+			padding-bottom: 15px;
+			padding-bottom: 5px;
+			background: #f4f5f6;
+		}
+		#hot_art ul, #art_tag ul, #friendly_link ul{
+			margin:0 auto;
+			padding: 0;
+			width:270px;
+			display: inline-block;
+		}
+		.right_title{
+			height: 50px;
+			width:300px;
+		}
+		.title_content{
+			float: left;
+			font-size: 17px;
+			line-height: 20px;
+			margin-top: 15px;
+			text-align: left;
+			margin-left: 15px;
+			border-left: 3px solid #14a7ed;
+		}
+		.hot_more a{
+			display: block;
+			float: right;
+			font-size: 14px;
+			line-height: 20px;
+			margin-top: 15px;
+			text-align: left;
+			margin-right: 15px;
+			color:#999;
+		}
+		.hot_more a:hover{
+			color:#14a7ed;
+		}
+		.row_dot{
+			width:4px;
+			height:4px;
+			float:left;
+			margin-top: 10px;
+			margin-right:8px;
+			background: #14a7ed;
+		}
+		#hot_art ul li{
+			margin-left: 0;
+			text-align: left;
+			text-overflow: ellipsis;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    margin-bottom: 10px;
+		}
+		#hot_art ul li a{
+			text-decoration: none;
+			color:#666;
+			font-size: 14px;
+		}
+		#hot_art ul li a:hover{
+			color:#14a7ed;
+		}
+
+		#art_tag ul li{
+			float:left;
+			margin-right: 10px;
+			width: calc(33.3% - 6.6px);
+		}
+		#art_tag ul li:nth-child(3n+3){
+			margin-right: 0;
+		}
+		#art_tag ul li a{
+			color:white;
+			display: block;
+			height:22px;
+			width: calc(100% - 10px);
+			line-height: 22px;
+			padding: 3px 5px;
+			margin-bottom: 10px;
+			transition: all 0.5s;
+			font-size: 13px;
+			text-decoration: none;
+			overflow:hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		#art_tag ul li a:hover{
+			border-radius: 8px;
+		}
+		#friendly_link ul li{
+			float: left;
+			margin-right:15px;
+			margin-bottom: 10px;
+		}
+		#friendly_link ul li a{
+			color:#666;
+			font-size: 14px;
+		}
+		#friendly_link ul li a:hover{
+			color:#14a7ed;
+		}
+
