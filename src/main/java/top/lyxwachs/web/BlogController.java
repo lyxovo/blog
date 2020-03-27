@@ -89,12 +89,9 @@ public class BlogController {
 	@RequestMapping("/saveBlog.do")
 	@ResponseBody
 	public String saveBlog(HttpServletRequest  request) {
-		System.out.println("213");
-		//String[]ac= {"1","2","3"};
 		String[] arr_tag_name = request.getParameterValues("tag_name");
 		String[] arr_category = request.getParameterValues("category");
 	
-		
 		String b_title = request.getParameter("b_title");
 		String b_content = request.getParameter("b_content");
 		int b_author=1;//张三登录人
@@ -104,23 +101,28 @@ public class BlogController {
 		blog.setbContent(b_content);
 		blog.setbCreatedate(b_createdate);
 		blog.setbTitle(b_title);
-		
-	
-		
-		
-		
+
 		String result = blogService.saveBlog(blog,arr_tag_name,arr_category);
 		
-		
-		
-		
-	
-//		--category_id  --类别条目
-//		---tag_id   ---文件标签
-		
-		return "1";
+		return result;
 	}
 	
+	/**
+	 * 保存博客成功后跳转页面
+	 * @return
+	 */
+	@RequestMapping("saveSuccess")
+	public ModelAndView saveSuccess(HttpServletRequest  request) {
+		ModelAndView mv = new ModelAndView("success");
+		
+		String str_blog = request.getParameter("blog");
+		System.out.println(str_blog);
+		
+		JSONObject blog = JSONObject.parseObject(str_blog); 
+		
+		
+		return mv;
+	}
 	
 	
 	

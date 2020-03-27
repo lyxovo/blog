@@ -83,9 +83,10 @@ public class BlogService {
 			blogCategoryMapper.insertBatchCategory(list_category); 
 		}
 
-		
+		System.out.println(blog);
 		if(i==1) {
 			json.put("flag",1);
+			json.put("blog", blog);
 		}else {
 			json.put("flag",0);
 		}

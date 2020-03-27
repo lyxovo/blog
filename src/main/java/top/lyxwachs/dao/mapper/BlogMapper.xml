@@ -5,20 +5,26 @@
     <id column="b_id" jdbcType="INTEGER" property="bId" />
     <result column="b_picture" jdbcType="VARCHAR" property="bPicture" />
     <result column="b_title" jdbcType="VARCHAR" property="bTitle" />
-    <result column="b_content" jdbcType="VARCHAR" property="bContent" />
     <result column="b_author" jdbcType="INTEGER" property="bAuthor" />
     <result column="b_createdate" jdbcType="TIMESTAMP" property="bCreatedate" />
     <result column="b_createupdate" jdbcType="TIMESTAMP" property="bCreateupdate" />
     <result column="b_visitors" jdbcType="INTEGER" property="bVisitors" />
     <result column="b_discuss" jdbcType="INTEGER" property="bDiscuss" />
   </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="top.lyxwachs.bean.Blog">
+    <result column="b_content" jdbcType="LONGVARCHAR" property="bContent" />
+  </resultMap>
   <sql id="Base_Column_List">
-    b_id, b_picture, b_title, b_content, b_author, b_createdate, b_createupdate, b_visitors, 
-    b_discuss
+    b_id, b_picture, b_title, b_author, b_createdate, b_createupdate, b_visitors, b_discuss
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    b_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from blog
     where b_id = #{bId,jdbcType=INTEGER}
   </select>
@@ -33,19 +39,19 @@
     delete from blog
     where b_id = #{bId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="top.lyxwachs.bean.Blog" >
+  <insert id="insert" parameterType="top.lyxwachs.bean.Blog">
     insert into blog (b_id, b_picture, b_title, 
-      b_content, b_author, b_createdate, 
-      b_createupdate, b_visitors, b_discuss
+      b_author, b_createdate, b_createupdate, 
+      b_visitors, b_discuss, b_content
       )
     values (#{bId,jdbcType=INTEGER}, #{bPicture,jdbcType=VARCHAR}, #{bTitle,jdbcType=VARCHAR}, 
-      #{bContent,jdbcType=VARCHAR}, #{bAuthor,jdbcType=INTEGER}, #{bCreatedate,jdbcType=TIMESTAMP}, 
-      #{bCreateupdate,jdbcType=TIMESTAMP}, #{bVisitors,jdbcType=INTEGER}, #{bDiscuss,jdbcType=INTEGER}
+      #{bAuthor,jdbcType=INTEGER}, #{bCreatedate,jdbcType=TIMESTAMP}, #{bCreateupdate,jdbcType=TIMESTAMP}, 
+      #{bVisitors,jdbcType=INTEGER}, #{bDiscuss,jdbcType=INTEGER}, #{bContent,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="top.lyxwachs.bean.Blog" useGeneratedKeys="true" keyProperty="bId">
+  <insert id="insertSelective" parameterType="top.lyxwachs.bean.Blog">
     insert into blog
-    <trim prefix="(" suffix=")" suffixOverrides="," >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="bId != null">
         b_id,
       </if>
@@ -54,9 +60,6 @@
       </if>
       <if test="bTitle != null">
         b_title,
-      </if>
-      <if test="bContent != null">
-        b_content,
       </if>
       <if test="bAuthor != null">
         b_author,
@@ -73,6 +76,9 @@
       <if test="bDiscuss != null">
         b_discuss,
       </if>
+      <if test="bContent != null">
+        b_content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="bId != null">
@@ -83,9 +89,6 @@
       </if>
       <if test="bTitle != null">
         #{bTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="bContent != null">
-        #{bContent,jdbcType=VARCHAR},
       </if>
       <if test="bAuthor != null">
         #{bAuthor,jdbcType=INTEGER},
@@ -102,6 +105,9 @@
       <if test="bDiscuss != null">
         #{bDiscuss,jdbcType=INTEGER},
       </if>
+      <if test="bContent != null">
+        #{bContent,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="top.lyxwachs.bean.Blog">
@@ -112,9 +118,6 @@
       </if>
       <if test="bTitle != null">
         b_title = #{bTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="bContent != null">
-        b_content = #{bContent,jdbcType=VARCHAR},
       </if>
       <if test="bAuthor != null">
         b_author = #{bAuthor,jdbcType=INTEGER},
@@ -131,14 +134,28 @@
       <if test="bDiscuss != null">
         b_discuss = #{bDiscuss,jdbcType=INTEGER},
       </if>
+      <if test="bContent != null">
+        b_content = #{bContent,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where b_id = #{bId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="top.lyxwachs.bean.Blog">
+    update blog
+    set b_picture = #{bPicture,jdbcType=VARCHAR},
+      b_title = #{bTitle,jdbcType=VARCHAR},
+      b_author = #{bAuthor,jdbcType=INTEGER},
+      b_createdate = #{bCreatedate,jdbcType=TIMESTAMP},
+      b_createupdate = #{bCreateupdate,jdbcType=TIMESTAMP},
+      b_visitors = #{bVisitors,jdbcType=INTEGER},
+      b_discuss = #{bDiscuss,jdbcType=INTEGER},
+      b_content = #{bContent,jdbcType=LONGVARCHAR}
     where b_id = #{bId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="top.lyxwachs.bean.Blog">
     update blog
     set b_picture = #{bPicture,jdbcType=VARCHAR},
       b_title = #{bTitle,jdbcType=VARCHAR},
-      b_content = #{bContent,jdbcType=VARCHAR},
       b_author = #{bAuthor,jdbcType=INTEGER},
       b_createdate = #{bCreatedate,jdbcType=TIMESTAMP},
       b_createupdate = #{bCreateupdate,jdbcType=TIMESTAMP},

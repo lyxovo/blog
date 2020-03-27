@@ -23,7 +23,6 @@
 	<link rel="stylesheet" href="../css/footer.css">
 	<link rel="stylesheet" href="../css/header.css">
 	<link rel="stylesheet" href="../css/right.css">
-	<link rel="stylesheet" href="../css/font-awesome.min.css">
 	
 	<title>个人博客！</title>
 	
@@ -198,9 +197,12 @@ function save_blog(){
 	//console.log(_category_span);
 	//富文本内容
 	var b_content=layedit.getContent(dd);//包含html
+	//b_content=JSON.stringify(b_content);
+	b_content=encodeURIComponent(b_content);
+	//decodeURIComponent(f.ctjs)//显示
 	b_content="&b_content="+b_content;
+	console.log(b_content);
 	
-	//return;
 	var serialize=b_title + _tag_span + _category_span + b_content;
 	//console.log(serialize);
 	//return;
@@ -208,10 +210,13 @@ function save_blog(){
 		url: "../blog/saveBlog.do",
 		data: serialize,
 		dataType: "json", 
+		type:"POST",
+		
 		success: function(result){
 			if(result.flag==1){
-				window.location.href="";//转到成功页面。
-				
+				var blog=JSON.stringify(result.blog);
+				//console.log(result.blog);
+				//window.location.href="../blog/saveSuccess.do?blog="+blog;//转到成功页面。
 			}else{
 				layer.alert('对不起，文章保存失败！！！', {icon: 5,anim: 4});
 			}
@@ -262,10 +267,9 @@ function save_blog(){
 	margin-top:250px;
 }
 
-/* 底部 */
-#footer{
-	position: absolute;
-	top:110%;
+/* 添加友情链接 */
+#add_fl{
+
 }
 
 </style>	
@@ -279,19 +283,19 @@ function save_blog(){
 		<div id="header">
 		<!-- logo -->
 			<div id="logo">
-				<a href=https://www.qsp.net.cn><img src="/picture/360294_ubang.png" alt="">xxx的博客</a>
+				<a href="#"><img src="#" alt="">xxx的博客</a>
 			</div>
 			<div id="nav">
 				<ul>
 					<li><a href=https://www.qsp.net.cn class="nav_on">首页</a></li>
 				</ul>
 			</div>
-			<div id="searchBox">
+<!-- 			<div id="searchBox">
 				<form action="./search/" method="get" target="_blank">
 					<button type = "submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 					<input type="search" placeholder="搜索本站" name="keywords">
 				</form>
-			</div>
+			</div> -->
 		</div> 
 	</div>
 	<!-- 左右html -->
@@ -299,8 +303,10 @@ function save_blog(){
 		<div id="left">
 			<div id = "left-nav">
 				 <ul>
-					<li><a href="./index?cat=首页" class="now_on">首页</a>	</li>
+					<li><a href="./index?cat=首页" class="now_on">发文章</a></li>
 					<li><a href="./index?cat=博客管理" >博客管理</a></li>
+					<li><a href="./index?cat=博客管理" >友情链接管理</a></li>
+					<li><a href="./index?cat=博客管理" >轮播图管理</a></li>
 					<li><a href="./index?cat=其他" >其他</a></li>
 				</ul>
 			</div>
@@ -359,32 +365,19 @@ function save_blog(){
 		</div>
 	
 		<div id="right">
-			<div id="hot_art" ><!-- 热门文章 -->
-				<div class="right_title">
-					<div class="title_content">&nbsp;热门文章</div>
-				</div>
-				<ul>
-						    <li><div class="row_dot"></div><a href=./art/101.html  target="_blank">shadowsocks一键翻墙脚本</a></li>
-						    <li><div class="row_dot"></div><a href=./art/100.html  target="_blank">2017年浙大计算机384分考研经验</a></li>
-						    <li><div class="row_dot"></div><a href=./art/103.html  target="_blank">情人节搞笑表白程序</a></li>
-						    <li><div class="row_dot"></div><a href=./art/102.html  target="_blank">codeup.字符串连接</a></li>
-						    <li><div class="row_dot"></div><a href=./art/104.html  target="_blank">卖米-飞花</a></li>
-						    <li><div class="row_dot"></div><a href=./art/105.html  target="_blank">codeup.首字母大写</a></li>
-						    <li><div class="row_dot"></div><a href=./art/168.html  target="_blank">推荐几个非常不错的富文本编辑器</a></li>
-						    <li><div class="row_dot"></div><a href=./art/114.html  target="_blank">17-19年浙大计科考研经验帖汇总</a></li>
-						    <li><div class="row_dot"></div><a href=./art/113.html  target="_blank">【配置教程】sublime text3出现there are no packages available for installation</a></li>
-						    <li><div class="row_dot"></div><a href=./art/111.html  target="_blank">计算机专业大学排名（基于第四轮学科评估）</a></li>
-				</ul>
-			</div>
-
 		   	<div id="friendly_link" ><!-- 友情链接 -->
 							<div class="right_title">
-								<div class="title_content">&nbsp;友情链接</div>
+								<div class="title_content">&nbsp;<span>友情链接 </span></div>
+							
+
 							</div>
+							
+							
 							<ul>
 								    <li><a href=https://www.qsp.net.cn  target="_blank">个人博客</a></li>
 								    <li><a href=http://www.glh.org.cn  target="_blank">贵联会</a></li>
 							</ul>
+							
 			</div>
 		</div>
 		
