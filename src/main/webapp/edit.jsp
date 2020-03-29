@@ -283,7 +283,7 @@ function save_blog(){
 		<div id="header">
 		<!-- logo -->
 			<div id="logo">
-				<a href="#"><img src="#" alt="">xxx的博客</a>
+				<!-- <a href="#"><img src="#" alt="">xxx的博客</a> -->
 			</div>
 			<div id="nav">
 				<ul>
@@ -303,11 +303,14 @@ function save_blog(){
 		<div id="left">
 			<div id = "left-nav">
 				 <ul>
-					<li><a href="./index?cat=首页" class="now_on">发文章</a></li>
-					<li><a href="./index?cat=博客管理" >博客管理</a></li>
-					<li><a href="./index?cat=博客管理" >友情链接管理</a></li>
-					<li><a href="./index?cat=博客管理" >轮播图管理</a></li>
-					<li><a href="./index?cat=其他" >其他</a></li>
+
+					<li><a href="../blog/index.do?cat=b_management" >管理博客</a></li>
+					<li><a href="./index?cat=b_send" class="now_on">发博客</a></li>
+					<li><a href="./index?cat=b_flManger" >友情链接管理</a></li>
+					<li><a href="./index?cat=b_carousel" >轮播图管理</a></li>
+					<li><a href="./index?cat=b_other" >其他</a></li>
+					
+					
 				</ul>
 			</div>
 			<!-- 中间部分（点击左边触发） -->

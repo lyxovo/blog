@@ -125,6 +125,23 @@ public class BlogController {
 	}
 	
 	
+	/**
+	 * 跳转博客管理页面
+	 * @return
+	 */
+	@RequestMapping("index")
+	public ModelAndView b_management(HttpServletRequest  request) {
+		String cat = request.getParameter("cat");
+		ModelAndView mv=null;
+		if("b_management".equals(cat)) {
+			mv = new ModelAndView("b_management");//转发到管理页面
+		}
+		
+		
+		return mv;
+	}
+	
+	
 	
 	
 	

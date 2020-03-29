@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<!DOCTYPE html>
 <html lang="en">
 <!-- 其他js -->
 <head>
@@ -91,7 +94,7 @@
 		<div id="header">
 		<!-- logo -->
 			<div id="logo">
-			<!-- 	<a href=https://www.qsp.net.cn><img src="#" alt=""></a> -->
+				<!-- <a href=https://www.qsp.net.cn><img src="#" alt=""></a> -->
 			</div>
 			<div id="nav">
 				<ul>
