@@ -114,11 +114,11 @@
 		<div id="left">
 			<div id = "left-nav"  style="">
 				 <ul>
-					<li><a href="../index?cat=b_management" class="now_on">管理博客</a></li>
-					<li><a href="./index?cat=b_send" >发博客</a></li>
-					<li><a href="./index?cat=b_flManger" >友情链接管理</a></li>
-					<li><a href="./index?cat=b_carousel" >轮播图管理</a></li>
-					<li><a href="./index?cat=b_other" >其他</a></li>
+					<li><a href="../blog/index.do?cat=b_management" class="now_on">管理博客</a></li>
+					<li><a href="../blog/index.do?cat=b_send" >发博客</a></li>
+					<li><a href="../blog/index.do?cat=b_flmanger" >友情链接管理</a></li>
+					<li><a href="../blog/index.do?cat=b_carousel" >轮播图管理</a></li>
+					<li><a href="../blog/index.do?cat=b_other" >其他</a></li>
 				</ul>
 			</div>
 			<!-- 中间部分（点击左边触发） -->

@@ -304,8 +304,8 @@ function save_blog(){
 			<div id = "left-nav">
 				 <ul>
 					<li><a href="../blog/index.do?cat=b_management" >管理博客</a></li>
-					<li><a href="../blog/index.do?cat=b_send" >发博客</a></li>
-					<li><a href="../blog/index.do?cat=b_flmanger" class="now_on">友情链接管理</a></li>
+					<li><a href="../blog/index.do?cat=b_send" class="now_on">发博客</a></li>
+					<li><a href="../blog/index.do?cat=b_flmanger" >友情链接管理</a></li>
 					<li><a href="../blog/index.do?cat=b_carousel" >轮播图管理</a></li>
 					<li><a href="../blog/index.do?cat=b_other" >其他</a></li>
 				</ul>
@@ -384,7 +384,7 @@ function save_blog(){
 	
 	</div>
 	<!-- 底部 -->
-	<div id="footer" >
+<!-- 	<div id="footer" >
 		<div id="footer_nav">
 			<ul>
 				<li class="footer_nav_comm"><a href="./help/关于本站">关于本站</a></li>
@@ -395,7 +395,7 @@ function save_blog(){
 			</ul>
 		</div>
 		<div id="footer_right">©2018-2019 6.0 www.qsp.net.cn All Rights Reserved. <a href="http://www.beian.miit.gov.cn/" target="_blank">黔ICP备17002805号-5</a></div>
-	</div>
+	</div> -->
 </body>	
 
 </html>	 

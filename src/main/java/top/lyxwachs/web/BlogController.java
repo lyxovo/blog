@@ -2,12 +2,14 @@ package top.lyxwachs.web;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -135,11 +137,39 @@ public class BlogController {
 		ModelAndView mv=null;
 		if("b_management".equals(cat)) {
 			mv = new ModelAndView("b_management");//转发到管理页面
+		}else if("b_send".equals(cat)) {
+			mv = new ModelAndView("b_send");//转发到发博客页面
+		}else if("b_flmanger".equals(cat)) {
+			mv = new ModelAndView("b_flmanger");//转发到发友情链接页面
+		}else if("b_carousel".equals(cat)) {
+			mv = new ModelAndView("b_carousel");//轮播图片
 		}
 		
 		
 		return mv;
 	}
+	
+	/**
+	 * 后台登录
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("login")
+	public void login(HttpServletRequest  request,HttpServletResponse response) {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+//		保存操作,之前判断，保存session
+		
+//		重定向
+		try {
+			response.sendRedirect("../blog/index.do?cat=b_management");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	
 	
 	

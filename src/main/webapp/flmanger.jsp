@@ -22,7 +22,7 @@
 	<link rel="stylesheet" href="../css/left_middle.css">
 	<link rel="stylesheet" href="../css/footer.css">
 	<link rel="stylesheet" href="../css/header.css">
-	<link rel="stylesheet" href="../css/right.css">
+	
 	
 	<title>个人博客！</title>
 	
@@ -230,48 +230,118 @@ function save_blog(){
 	
 
 }
+
+
+//添加友情链接
+$(function(){
+	$("#_add_fl").click(function(){
+		var fl_name=$("#fl_name").val();
+		var fl_url=$("#fl_url").val();
+	
+	 	$.ajax({
+			url:'../blog/saveFriendlink.do',
+			data:{
+				fl_name:fl_name,
+				fl_url:fl_url
+			},
+			dataType:"json",
+			success:function(result){
+				if(result.flag==1){
+					alert("添加成功。");
+					console.log(result);
+				}else{
+					alert("失败。");
+				}
+				
+			},
+			error:function(){
+				alert("出错了");
+			}
+		}); 
+	
+	
+	});
+});
+
+
+
 </script>
 
 
 <style>
-/* 标题头文本框 */
-.input_inner{
-	width:645px;
-	height:30px;
-	background-color: #f2f2f2;
+
+
+.nav_on{
+	margin-left:-8px;
 }
 
-/* 富文本 */
-.create_content{
-	margin-top:25px;
-}
-
-/* 添加标签 */
-._tag{
-	float:left;
-	margin-top:30px;
-}
-
-/* 分类专栏 */
-._sort{
-	clear:both;
-	float:left;
-	margin-top:30px;
+	#left-middle{
+	
+	margin-right:-50px;
+	margin-top:18px;
 }
 
 
-/* 提交 */
-.submit_{
-	clear:both;
-	margin-left:0px;
-	margin-top:250px;
-}
+	#fl_name, #fl_url{
+		width:265px;
+		margin-left:18px;
+		
+	}
 
-/* 添加友情链接 */
-#add_fl{
-
-}
-
+	#_add_fl{
+	width:265px;
+	margin-left:-260px;
+	}
+	
+		/* 账号密码文字	 */
+	.layui-form-label{
+		margin-left:-45px;
+		font: bold ;
+	}
+	
+	
+		#friendly_link ul li{
+			float: left;
+			margin-right:15px;
+			margin-bottom: 10px;
+		}
+		#friendly_link ul li a{
+			color:blue; 
+			font-size: 14px;
+		}
+		#friendly_link ul li a:hover{
+			color:#14a7ed;
+		}
+		
+		 #friendly_link{
+			width:300px;
+			margin-bottom: 20px;
+			padding-bottom: 15px;
+			padding-bottom: 5px;
+			background: #f4f5f6;
+		}
+		 #friendly_link ul{
+			margin:0 auto;
+			padding: 0;
+			width:270px;
+			display: inline-block;
+		}
+		
+		.right_title{
+			height: 50px;
+			width:300px;
+			margin-top:8px;
+		}
+		.title_content{
+			float: left;
+			font-size: 17px;
+			line-height: 20px;
+			margin-top: 15px;
+			text-align: left;
+			margin-left: 15px;
+			border-left: 3px solid #14a7ed;
+		}
+		
 </style>	
 	
 </head>
@@ -287,20 +357,14 @@ function save_blog(){
 			</div>
 			<div id="nav">
 				<ul>
-					<li><a href=https://www.qsp.net.cn class="nav_on">首页</a></li>
+					<li><a href="#" class="nav_on">首页</a></li>
 				</ul>
 			</div>
-<!-- 			<div id="searchBox">
-				<form action="./search/" method="get" target="_blank">
-					<button type = "submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-					<input type="search" placeholder="搜索本站" name="keywords">
-				</form>
-			</div> -->
 		</div> 
 	</div>
 	<!-- 左右html -->
 	<div id="main">
-		<div id="left">
+		<div id="left" style="margin-left:-8px;">
 			<div id = "left-nav">
 				 <ul>
 					<li><a href="../blog/index.do?cat=b_management" >管理博客</a></li>
@@ -314,77 +378,54 @@ function save_blog(){
 			
 			<div id="left-middle">
 				<!-- 中间列表2 -->
+			   	<div id="friendly_link_save" ><!-- 友情链接 -->
+			<!-- 		<div class="right_title">
+						<div class="title_content">&nbsp;<span>友情链接 </span></div>
+					</div>
+					<ul>
+					    <li><a href=https://www.qsp.net.cn  target="_blank">个人博客</a></li>
+					    <li><a href=http://www.glh.org.cn  target="_blank">贵联会</a></li>
+					</ul> -->
+					
+				<form class="layui-form" >
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">链接名称</label>
+				      <input value="admin" id="fl_name" type="text" name="fl_name" required  placeholder="请输入链接名称" autocomplete="off" class="layui-input">
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">链接地址</label>
+				      <input value="http://www.baidu.com" id="fl_url" type="text" name="fl_url" required  placeholder="请输入链接地址" autocomplete="off" class="layui-input">
+				  </div>
 				
-				<!-- 标题头 -->
-				<input type="text" autocomplete="off" id="b_title" maxlength="100" placeholder="请输入文章标题" class="input_inner"/>
-				
-				<!-- 富文本 -->
-				<div class="create_content">
-				  <textarea id="b_content" style="display: none;"></textarea>
+				  <div class="layui-form-item">
+				      <button id="_add_fl" class="layui-btn" >添加</button>
+				  </div>
+				</form>
+					
+					
 				</div>
-				
-				<!--标签 -->
-				<div  class="_tag">
-				  <label>文章标签：</label>
-				  <button id="add_tag" type="button" class="layui-btn layui-btn-xs" onclick="add_tag()">
-					  <i class="layui-icon">&#xe608;</i> 添加文章标签
-				  </button>
-				</div>
-				
-			
-				<!--分类专栏 -->
-				<div class="_sort">
-				  <label>分类专栏：</label>
-				 <!--  新建分类专栏后赋予的值 -->
-				  <button id="add_category"  type="button" class="layui-btn layui-btn-xs " onclick="add_category()">
-					  <i class="layui-icon">&#xe608;</i> 新建分类专栏
-				  </button>
-				</div>
-				
-				<div class="_sort" style="width:230px;height:80px;border: 1px solid gray;">
-				   写作<input onclick="add_category_checkbox(this)" type="checkbox" id="xz" value="写作">
-				     阅读 <input onclick="add_category_checkbox(this)" type="checkbox" id="yd" value="阅读">
-				     发呆<input onclick="add_category_checkbox(this)" type="checkbox" id="fd" value="发呆">
-				</div>
-				
-				
-				<!--提交按钮 -->
-				<div class="submit_">
-				  <button onclick="save_blog()" type="button" class="layui-btn layui-btn-radius layui-btn-primary">
-					  发布博客
-				  </button>
-				  
-				  <button type="button" class="layui-btn layui-btn-radius layui-btn-primary">
-					  返回
-				  </button>
-				</div>
-				
-				<div style="margin-top:30px;"></div>
 			</div>
 			
 		</div>
 	
 		<div id="right">
+			<h2 style="color:red;margin-top:10px;">观看效果</h2>
 		   	<div id="friendly_link" ><!-- 友情链接 -->
-							<div class="right_title">
-								<div class="title_content">&nbsp;<span>友情链接 </span></div>
-							
-
-							</div>
-							
-							
-							<ul>
-								    <li><a href=https://www.qsp.net.cn  target="_blank">个人博客</a></li>
-								    <li><a href=http://www.glh.org.cn  target="_blank">贵联会</a></li>
-							</ul>
-							
+				
+				<div class="right_title">
+					<div class="title_content">&nbsp;<span>友情链接 </span></div>
+				</div>
+				<ul>
+					    <li><a href=https://www.qsp.net.cn  target="_blank">个人博客</a></li>
+					    <li><a href=http://www.glh.org.cn  target="_blank">贵联会</a></li>
+				</ul>
 			</div>
 		</div>
 		
 	
 	</div>
 	<!-- 底部 -->
-	<div id="footer" >
+<!-- 	<div id="footer" >
 		<div id="footer_nav">
 			<ul>
 				<li class="footer_nav_comm"><a href="./help/关于本站">关于本站</a></li>
@@ -395,7 +436,7 @@ function save_blog(){
 			</ul>
 		</div>
 		<div id="footer_right">©2018-2019 6.0 www.qsp.net.cn All Rights Reserved. <a href="http://www.beian.miit.gov.cn/" target="_blank">黔ICP备17002805号-5</a></div>
-	</div>
+	</div> -->
 </body>	
 
 </html>	 

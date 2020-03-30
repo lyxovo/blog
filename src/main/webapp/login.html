@@ -97,14 +97,14 @@ layui.use('form', function(){
 			</div>
 			
 			<div id="ltext" style="width:200;height:300px; margin-top:11px;">
-				<form class="layui-form" action="">
+				<form class="layui-form" action="../blog/login.do" method="post">
 				  <div class="layui-form-item">
 				    <label class="layui-form-label">账号</label>
-				      <input id="username" type="text" name="title" required  placeholder="请输入标题" autocomplete="off" class="layui-input">
+				      <input value="admin" id="username" type="text" name="username" required  placeholder="请输入标题" autocomplete="off" class="layui-input">
 				  </div>
 				  <div class="layui-form-item">
 				    <label class="layui-form-label">密码</label>
-				      <input id="password" type="password" name="password" required  placeholder="请输入密码" autocomplete="off" class="layui-input">
+				      <input value="123" id="password" type="password" name="password" required  placeholder="请输入密码" autocomplete="off" class="layui-input">
 				  </div>
 				   <div class="layui-form-item">
 				     <a href="#"><span style="float:right;">忘记密码？</span></a> 
