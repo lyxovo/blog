@@ -100,32 +100,9 @@
 			border-left: 3px solid #14a7ed;
 		}
 		
-		#footer{
-			margin-top:90%;
-		}
-		
-		
-		.fl_tr th{
-			text-align: center;
-		}
-		
 </style>	
 
 <script>
-
-$(function(){
-	$("#friendly_link_save").hide();//隐藏添加表单
-	
-	$("#show_fl").click(function(){
-		$("#friendly_link_save").toggle();//点击显示添加表单
-	});
-	
-	$("#del_fl").click(function(){//删除
-		alert(123);
-	});
-	
-});
-
 	
 var layer="";	
 layui.use('layer', function(){
@@ -140,10 +117,10 @@ $(function(){
 		var fl_url=$("#fl_url").val();
 		
 		
- 		var li="<li><a href='"+fl_url+"'  target='_blank'>"+fl_name+"</a></li>";
+/* 		var li="<li><a href='"+fl_url+"'  target='_blank'>"+fl_name+"</a></li>";
 		$("#fl_ul").append(li);
 		layer.msg("添加成功");
-		return; 
+		return; */
 		
 	 	$.ajax({
 			url:'../blog/saveFriendlink.do',
@@ -182,9 +159,86 @@ $(function(){
 
 </script>
 
+<!--layui 图片轮播 -->
+<script>
+layui.use(['carousel', 'form'], function(){
+  var carousel = layui.carousel
+  ,form = layui.form;
+  
+  //图片轮播
+  carousel.render({
+    elem: '#slide_show'
+    ,width: '350px'
+    ,height: '250px'
+    ,interval: 1000
+  });
+  
+}); 
+</script>
 
-
-	
+<!--layui 图片上传,多文件列表示例 -->
+<script>
+layui.use('upload', function(){
+  var $ = layui.jquery
+  ,upload = layui.upload;
+  
+  var demoListView = $('#demoList')
+  ,uploadListIns = upload.render({
+    elem: '#testList'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,accept: 'file'
+    ,multiple: true
+    ,auto: false
+    ,bindAction: '#testListAction'
+    ,choose: function(obj){   
+      var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+      //读取本地文件
+      obj.preview(function(index, file, result){
+        var tr = $(['<tr id="upload-'+ index +'">'
+          ,'<td>'+ file.name +'</td>'
+          ,'<td>'+ (file.size/1024).toFixed(1) +'kb</td>'
+          ,'<td>等待上传</td>'
+          ,'<td>'
+            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+          ,'</td>'
+        ,'</tr>'].join(''));
+        
+        //单个重传
+        tr.find('.demo-reload').on('click', function(){
+          obj.upload(index, file);
+        });
+        
+        //删除
+        tr.find('.demo-delete').on('click', function(){
+          delete files[index]; //删除对应的文件
+          tr.remove();
+          uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+        });
+        
+        demoListView.append(tr);
+      });
+    }
+    ,done: function(res, index, upload){
+      if(res.files.file){ //上传成功
+        var tr = demoListView.find('tr#upload-'+ index)
+        ,tds = tr.children();
+        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+        tds.eq(3).html(''); //清空操作
+        return delete this.files[index]; //删除文件队列已经上传成功的文件
+      }
+      this.error(index, upload);
+    }
+    ,error: function(index, upload){
+      var tr = demoListView.find('tr#upload-'+ index)
+      ,tds = tr.children();
+      tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+      tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+    }
+  });
+  
+});
+</script>	
 </head>
 
 
@@ -218,61 +272,27 @@ $(function(){
 			<!-- 中间部分（点击左边触发） -->
 			
 			<div id="left-middle">
-			<!-- 表格 -->
-			
-			   <div>
-			   	<button id="show_fl" style="float:left;" type="button" class="layui-btn  layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
-			   	<table class="layui-table">
-				  <colgroup>
-				    <col width="150">
-				    <col >
-				    <col width="200">
-				  </colgroup>
-				  <thead>
-				    <tr class="fl_tr">
-				      <th>链接名称</th>
-				      <th>链接地址</th>
-				      <th>操作</th>
-				    </tr> 
-				  </thead>
-				  <tbody>
-				    <tr>
-				      <td>贤心</td>
-				      <td>2016-11-29</td>
-				       <td>
-				      	<button id="del_fl" type="button" class="layui-btn  layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe640;</i></button>
-				      </td>
-				    </tr>
-				    <tr>
-				      <td>
-				     	于千万
-				      </td>
-				      <td>于千万</td>
-				      <td>
-				      	<button type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe640;</i></button>
-				      </td>
-
-				    </tr>
-				  </tbody>
-				</table>
-				</div>
-			   	
-			   	<hr>
 			   	<div id="friendly_link_save" ><!-- 友情链接 -->
 					
-				<form class="layui-form" >
-				  <div class="layui-form-item">
-				    <label class="layui-form-label">链接名称</label>
-				      <input value="admin" id="fl_name" type="text" name="fl_name" required  placeholder="请输入链接名称" autocomplete="off" class="layui-input">
-				  </div>
-				  <div class="layui-form-item">
-				    <label class="layui-form-label">链接地址</label>
-				      <input value="http://www.baidu.com" id="fl_url" type="text" name="fl_url" required  placeholder="请输入链接地址" autocomplete="off" class="layui-input">
-				  </div>
-				</form>
-				  <div class="layui-form-item">
-				      <button id="_add_fl" class="layui-btn" >添加</button>
-				  </div>
+					<div class="layui-upload">
+					<div style="float:left;">
+					    <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button> 
+					    <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+					</div>
+					<br>
+					  <div class="layui-upload-list" >
+					    <table class="layui-table">
+					      <thead>
+					        <tr><th>文件名</th>
+					        <th>大小</th>
+					        <th>状态</th>
+					        <th>操作</th>
+					      </tr></thead>
+					      <tbody id="demoList"></tbody>
+					    </table>
+					  </div>
+					  
+					</div> 
 					
 				</div>
 			</div>
@@ -282,21 +302,22 @@ $(function(){
 		<div id="right">
 			<h2 style="color:red;margin-top:10px;">效果展示</h2>
 		   	<div id="friendly_link" ><!-- 友情链接 -->
-				
-				<div class="right_title">
-					<div class="title_content">&nbsp;<span>友情链接 </span></div>
+				<div id="slide_show"  class="layui-carousel"><!-- 滑动幻灯片 -->
+				  <div carousel-item="">
+					<div>条目1</div>
+					<div>条目2</div>
+					<div>条目3</div>
+				    <div>条目4</div>
+				  </div>
+					
 				</div>
-				<ul id="fl_ul">
-				<!-- 	    <li><a href="#"  target="_blank">个人博客</a></li>
-					    <li><a href="#"  target="_blank">学生会</a></li> -->
-				</ul>
 			</div>
 		</div>
 		
 	
 	</div>
 	<!-- 底部 -->
-	<div id="footer" >
+<!-- 	<div id="footer" >
 		<div id="footer_nav">
 			<ul>
 				<li class="footer_nav_comm"><a href="./help/关于本站">关于本站</a></li>
@@ -307,7 +328,7 @@ $(function(){
 			</ul>
 		</div>
 		<div id="footer_right">©2018-2019 6.0 www.qsp.net.cn All Rights Reserved. <a href="http://www.beian.miit.gov.cn/" target="_blank">黔ICP备17002805号-5</a></div>
-	</div>
+	</div> -->
 </body>	
 
 </html>	 
