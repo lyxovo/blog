@@ -267,9 +267,10 @@ function save_blog(){
 	margin-top:250px;
 }
 
-/* 添加友情链接 */
-#add_fl{
-
+/* 距离右边 */
+#left-middle{
+	margin-right:-50px;
+	margin-top:10px;
 }
 
 </style>	
@@ -364,22 +365,7 @@ function save_blog(){
 			
 		</div>
 	
-		<div id="right">
-		   	<div id="friendly_link" ><!-- 友情链接 -->
-							<div class="right_title">
-								<div class="title_content">&nbsp;<span>友情链接 </span></div>
-							
 
-							</div>
-							
-							
-							<ul>
-								    <li><a href=https://www.qsp.net.cn  target="_blank">个人博客</a></li>
-								    <li><a href=http://www.glh.org.cn  target="_blank">贵联会</a></li>
-							</ul>
-							
-			</div>
-		</div>
 		
 	
 	</div>
