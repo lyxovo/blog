@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
 <!-- 其他js -->
@@ -38,57 +39,137 @@
 
 #do_page{
 	float:left;
+	margin-top:46px;
+	margin-left:150px;
+}
+
+.span_style{
+	margin-left:20px;
 }
 		
-	</style>
+		
+/* body {
+	background-image: url("../image/secai.jpg");
+}  */		
+</style>
 	
-	<!-- 友情链接 -->
-	<script>
-	window.onload=
-        function(){
-            var oDiv = document.getElementById("friendly_link"),
-                H = 0,
-                Y = oDiv        
-            while (Y) {
-                H += Y.offsetTop; 
-                Y = Y.offsetParent;
-            }
-            window.onscroll = function()
-            {
-                var s = document.body.scrollTop || document.documentElement.scrollTop
-                if(s> H - 70) {
-                    oDiv.style = "position:fixed;top:70px;"
-                } else {
-                    oDiv.style = "";
-                }
-            }
-        }
+<script>
 	
-	layui.use(['laypage', 'layer'], function(){
-		  var laypage = layui.laypage
-		  ,layer = layui.layer;	
-	
+layui.use(['laypage', 'layer'], function(){
+	  var laypage = layui.laypage
+	  ,layer = layui.layer;	
 	  //完整功能
- 	  laypage.render({//只需要返回条数即可
+	  laypage.render({//只需要返回条数即可
 	    elem: 'do_page'
-	    ,count: 20
+	    ,count: $("#page_total").val()   //总记录数，数据库获取
+	    ,limit:15   //当前的总页数
 	    ,layout: ['count', 'prev', 'page', 'next']
-	    ,jump: function(obj){
-	      console.log(obj);
+	    ,jump: function(obj,first){
+	      var href="../blog/index.do?cat=b_management&curr="+obj.curr+"&limit="+obj.limit;
+	      $("#b_management_a").attr(href);
+	      //首次不执行
+	      if(!first){
+	    	 // window.location.href=href;
+/* 		      $.ajax({
+			 		url:href,
+					dataType: "json", 
+					success: function(result){
+						if(result.flag==1){
+							
+						}else{
+							layer.msg("查询失败！！！");
+						}
+					},
+					error:function(){
+						layer.msg("查询失败！！！");
+					}
+				});  */ 
+	      }
+	      
+
+	      
+	      
 	    }
 	  }); 
-	  
-}); 	  
+}); 
+	
+
+
+	
+//设置动态背景
+/* $(function(){
+	$("body").css("background","url('../image/secai.jpg')");
+}); */
+
+//写好多个class 背景，然后的切换办法是执行下面的语句。
+//$(this).removeClass('classA').addClass('classB');
+	
+	
+function del_blog(bId){
+ 	//alert(bId);
+	//return; 
+ 	layer.confirm("是否删除该博客？",{icon:3,title:''},function(index){
+	 	 $.ajax({
+	 		url:"../blog/delBlog.do",
+			data: {"b_id":bId},
+			dataType: "json", 
+			success: function(result){
+				if(result.flag==1){
+					window.location.href="../blog/index.do?cat=b_management";
+				}else{
+					layer.msg("删除失败！！！");
+				}
+			},
+			error:function(){
+				layer.msg("删除失败！！！");
+			}
+		}); 
+
+		layer.close(index);
+	}); 
+}
 
 	
 </script>
 
+
+<script type="text/javascript"> 
+/* 鼠标移动到ul li 显示颜色 */
+$(document).ready(function() { 
+ 	$("ul li").hover(function() { 
+		$(this).addClass("color"); 
+	}, function() { 
+		$(this).removeClass("color"); 
+	});  
+}); 
+</script> 
+<style> 
+.color { 
+background:#f2f2f2; 
+} 
+</style> 
+
+<!-- <script type="text/javascript">
+//动态图片
+var currentIndex = 0;
+function changeBg() {
+    //定义要切换的背景图片，双引号里面"1.jpg","2.jpg","3.jpg","4.jpg"，可以放任意多个用,隔开
+    var bgImgs = ["../image/yanz.jpg","../image/su.jpg","../image/secai.jpg"];
+    if (currentIndex >= bgImgs.length)
+        currentIndex = 0;
+    $("body").css("background-image", "url(" + bgImgs[currentIndex] + ")");
+    currentIndex += 1;
+}
+setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3000 毫秒
+</script> -->
 
 
 
 </head>
 
 <body>
+
+
 	<!-- 顶部栏目html -->
 	<div id="header_main">
 		<div id="header">
@@ -114,7 +195,7 @@
 		<div id="left">
 			<div id = "left-nav"  style="">
 				 <ul>
-					<li><a href="../blog/index.do?cat=b_management" class="now_on">管理博客</a></li>
+					<li><a id="b_management_a" href="../blog/index.do?cat=b_management" class="now_on">管理博客</a></li>
 					<li><a href="../blog/index.do?cat=b_send" >发博客</a></li>
 					<li><a href="../blog/index.do?cat=b_flmanger" >友情链接管理</a></li>
 					<li><a href="../blog/index.do?cat=b_carousel" >轮播图管理</a></li>
@@ -123,55 +204,44 @@
 			</div>
 			<!-- 中间部分（点击左边触发） -->
 			<div id="left-middle">
-
 				<!-- 中间列表2 -->
 				<div id="art-list">
 					<div id="art-head">
 						<div id="art-list-title">
-							推荐						
+							博客列表						
 						</div>
 					</div>
-					
+					<input id="page_total" type="hidden" value="${pageInfo.total}"/>
 						<ul>
-				
+						<c:forEach items="${pageInfo.list}" var="blog" step="1" varStatus="status">
 							<li>
 								<div class="title_and_info">
 									<div class="art_title">
-										<a target="_blank" href=/art/190.html>解决谷歌创建新账号时验证手机号不存在的解决方法。</a>
+										<a target="_blank" href="#">${blog.bTitle}</a>
+									</div>
+									<div style="text-align:left;margin-top:38px;">
+										<a target="_blank" href="#">${blog.bContenttext}...</a>
 									</div>
 									
 									<div class="art_info">
-										<span style="color:#14a7ed;">计算机与服务器 ⋅ </span>
-										<span>谯胜平 ⋅ </span>
-										<span>2020-03-19 15:38:23 ⋅ </span>
-										<span>浏览(11) ⋅ </span>
-										<span>评论(0)</span>
-										
-										<a href="#" style="color:red;margin-left:180px;">删除</a>
+										<span>${blog.createDate}</span>
+										<span class="span_style">浏览(${blog.bVisitors}) </span>
+										<span class="span_style">评论(${blog.bDiscuss})</span>
+										<span>
+											<a href="#" onclick="del_blog(${blog.bId})" style="color:red;margin-left:340px;">删除</a>
+										</span>
 									</div>
 								</div>
 							</li>
-							<li>
-								<div class="title_and_info">
-									<div class="art_title">
-										<a target="_blank" href=/art/190.html>解决谷歌创建新账号时验证手机号不存在的解决方法。</a>
-									</div>
-									
-									<div class="art_info">
-										<span style="color:#14a7ed;">计算机与服务器 ⋅ </span>
-										<span>谯胜平 ⋅ </span>
-										<span>2020-03-19 15:38:23 ⋅ </span>
-										<span>浏览(11) ⋅ </span>
-										<span>评论(0)</span>
-										<a href="#" style="color:red;margin-left:180px;">删除</a>
-									</div>
-								</div>
-							</li>
+						</c:forEach>
 						
-						<li style="display: block;height: 60px;border-bottom: none;">
-							<div  id="do_page"></div>
+						<!-- 分页  设置大于10页的时候，才显示-->
+						<c:if test="${fn:length(pageInfo.list)>15}">
+							<div  id="do_page" ></div>
+						</c:if>
 						
-						</li>
+
+						
 					</ul>
 					
 				</div>

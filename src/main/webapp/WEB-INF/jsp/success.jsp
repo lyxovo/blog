@@ -30,16 +30,17 @@
 		}
 		
 		a:link { 
-			color:#3C3C3C; 
-			text-decoration:underline; 
+			color:blue; 
+			/* text-decoration:underline; */ 
+			text-decoration:none;
 			} 
 			a:visited { 
-			color:#0000FF; 
+			color:gray; 
 			text-decoration:none; 
 			} 
 			a:hover { 
 			color:#FF00FF; 
-			text-decoration:none; 
+			text-decoration:underline; 
 			} 
 			a:active { 
 			color:#D200D2; 
@@ -53,47 +54,39 @@
 	<div id="header_main">
 		<div id="header">
 			<div id="logo">
-				<a href=https://www.qsp.net.cn><img src="#" alt=""></a>
+				<!-- <a href=https://www.qsp.net.cn><img src="#" alt=""></a> -->
 			</div>
 			<div id="nav">
 				<ul>
-					<li><a href=https://www.qsp.net.cn class="nav_on">首页</a></li>
+					<li><a href="#" class="nav_on">首页</a></li>
 				</ul>
 			</div>
-			<div id="searchBox">
-				<form action="./search/" method="get" target="_blank">
-					<button type = "submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-					<input type="search" placeholder="搜索本站" name="keywords">
-				</form>
-			</div>
+
 		</div> 
 	</div>
-	
+
 	<div id="middle_main" style="width:800px;height:400px; position:relative;top:150px;margin:0 auto;background-color:white;">
 			
 			<div id="middle_core1" style="width:680px;height:30px;position:relative;top:30px;margin:0 auto">
-				<a  href="#" style="float: left;">&lt;管理博文</a>
+				<a  href="../blog/index.do?cat=b_management" style="float: left;">&lt;管理博文</a>
 			</div>
 			
 			<div id="middle_core2" style="width:680px;height:160px; position:relative;top:50px;margin:0 auto;background-color:#EBEBE4">
-				<h2 style="text-align: left;margin-top:10px; ">加了开始的减肥受得了咖啡机时空裂缝</h2>
-				<textarea rows="5" cols="94" maxlength="130" disabled="disabled" style="resize: none;text-align: left;margin-top:7px;border:none;">
-				p属性来设那么整个div就居中了。那怎么让它中心移动到红线处自身高度的一半。这时候，我们可以使用通过margin-top属性来设：p属性来设那么整个div就居中了。那怎么让它中心移动到红线处自身高度的一半。这时候，我们可以使用通过margin-top属性来设：
-				</textarea>
-				
+				<h1 style="text-align: left;margin-top:10px;padding-left:8px; padding-top:8px;">${blog.bTitle}</h1>
+				<textarea rows="5" cols="94" maxlength="130" disabled="disabled" style="resize: none;text-align: left;margin-top:17px;border:none;padding-left:8px; ">${blog.bContenttext}...</textarea>
 			</div>
 			<h4 style="text-align: right;position:relative; top:25px;margin-right:80px;">仗剑天涯，从你的摘要开始。</h4>
 			
 			<div id="middle_core3" style="width:680px;height:30px; position:relative;top:100px;margin:0 auto">
 				<a  href="#"><i class="layui-icon layui-icon-face-smile"></i>&nbsp;发布成功并查询文章></a>
 				
-				<a href="#" style="margin-left:90px;"><i class="layui-icon layui-icon-edit"></i>再写一篇</a>
+				<a href="../blog/index.do?cat=b_send" style="margin-left:90px;"><i class="layui-icon layui-icon-edit"></i>再写一篇</a>
 			</div>
 	</div>
 	
 
 	
-	<div id="footer">
+	<div id="footer" style="margin-top:50px;">
 		<div id="footer_nav">
 			<ul>
 				<li class="footer_nav_comm"><a href="../help/关于本站">关于本站</a></li>
@@ -108,5 +101,4 @@
 	
 	
 </body>
-
 </html>

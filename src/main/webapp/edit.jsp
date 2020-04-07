@@ -68,7 +68,7 @@ layedit = layui.layedit;
 	});
   
   dd=layedit.build('b_content',{
-	  height: 580, //设置编辑器高度
+	  height: 180, //设置编辑器高度
 	 // uploadImage: {url: '/upload/', type: 'post'}
   }); //建立编辑器
   
@@ -106,7 +106,17 @@ function add_tag(){
 
 //删除分类/标签
 function del_tag_category(t){
-	$(t).remove();
+	var id=$(t).attr("id");
+	if(id==undefined || id==""){
+		$(t).remove();
+		
+	}else{
+		id="#"+id;
+		//alert(id);
+		$(t).remove();
+		$(id).attr("checked",false);
+	}
+	
 }
 
 /* 复选框---选中分类专栏触发事件 */
@@ -267,10 +277,7 @@ function save_blog(){
 	margin-top:250px;
 }
 
-/* 添加友情链接 */
-#add_fl{
 
-}
 
 </style>	
 	

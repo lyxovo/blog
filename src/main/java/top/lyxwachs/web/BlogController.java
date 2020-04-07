@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 
 import top.lyxwachs.bean.Blog;
 import top.lyxwachs.bean.BlogTag;
+import top.lyxwachs.bean.BlogWithBLOBs;
 import top.lyxwachs.service.BlogService;
 
 @RequestMapping("/blog")
@@ -30,16 +34,6 @@ import top.lyxwachs.service.BlogService;
 public class BlogController {
 	@Autowired
 	private BlogService blogService;
-	
-
-	@RequestMapping("list")
-	public ModelAndView getBookList() {
-		List<Blog> bookList = blogService.findBlogList();
-		ModelAndView mv = new ModelAndView("index");
-		mv.addObject("bookList", bookList);
-		return mv;
-	}
-	
 	
 	@RequestMapping("error500")
 	public ModelAndView error500() {
@@ -96,13 +90,21 @@ public class BlogController {
 	
 		String b_title = request.getParameter("b_title");
 		String b_content = request.getParameter("b_content");
+		String b_content_text = request.getParameter("b_contenttext");
 		int b_author=1;//张三登录人
 		Date b_createdate= new Date();//创建时间
-		Blog blog=new Blog();
+		BlogWithBLOBs blog=new BlogWithBLOBs();
 		blog.setbAuthor(b_author);
-		blog.setbContent(b_content);
+		blog.setbContent(b_content);//保持博客中的html
+		
 		blog.setbCreatedate(b_createdate);
+		blog.setbCreateupdate(b_createdate);
 		blog.setbTitle(b_title);
+		blog.setbContenttext(b_content_text);//保存博客中的纯文本内容text
+		blog.setbVisitors(0);
+		blog.setbDiscuss(0);
+		blog.setbLive(1);
+		
 
 		String result = blogService.saveBlog(blog,arr_tag_name,arr_category);
 		
@@ -110,19 +112,24 @@ public class BlogController {
 	}
 	
 	/**
-	 * 保存博客成功后跳转页面
+	 * 保存博客成功后跳转页面,并保存blog到该页面
 	 * @return
 	 */
-	@RequestMapping("saveSuccess")
+	@RequestMapping("success")
 	public ModelAndView saveSuccess(HttpServletRequest  request) {
 		ModelAndView mv = new ModelAndView("success");
-		
-		String str_blog = request.getParameter("blog");
-		System.out.println(str_blog);
-		
-		JSONObject blog = JSONObject.parseObject(str_blog); 
-		
-		
+		String b_id = request.getParameter("b_id");
+		//System.out.println(b_id);
+		BlogWithBLOBs blog = blogService.getBlog(b_id);
+		String content_text = blog.getbContenttext().trim();
+		//截取180个字符，如果大于180个字就截取180，否则不用截取。
+		if(content_text.length()>180) {
+			String bContenttext = content_text.substring(0,180);
+			blog.setbContenttext(bContenttext);
+			request.setAttribute("blog", blog);
+		}else {
+			request.setAttribute("blog", blog);
+		}
 		return mv;
 	}
 	
@@ -132,11 +139,15 @@ public class BlogController {
 	 * @return
 	 */
 	@RequestMapping("index")
-	public ModelAndView b_management(HttpServletRequest  request) {
-		String cat = request.getParameter("cat");
+	public ModelAndView b_management(String  cat,@RequestParam(value="curr",defaultValue = "1")
+	Integer pageNum,@RequestParam(value="limit",defaultValue = "15")Integer pageSize) {
 		ModelAndView mv=null;
 		if("b_management".equals(cat)) {
 			mv = new ModelAndView("b_management");//转发到管理页面
+			//分页
+			PageInfo<BlogWithBLOBs> pageInfo = blogService.findBlogList(pageNum,pageSize);
+			mv.addObject("pageInfo", pageInfo);
+			
 		}else if("b_send".equals(cat)) {
 			mv = new ModelAndView("b_send");//转发到发博客页面
 		}else if("b_flmanger".equals(cat)) {
@@ -144,7 +155,6 @@ public class BlogController {
 		}else if("b_carousel".equals(cat)) {
 			mv = new ModelAndView("b_carousel");//轮播图片
 		}
-		
 		
 		return mv;
 	}
@@ -159,15 +169,41 @@ public class BlogController {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 //		保存操作,之前判断，保存session
-		
 //		重定向
 		try {
 			response.sendRedirect("../blog/index.do?cat=b_management");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
+	
+	
+	/**
+	 * 根据b_id 查询blog
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("getBlog")
+	public BlogWithBLOBs getBlog(HttpServletRequest  request) {
+		String b_id = request.getParameter("b_id");
+		BlogWithBLOBs blog=blogService.getBlog(b_id);
+		return blog;
+	}
+	
+	/**
+	 * 根据b_id删除博客
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("delBlog")
+	@ResponseBody
+	public String delBlog(HttpServletRequest  request,HttpServletResponse response) {
+		String b_id = request.getParameter("b_id");
+		return blogService.delBlog(b_id);
+	}
+	
+	
 	
 	
 	

@@ -11,8 +11,17 @@
    <!--  <link rel="stylesheet" href="../css/wangEditor.min.css"  media="all"> -->
     <script src="../js/jquery.min.js" charset="utf-8"></script>
 </head>
+
+<style>
+        .text {
+            border: 1px solid #ccc;
+            height: 700px;
+            width:800px;
+        }
+</style>
+
 <body>
-    <div id="editor">
+    <div id="editor" class="text">
         <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
     </div>
     

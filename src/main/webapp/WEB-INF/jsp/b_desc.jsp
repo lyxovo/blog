@@ -1,11 +1,14 @@
-﻿<!DOCTYPE html>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta name="keywords" content="个人博客">
 	<meta name="description" content="个人博客！">
-	<title>卖米-飞花-的个人博客！</title>
+	<title>个人博客！</title>
 	
 	<link rel="stylesheet" href="../css/footer.css">
 	<link rel="stylesheet" href="../css/header.css">
@@ -356,18 +359,16 @@ ul, ol {
 </script>
 
 </head>
-
 <body>
 	<div id="header_main">
 		<div id="header">
 				<div id="logo">
 			<!-- <a href="#"><img src="#" alt=""></a> -->
-			
 			</div>
 			<div id="nav">
 				<ul>
 					<li><a href=https://www.qsp.net.cn class="nav_on">首页</a></li>
-									</ul>
+				</ul>
 			</div>
 			<div id="searchBox">
 				<form action="../search/" method="get" target="_blank">
@@ -382,28 +383,24 @@ ul, ol {
 		<div id="left">
 			<div id="art">
 				<div id="art_title">
-					<h2>卖米-飞花</h2>
-					<p>编辑：谯胜平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					分类：<span>阅读</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					标签：<span>散文</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					发布时间：<span>2019-02-20</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					浏览次数：<span>1752</span>次</p>
+					<h2 id="b_title">卖米-飞花</h2>
+					作者：<p id="b_author">谯胜平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					分类：<span id="category_name">阅读</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					标签：<span id="tag_name">散文</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					发布时间：<span id="b_createdate">2019-02-20</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					浏览次数：<span id="b_visitors">1752</span>次</p>
 				</div>
-				
-		
-				
+				<!-- 文章的内容 -->
 				<div id="art_content">
-						<h1>abc</h1><p><span style="font-weight: bold;">话为是会计考试的风景</span></p><blockquote><span style="font-weight: bold;">哎哎哎</span></blockquote><blockquote>噢噢噢噢</blockquote><p><img src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png" alt="[坏笑]" data-w-e="1"><span style="background-color: rgb(241, 241, 241); white-space: pre-wrap;">public void AV{</span></p><p>&nbsp; &nbsp; alert();<span style="background-color: rgb(241, 241, 241); white-space: pre-wrap;"><br></span></p><p><span style="background-color: rgb(241, 241, 241); white-space: pre-wrap;">}</span><br></p><p><br></p>
-				
-				<blockquote><span style="font-weight: bold;">哎哎哎123</span></blockquote>
-				<blockquote><span style="font-weight: bold;">哎哎哎456</span></blockquote>
-				<blockquote><span style="font-weight: bold;">哎哎哎789</span></blockquote>
-				<blockquote>哈哈哈哈所付多所军多付</blockquote>
+					<h1>abc</h1><p><span style="font-weight: bold;">话为是会计考试的风景</span></p><blockquote><span style="font-weight: bold;">哎哎哎</span></blockquote><blockquote>噢噢噢噢</blockquote><p><img src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png" alt="[坏笑]" data-w-e="1"><span style="background-color: rgb(241, 241, 241); white-space: pre-wrap;">public void AV{</span></p><p>&nbsp; &nbsp; alert();<span style="background-color: rgb(241, 241, 241); white-space: pre-wrap;"><br></span></p><p><span style="background-color: rgb(241, 241, 241); white-space: pre-wrap;">}</span><br></p><p><br></p>
+					<blockquote><span style="font-weight: bold;">哎哎哎123</span></blockquote>
+					<blockquote><span style="font-weight: bold;">哎哎哎456</span></blockquote>
+					<blockquote><span style="font-weight: bold;">哎哎哎789</span></blockquote>
+					<blockquote>哈哈哈哈所付多所军多付</blockquote>
 				</div>
 
 			</div>
 		</div>
-
 
 		<div id="right">
 			<div id="hot_art" ><!-- 热门文章 -->
@@ -420,7 +417,6 @@ ul, ol {
 				<div class="right_title">
 					<div class="title_content">&nbsp;猜你喜欢</div>
 				</div>
-	
 			</div>
 
 			<div id="art_tag" ><!-- 文章标签 -->
@@ -432,7 +428,7 @@ ul, ol {
 					<li><a href=../tag/408 style="background: #43ac6a;" title="408(1)">408(1)</a></li>
 					<li><a href=../tag/数学一 style="background: #EDC951;" title="数学一(1)">数学一(1)</a></li>
 					<li><a href=../tag/shadowsocks style="background: #FE4365;" title="shadowsocks(2)">shadowsocks(2)</a></li>
-					<li><a href=../tag/科学上网 style="background: #43ac6a;" title="科学上网(3)">科学上网(3)</a></li>
+					<li><a href=../tag/科学上网 style="background: #43ac6a;" title="科学上网(3)">科学上网2(3)</a></li>
 				</ul>
 			</div>
 
@@ -445,10 +441,8 @@ ul, ol {
 					<li><a href=http://www.glh.org.cn  target="_blank">贵联会</a></li>
 				</ul>
 			</div>
-			
 		</div>
 	</div>
-		
 
 	<div id="footer">
 		<div id="footer_nav">
@@ -463,7 +457,5 @@ ul, ol {
 		<div id="footer_right">©2018-2019 6.0 www.qsp.net.cn All Rights Reserved. <a href="http://www.beian.miit.gov.cn/" target="_blank">黔ICP备17002805号-5</a></div>
 	</div>
 	
-	
 </body>
-
 </html>

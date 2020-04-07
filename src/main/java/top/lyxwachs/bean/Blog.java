@@ -2,24 +2,24 @@ package top.lyxwachs.bean;
 
 import java.util.Date;
 
-public class Blog {
+public class Blog{
     private Integer bId;
 
     private String bPicture;
 
     private String bTitle;
 
-    private String bContent;
-
     private Integer bAuthor;
-
+    
     private Date bCreatedate;
-
+    
     private Date bCreateupdate;
 
     private Integer bVisitors;
 
     private Integer bDiscuss;
+    
+    private Integer bLive;
 
     public Integer getbId() {
         return bId;
@@ -45,14 +45,6 @@ public class Blog {
         this.bTitle = bTitle == null ? null : bTitle.trim();
     }
 
-    public String getbContent() {
-        return bContent;
-    }
-
-    public void setbContent(String bContent) {
-        this.bContent = bContent == null ? null : bContent.trim();
-    }
-
     public Integer getbAuthor() {
         return bAuthor;
     }
@@ -60,15 +52,13 @@ public class Blog {
     public void setbAuthor(Integer bAuthor) {
         this.bAuthor = bAuthor;
     }
-
     public Date getbCreatedate() {
         return bCreatedate;
     }
-
+    
     public void setbCreatedate(Date bCreatedate) {
         this.bCreatedate = bCreatedate;
     }
-
     public Date getbCreateupdate() {
         return bCreateupdate;
     }
@@ -92,4 +82,14 @@ public class Blog {
     public void setbDiscuss(Integer bDiscuss) {
         this.bDiscuss = bDiscuss;
     }
+
+	public Integer getbLive() {
+		return bLive;
+	}
+
+	public void setbLive(Integer bLive) {
+		this.bLive = bLive;
+	}
+    
+    
 }
