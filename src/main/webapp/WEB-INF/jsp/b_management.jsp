@@ -28,7 +28,7 @@
 	<title>个人博客！</title>
 	<style>
 		#footer{
-			margin-top:30%;
+			margin-top:90%;
 		}
 		
 	#left-middle{
@@ -62,14 +62,20 @@ layui.use(['laypage', 'layer'], function(){
 	  laypage.render({//只需要返回条数即可
 	    elem: 'do_page'
 	    ,count: $("#page_total").val()   //总记录数，数据库获取
-	    ,limit:15   //当前的总页数
+	    ,limit:2   //当前的总页数
 	    ,layout: ['count', 'prev', 'page', 'next']
 	    ,jump: function(obj,first){
+	    	console.log(obj);
 	      var href="../blog/index.do?cat=b_management&curr="+obj.curr+"&limit="+obj.limit;
 	      $("#b_management_a").attr(href);
-	      //首次不执行
+	   
+	      
 	      if(!first){
+	    	  
+	    	  
+	    	  
 	    	 // window.location.href=href;
+	    	  
 /* 		      $.ajax({
 			 		url:href,
 					dataType: "json", 
@@ -140,13 +146,56 @@ $(document).ready(function() {
 		$(this).addClass("color"); 
 	}, function() { 
 		$(this).removeClass("color"); 
-	});  
+	});
+ 	
+ 	
+ //条件查询
+  $("#search_btn").click(function(){
+	  	var search_val=$("#search_input").val();
+	  	if(search_val==""){
+	  		return;
+	  	}
+		 $.ajax({
+			url:"../blog/searchBlogList.do",
+			dataType: "json",
+			data:{keywords:search_val},
+			type:"post",
+			success: function(result){
+				console.log(result);
+				//$("#").html();
+
+			},
+			error:function(){
+				layer.msg("查询失败！！！");
+			}
+		});  
+ 
+	}); 
+ 	
+
+ 	
+
+ 	
 }); 
+
+
+//查询博客详细--by id
+function query_blog_desc(bId){
+	alert(bId);
+}
 </script> 
 <style> 
 .color { 
-background:#f2f2f2; 
+	background:#f2f2f2; 
 } 
+
+/* 聚焦时候文本框变色 */
+input:focus{
+    border-style:solid;
+    border-color: #03a9f4;
+	box-shadow: 10 0 0px #03a9f4;
+}
+
 </style> 
 
 <!-- <script type="text/javascript">
@@ -182,12 +231,12 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 					<li><a href=https://www.qsp.net.cn class="nav_on">首页</a></li>
 				</ul>
 			</div>
-			<div id="searchBox">
+<!-- 			<div id="searchBox">
 				<form action="./search/" method="get" target="_blank">
 					<button type = "submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 					<input type="search" placeholder="搜索本站" name="keywords">
 				</form>
-			</div>
+			</div> -->
 		</div> 
 	</div>
 	<!-- 左右html -->
@@ -210,17 +259,32 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 						<div id="art-list-title">
 							博客列表						
 						</div>
+						
+						<div  style="float:right;" >
+								<input id="search_input" type="search" autocomplete="off"  placeholder="请输入关键词" name="keywords" style="border-top:none;border-left:none;border-right:none;" >
+								<button id="search_btn" class="layui-btn layui-btn-radius layui-btn-primary layui-btn-sm" style="margin-top:-10px;"><i class="fa fa-search" aria-hidden="true"></i>搜索</button>
+						</div>
 					</div>
 					<input id="page_total" type="hidden" value="${pageInfo.total}"/>
 						<ul>
+						
+						<c:if test="${pageInfo.total==0}">
+							<li>
+								<div class="title_and_info">
+									您还没写有博客，请先去发布博客。
+								</div>
+							</li>
+						</c:if>
+						
+						
 						<c:forEach items="${pageInfo.list}" var="blog" step="1" varStatus="status">
 							<li>
 								<div class="title_and_info">
 									<div class="art_title">
-										<a target="_blank" href="#">${blog.bTitle}</a>
+										<a target="_blank" onclick="query_blog_desc(${blog.bId})">${blog.bTitle}</a>
 									</div>
 									<div style="text-align:left;margin-top:38px;">
-										<a target="_blank" href="#">${blog.bContenttext}...</a>
+										<a target="_blank" onclick="query_blog_desc(${blog.bId})">${blog.bContenttext}...</a>
 									</div>
 									
 									<div class="art_info">
@@ -228,7 +292,8 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 										<span class="span_style">浏览(${blog.bVisitors}) </span>
 										<span class="span_style">评论(${blog.bDiscuss})</span>
 										<span>
-											<a href="#" onclick="del_blog(${blog.bId})" style="color:red;margin-left:340px;">删除</a>
+										<a href="#" onclick="edit_blog(${blog.bId})" style="color:orange;margin-left:280px;">编辑</a>
+											<a href="#" onclick="del_blog(${blog.bId})" style="color:red;margin-left:30px;">删除</a>
 										</span>
 									</div>
 								</div>
@@ -236,9 +301,15 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 						</c:forEach>
 						
 						<!-- 分页  设置大于10页的时候，才显示-->
-						<c:if test="${fn:length(pageInfo.list)>15}">
+						<c:if test="${fn:length(pageInfo.list)>0}">
+						<!-- style="display:none;" -->
+							<a id="page_a" href="www.baidu.com">aa</a>
+						
 							<div  id="do_page" ></div>
 						</c:if>
+						
+						
+
 						
 
 						
@@ -249,6 +320,41 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 
 		</div>
 	</div>
+	
+
+<%-- <table>
+	<tr>
+		<td colspan="6" align="center">
+			<ul class="pagination">
+				<li><a href="#" href="'?pageNum=1'">首页</a></li>
+				
+				<c:if test="${pageInfo.hasPreviousPage}">
+					<li><a href="'?pageNum='+${pageInfo.prePage}">上一页</a></li>
+				</c:if>
+				
+				<c:forEach items="${pageInfo.navigatepageNums}" var="num" step="1" varStatus="status">
+				<li >
+					<c:if test="${num != pageInfo.pageNum}">
+						<span  style="font-weight:bold;color:red;">${num}</span> 
+					</c:if>
+					
+					<a href="'?pageNum='+${num}" >${num}</a>
+					
+					<c:if test="${num == pageInfo.pageNum}">
+						<span  style="font-weight:bold;color:red;">${num}</span> 
+					</c:if>
+				</li>
+				</c:forEach>
+				<c:if test="${pageInfo.hasNextPage}">
+					<li><a href="'?pageNum='+${pageInfo.nextPage}">下一页</a></li>
+				</c:if>
+				<li><a  href="'?pageNum='+${pageInfo.pages}">末页</a></li>
+			</ul>
+		</td>
+	</tr>
+</table> --%>
+
+	
 	<!-- 底部 -->
 	<div id="footer">
 		<div id="footer_nav">

@@ -139,13 +139,13 @@ public class BlogController {
 	 * @return
 	 */
 	@RequestMapping("index")
-	public ModelAndView b_management(String  cat,@RequestParam(value="curr",defaultValue = "1")
+	public ModelAndView b_management(String  cat,String keywords,@RequestParam(value="curr",defaultValue = "1")
 	Integer pageNum,@RequestParam(value="limit",defaultValue = "15")Integer pageSize) {
 		ModelAndView mv=null;
 		if("b_management".equals(cat)) {
 			mv = new ModelAndView("b_management");//转发到管理页面
 			//分页
-			PageInfo<BlogWithBLOBs> pageInfo = blogService.findBlogList(pageNum,pageSize);
+			PageInfo<BlogWithBLOBs> pageInfo = blogService.findBlogList(keywords,pageNum,pageSize);
 			mv.addObject("pageInfo", pageInfo);
 			
 		}else if("b_send".equals(cat)) {
@@ -204,12 +204,33 @@ public class BlogController {
 	}
 	
 	
+//	/**
+//	 * 根据条件查询博客列表
+//	 * @param keywords
+//	 * @return
+//	 */
+//	@RequestMapping("searchBlogList")
+//	@ResponseBody
+//	public String searchBlogList(String keywords) {
+//		return blogService.searchBlogList(keywords);
+//	}
 	
 	
 	
-	
-	
-	
+	/**
+	 * 根据条件查询博客列表
+	 * @param keywords
+	 * @return string
+	 */
+	@RequestMapping("searchBlogList")
+	@ResponseBody
+	public String searchBlogList(String keywords,@RequestParam(value="curr",defaultValue = "1")
+	Integer pageNum,@RequestParam(value="limit",defaultValue = "15")Integer pageSize) {
+		JSONObject json=new JSONObject();
+		PageInfo<BlogWithBLOBs> pageInfo = blogService.findBlogList(keywords,pageNum,pageSize);
+		json.put("pageInfo",pageInfo);
+		return json.toString();
+	}
 	
 	
 }

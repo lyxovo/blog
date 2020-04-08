@@ -2,6 +2,8 @@ package top.lyxwachs.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import top.lyxwachs.bean.Blog;
 import top.lyxwachs.bean.BlogWithBLOBs;
 
@@ -20,5 +22,6 @@ public interface BlogMapper {
 
     int updateByPrimaryKey(Blog record);
 
-	List<BlogWithBLOBs> findBlogList();
+	List<BlogWithBLOBs> findBlogList(@Param(value="bTitle") String keywords);
+	
 }

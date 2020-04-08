@@ -40,13 +40,14 @@ public class BlogService {
 	
 	/**
 	 * 查询list
+	 * @param keywords 
 	 * @param pageSize 
 	 * @param pageNum 
 	 * @return
 	 */
-	public PageInfo<BlogWithBLOBs> findBlogList(Integer pageNum, Integer pageSize) {
+	public PageInfo<BlogWithBLOBs> findBlogList(String keywords, Integer pageNum, Integer pageSize) {
 		PageHelper.startPage(pageNum, pageSize); //使用分页插件
-		List<BlogWithBLOBs> list = blogMapper.findBlogList();
+		List<BlogWithBLOBs> list = blogMapper.findBlogList(keywords);
 		
 		PageInfo<BlogWithBLOBs> infos=new PageInfo<BlogWithBLOBs>(list); 
 		List<BlogWithBLOBs> blogList = infos.getList(); 
@@ -180,7 +181,6 @@ public class BlogService {
 		}
 		return json.toString();
 	}
-	
 	
 
 }

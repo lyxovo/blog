@@ -197,7 +197,7 @@ $(function(){
 		});  */
 	
 	
-	
+		// $("#category_checkbox").scrollTop(100);
 });
 
 </script>
@@ -410,13 +410,17 @@ function add_category(){
 		return false;
 	}
 	return true;
+	
 } 
 
 
 //提交保存  
 function save_blog(){
-	save_before_check();
+	if(save_before_check()==false){
+		return false;
+	}
 	
+
 	//文章标题
 	var b_title=$("#b_title").val();
 	b_title="b_title="+b_title;
