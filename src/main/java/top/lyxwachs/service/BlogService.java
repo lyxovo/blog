@@ -49,7 +49,7 @@ public class BlogService {
 		PageHelper.startPage(pageNum, pageSize); //使用分页插件
 		List<BlogWithBLOBs> list = blogMapper.findBlogList(keywords);
 		
-		PageInfo<BlogWithBLOBs> infos=new PageInfo<BlogWithBLOBs>(list); 
+		PageInfo<BlogWithBLOBs> infos=new PageInfo<BlogWithBLOBs>(list,10); 
 		List<BlogWithBLOBs> blogList = infos.getList(); 
 
 		//long total = infos.getTotal();//总页数

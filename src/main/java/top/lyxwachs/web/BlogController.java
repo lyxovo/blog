@@ -140,7 +140,7 @@ public class BlogController {
 	 */
 	@RequestMapping("index")
 	public ModelAndView b_management(String  cat,String keywords,@RequestParam(value="curr",defaultValue = "1")
-	Integer pageNum,@RequestParam(value="limit",defaultValue = "15")Integer pageSize) {
+	Integer pageNum,@RequestParam(value="limit",defaultValue = "20")Integer pageSize) {
 		ModelAndView mv=null;
 		if("b_management".equals(cat)) {
 			mv = new ModelAndView("b_management");//转发到管理页面
@@ -228,6 +228,8 @@ public class BlogController {
 	Integer pageNum,@RequestParam(value="limit",defaultValue = "15")Integer pageSize) {
 		JSONObject json=new JSONObject();
 		PageInfo<BlogWithBLOBs> pageInfo = blogService.findBlogList(keywords,pageNum,pageSize);
+
+		
 		json.put("pageInfo",pageInfo);
 		return json.toString();
 	}

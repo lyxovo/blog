@@ -16,6 +16,9 @@
 	<link rel="icon" href="./images/title.ico" type="image/x-icon"/>
 	<script type="text/javascript" src="../js/jquery.min.js"></script><!-- 引入jquery文件 -->
 	
+	<script type="text/javascript" src="../bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" >
+	
 	<link rel="stylesheet" href="../layui/css/layui.css"  media="all">
   	<script src="../layui/layui.js" charset="utf-8"></script>
 	
@@ -37,10 +40,10 @@
 	margin-top:10px;
 }
 
-#do_page{
-	float:left;
+/* 分页 */
+#b_page{
 	margin-top:46px;
-	margin-left:150px;
+	margin-left:10px;
 }
 
 .span_style{
@@ -54,54 +57,13 @@
 </style>
 	
 <script>
-	
-layui.use(['laypage', 'layer'], function(){
-	  var laypage = layui.laypage
-	  ,layer = layui.layer;	
-	  //完整功能
-	  laypage.render({//只需要返回条数即可
-	    elem: 'do_page'
-	    ,count: $("#page_total").val()   //总记录数，数据库获取
-	    ,limit:2   //当前的总页数
-	    ,layout: ['count', 'prev', 'page', 'next']
-	    ,jump: function(obj,first){
-	    	console.log(obj);
-	      var href="../blog/index.do?cat=b_management&curr="+obj.curr+"&limit="+obj.limit;
-	      $("#b_management_a").attr(href);
-	   
-	      
-	      if(!first){
-	    	  
-	    	  
-	    	  
-	    	 // window.location.href=href;
-	    	  
-/* 		      $.ajax({
-			 		url:href,
-					dataType: "json", 
-					success: function(result){
-						if(result.flag==1){
-							
-						}else{
-							layer.msg("查询失败！！！");
-						}
-					},
-					error:function(){
-						layer.msg("查询失败！！！");
-					}
-				});  */ 
-	      }
-	      
 
-	      
-	      
-	    }
-	  }); 
+//加载弹框
+layui.use(['layer'], function(){
+	var layer = layui.layer;	
 }); 
 	
 
-
-	
 //设置动态背景
 /* $(function(){
 	$("body").css("background","url('../image/secai.jpg')");
@@ -150,7 +112,7 @@ $(document).ready(function() {
  	
  	
  //条件查询
-  $("#search_btn").click(function(){
+/*   $("#search_btn").click(function(){
 	  	var search_val=$("#search_input").val();
 	  	if(search_val==""){
 	  		return;
@@ -170,7 +132,7 @@ $(document).ready(function() {
 			}
 		});  
  
-	}); 
+	});  */
  	
 
  	
@@ -260,10 +222,18 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 							博客列表						
 						</div>
 						
-						<div  style="float:right;" >
+						<div id="searchBox" style="margin-top:-13px;">
+							<form action="./index.do?cat=b_management&curr=1" method="post" >
+								<button type = "submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+								<input type="search" placeholder="搜索本站" name="keywords">
+							</form>
+						</div>
+						
+						
+<!-- 						<div  style="float:right;margin-top:-2px;" >
 								<input id="search_input" type="search" autocomplete="off"  placeholder="请输入关键词" name="keywords" style="border-top:none;border-left:none;border-right:none;" >
 								<button id="search_btn" class="layui-btn layui-btn-radius layui-btn-primary layui-btn-sm" style="margin-top:-10px;"><i class="fa fa-search" aria-hidden="true"></i>搜索</button>
-						</div>
+						</div> -->
 					</div>
 					<input id="page_total" type="hidden" value="${pageInfo.total}"/>
 						<ul>
@@ -299,62 +269,52 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 								</div>
 							</li>
 						</c:forEach>
-						
-						<!-- 分页  设置大于10页的时候，才显示-->
-						<c:if test="${fn:length(pageInfo.list)>0}">
-						<!-- style="display:none;" -->
-							<a id="page_a" href="www.baidu.com">aa</a>
-						
-							<div  id="do_page" ></div>
-						</c:if>
-						
-						
 
-						
-
-						
 					</ul>
-					
 				</div>
 			</div>
 
 		</div>
 	</div>
 	
-
-<%-- <table>
-	<tr>
-		<td colspan="6" align="center">
-			<ul class="pagination">
-				<li><a href="#" href="'?pageNum=1'">首页</a></li>
-				
-				<c:if test="${pageInfo.hasPreviousPage}">
-					<li><a href="'?pageNum='+${pageInfo.prePage}">上一页</a></li>
-				</c:if>
-				
-				<c:forEach items="${pageInfo.navigatepageNums}" var="num" step="1" varStatus="status">
-				<li >
-					<c:if test="${num != pageInfo.pageNum}">
-						<span  style="font-weight:bold;color:red;">${num}</span> 
-					</c:if>
-					
-					<a href="'?pageNum='+${num}" >${num}</a>
-					
-					<c:if test="${num == pageInfo.pageNum}">
-						<span  style="font-weight:bold;color:red;">${num}</span> 
-					</c:if>
-				</li>
-				</c:forEach>
-				<c:if test="${pageInfo.hasNextPage}">
-					<li><a href="'?pageNum='+${pageInfo.nextPage}">下一页</a></li>
-				</c:if>
-				<li><a  href="'?pageNum='+${pageInfo.pages}">末页</a></li>
-			</ul>
-		</td>
-	</tr>
-</table> --%>
-
 	
+<!-- 分页 -->
+<c:if test="${pageInfo.total>20}">
+	<div id="b_page">
+		<nav aria-label="Page navigation">
+		  <ul class="pagination">
+		  
+		 	<c:if test="${pageInfo.pageNum>1}">
+		    <li>
+		      <a href="../blog/index.do?cat=b_management&curr=${pageInfo.pageNum-1}" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+		    </c:if>
+		    
+		    <c:forEach items="${pageInfo.navigatepageNums}" var="num">
+				<c:choose>
+					<c:when test="${pageInfo.pageNum==num}">
+						<li class="active"><a href="../blog/index.do?cat=b_management&curr=${num}">${num}</a></li>			
+					</c:when>
+					<c:otherwise>
+						<li ><a href="../blog/index.do?cat=b_management&curr=${num}">${num}</a></li>			
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		    
+		    <c:if test="${pageInfo.pageNum<pageInfo.pages}">
+		    <li>
+		      <a href="../blog/index.do?cat=b_management&curr=${pageInfo.pageNum+1}" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		    </c:if>
+		    
+		  </ul>
+		</nav>
+	</div>
+</c:if>	
 	<!-- 底部 -->
 	<div id="footer">
 		<div id="footer_nav">
