@@ -136,10 +136,16 @@
 				  </button>
 				</div>
 				
-				<div id="category_checkbox" class="_sort" style="width:230px;height:80px;border: 1px solid gray;">
-				   写作<input onclick="add_category_checkbox(this)" type="checkbox" id="xz" value="写作">
-				     阅读 <input onclick="add_category_checkbox(this)" type="checkbox" id="yd" value="阅读">
-				     发呆<input onclick="add_category_checkbox(this)" type="checkbox" id="fd" value="发呆">
+				<div id="category_checkbox" class="_sort" style="width:200px;height:95px;border: 1px solid gray;overflow:auto;box-shadow: 0px 0px 2px #888888; ">
+					<ul>
+						<li style="margin-top:10px;">
+							 写作<input onclick="add_category_checkbox(this)" type="checkbox" id="xz" value="写作"/>
+							 阅读 <input onclick="add_category_checkbox(this)" type="checkbox" id="yd" value="阅读"/>
+							  发呆<input onclick="add_category_checkbox(this)" type="checkbox" id="fd" value="发呆"/>
+						</li>
+						
+					</ul>
+					
 				</div>
 				
 				
@@ -419,8 +425,6 @@ function save_blog(){
 	if(save_before_check()==false){
 		return false;
 	}
-	
-
 	//文章标题
 	var b_title=$("#b_title").val();
 	b_title="b_title="+b_title;
