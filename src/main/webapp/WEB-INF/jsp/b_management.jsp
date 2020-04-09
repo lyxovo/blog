@@ -134,11 +134,21 @@ $(document).ready(function() {
  
 	});  */
  	
-
+	
  	
 
  	
 }); 
+
+
+function edit_blog(bId){
+	if(bId==""){
+		layer.alert("编辑出错，请联系管理员");
+		return;
+	}
+	window.location.href="http://localhost:8081/blog/index.do?cat=b_send&b_id="+bId;
+	
+}
 
 
 //查询博客详细--by id
@@ -225,15 +235,9 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 						<div id="searchBox" style="margin-top:-13px;">
 							<form action="./index.do?cat=b_management&curr=1" method="post" >
 								<button type = "submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-								<input type="search" placeholder="搜索本站" name="keywords">
+								<input type="search" value="${keywords}" placeholder="搜索本站" name="keywords">
 							</form>
 						</div>
-						
-						
-<!-- 						<div  style="float:right;margin-top:-2px;" >
-								<input id="search_input" type="search" autocomplete="off"  placeholder="请输入关键词" name="keywords" style="border-top:none;border-left:none;border-right:none;" >
-								<button id="search_btn" class="layui-btn layui-btn-radius layui-btn-primary layui-btn-sm" style="margin-top:-10px;"><i class="fa fa-search" aria-hidden="true"></i>搜索</button>
-						</div> -->
 					</div>
 					<input id="page_total" type="hidden" value="${pageInfo.total}"/>
 						<ul>
@@ -286,7 +290,7 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 		  
 		 	<c:if test="${pageInfo.pageNum>1}">
 		    <li>
-		      <a href="../blog/index.do?cat=b_management&curr=${pageInfo.pageNum-1}" aria-label="Previous">
+		      <a href="../blog/index.do?cat=b_management&curr=${pageInfo.pageNum-1}&keywords=${keywords}" aria-label="Previous">
 		        <span aria-hidden="true">&laquo;</span>
 		      </a>
 		    </li>
@@ -295,17 +299,17 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 		    <c:forEach items="${pageInfo.navigatepageNums}" var="num">
 				<c:choose>
 					<c:when test="${pageInfo.pageNum==num}">
-						<li class="active"><a href="../blog/index.do?cat=b_management&curr=${num}">${num}</a></li>			
+						<li class="active"><a href="../blog/index.do?cat=b_management&curr=${num}&keywords=${keywords}">${num}</a></li>			
 					</c:when>
 					<c:otherwise>
-						<li ><a href="../blog/index.do?cat=b_management&curr=${num}">${num}</a></li>			
+						<li ><a href="../blog/index.do?cat=b_management&curr=${num}&keywords=${keywords}">${num}</a></li>			
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
 		    
 		    <c:if test="${pageInfo.pageNum<pageInfo.pages}">
 		    <li>
-		      <a href="../blog/index.do?cat=b_management&curr=${pageInfo.pageNum+1}" aria-label="Next">
+		      <a href="../blog/index.do?cat=b_management&curr=${pageInfo.pageNum+1}&keywords=${keywords}" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
 		      </a>
 		    </li>

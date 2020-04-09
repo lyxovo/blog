@@ -6,9 +6,11 @@
     <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
     <result column="category_number" jdbcType="INTEGER" property="categoryNumber" />
     <result column="b_id" jdbcType="INTEGER" property="bId" />
+    <result column="c_live" jdbcType="TINYINT" property="cLive" />
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
   </resultMap>
   <sql id="Base_Column_List">
-    category_id, category_name, category_number, b_id
+    category_id, category_name, category_number, b_id, c_live, u_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,9 +24,9 @@
   </delete>
   <insert id="insert" parameterType="top.lyxwachs.bean.BlogCategory">
     insert into blog_category (category_id, category_name, category_number, 
-      b_id)
+      b_id, c_live, u_id)
     values (#{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{categoryNumber,jdbcType=INTEGER}, 
-      #{bId,jdbcType=INTEGER})
+      #{bId,jdbcType=INTEGER}, #{cLive,jdbcType=TINYINT}, #{uId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="top.lyxwachs.bean.BlogCategory">
     insert into blog_category
@@ -41,6 +43,12 @@
       <if test="bId != null">
         b_id,
       </if>
+      <if test="cLive != null">
+        c_live,
+      </if>
+      <if test="uId != null">
+        u_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="categoryId != null">
@@ -54,6 +62,12 @@
       </if>
       <if test="bId != null">
         #{bId,jdbcType=INTEGER},
+      </if>
+      <if test="cLive != null">
+        #{cLive,jdbcType=TINYINT},
+      </if>
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -69,6 +83,12 @@
       <if test="bId != null">
         b_id = #{bId,jdbcType=INTEGER},
       </if>
+      <if test="cLive != null">
+        c_live = #{cLive,jdbcType=TINYINT},
+      </if>
+      <if test="uId != null">
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
     </set>
     where category_id = #{categoryId,jdbcType=INTEGER}
   </update>
@@ -76,16 +96,25 @@
     update blog_category
     set category_name = #{categoryName,jdbcType=VARCHAR},
       category_number = #{categoryNumber,jdbcType=INTEGER},
-      b_id = #{bId,jdbcType=INTEGER}
+      b_id = #{bId,jdbcType=INTEGER},
+      c_live = #{cLive,jdbcType=TINYINT},
+      u_id = #{uId,jdbcType=INTEGER}
     where category_id = #{categoryId,jdbcType=INTEGER}
   </update>
-
-<insert id="insertBatchCategory" parameterType="java.util.List">
-	insert into blog_category (b_id,category_name,category_number)
+  
+ <insert id="insertBatchCategory" parameterType="java.util.List">
+	insert into blog_category (b_id,category_name,category_number,c_live,u_id)
 	values
 	<foreach collection="list" item="item" index="index" separator=",">
-	 (#{item.bId,jdbcType=INTEGER}, #{item.categoryName,jdbcType=VARCHAR},#{item.categoryNumber,jdbcType=INTEGER})
+	 (#{item.bId,jdbcType=INTEGER}, #{item.categoryName,jdbcType=VARCHAR},#{item.categoryNumber,jdbcType=INTEGER},#{item.cLive,jdbcType=TINYINT},#{item.uId,jdbcType=INTEGER})
 	</foreach>
 </insert>
 
+  <select id="getCategorysList"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blog_category
+    where b_id = #{bId,jdbcType=INTEGER}
+  </select>
+  
 </mapper>

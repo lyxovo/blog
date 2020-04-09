@@ -87,5 +87,27 @@
             (#{item.bId,jdbcType=INTEGER}, #{item.tagName,jdbcType=VARCHAR},#{item.tagNumber,jdbcType=INTEGER})
         </foreach>
     </insert>
+    
+    
+   <select id="getTagsList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blog_tag
+    where b_id = #{bId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <delete id="deleteTagsByBid" parameterType="java.lang.Integer">
+    delete from blog_tag
+    where b_id = #{bId,jdbcType=INTEGER}
+  </delete>
+  
+  
+  <select id="getTagsTotal" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select 
+    count(1)
+    from blog_tag
+    where tag_name = #{tagName,jdbcType=VARCHAR}
+  </select>
   
 </mapper>

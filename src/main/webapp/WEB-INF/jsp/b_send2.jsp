@@ -28,7 +28,7 @@
 	<link rel="stylesheet" href="../css/header.css">
 	<link rel="stylesheet" href="../css/right.css">
 	
-	<title>个人博客！</title>
+	<title>个人博客222！</title>
 	
 <style>
 
@@ -127,7 +127,7 @@ input:focus{
 				<!-- id，用来判断是修改还是保存 -->
 				<input type="hidden" id="b_id" name="b_id" value="${blog.bId}"/>
 				<!-- 标题头 -->
-			    <input type="text" autocomplete="off" class="form-control input-lg input_inner" id="b_title" maxlength="100"  placeholder="请输入文章标题" >
+			    <input type="text" autocomplete="off" class="form-control input-lg input_inner" id="b_title" maxlength="100" value="${blog.bTitle}"  placeholder="请输入文章标题" >
 				
 				<!-- 富文本框 -->
 				<div id="editor" class="text" style="text-align: left;">
@@ -136,6 +136,12 @@ input:focus{
 				<!--标签 -->
 				<div  class="_tag">
 				  <label>文章标签：</label>
+				<!--   回显文章标签 -->
+				   <c:forEach items="${tagsList}" var="tag">
+				   		<button onclick='del_tag_category(this)'  type="button" class="add_tag layui-btn layui-btn-xs layui-btn-radius layui-btn-warm">
+						<span>${tag.tagName}</span><i class="layui-icon">&#x1006;</i>
+						</button>
+				   </c:forEach>
 				  <button id="add_tag" type="button" class="layui-btn layui-btn-xs" onclick="add_tag()">
 					  <i class="layui-icon">&#xe608;</i> 添加文章标签
 				  </button>
@@ -145,6 +151,14 @@ input:focus{
 				<!--分类专栏 -->
 				<div class="_sort">
 				  <label>分类专栏：</label>
+				  	<!--回显分类专栏 -->
+				   <c:forEach items="${categorysList}" var="category">
+				   		<button onclick='del_tag_category(this)' id="${category.category_id}"  type="button" class="add_tag layui-btn layui-btn-xs layui-btn-radius layui-btn-warm">
+							<span>${category.categoryName}</span><i class="layui-icon">&#x1006;</i>
+						</button>
+				   </c:forEach>
+				  
+				  
 				 <!--  新建分类专栏后赋予的值 -->
 				  <button id="add_category"  type="button" class="layui-btn layui-btn-xs " onclick="add_category()">
 					  <i class="layui-icon">&#xe608;</i> 新建分类专栏
@@ -154,7 +168,7 @@ input:focus{
 				<div id="category_checkbox" class="_sort" style="width:200px;height:95px;border: 1px solid gray;overflow:auto;box-shadow: 0px 0px 2px #888888; ">
 					<ul>
 						<li style="margin-top:10px;">
-							 写作<input onclick="add_category_checkbox(this)" type="checkbox" id="xz" value="写作"/>
+							 写作<input onclick="add_category_checkbox(this)" type="checkbox" id="xz" checked value="写作"/>
 							 阅读 <input onclick="add_category_checkbox(this)" type="checkbox" id="yd" value="阅读"/>
 							  发呆<input onclick="add_category_checkbox(this)" type="checkbox" id="fd" value="发呆"/>
 						</li>
@@ -295,7 +309,7 @@ $(function(){
     ];
 		
        editor.create();
-       
+       editor.txt.html('${blog.bContent}');
         //设置
        // editor.txt.html('<span style="color: rgb(194, 79, 74);">撒范德萨地方</span>');
         //追加设置
@@ -438,7 +452,7 @@ function add_category(){
 //提交保存  
 function save_blog(){
 	if(save_before_check()==false){
-		return false;
+		//return false;
 	}
 	//文章标题
 	var b_title=$("#b_title").val();
@@ -476,7 +490,10 @@ function save_blog(){
 	b_contenttext="&b_contenttext="+b_contenttext;
 	//console.log(b_contenttext);
 	//return ;
-	var serialize=b_title + _tag_span + _category_span + b_content + b_contenttext;
+	var b_id=$("#b_id").val(); //获取b_id，用来判断是添加还是修改。
+	b_id="&b_id="+b_id;
+	
+	var serialize=b_title + _tag_span + _category_span + b_content + b_contenttext+b_id;
 	//console.log(serialize);
 	//return;
 	 $.ajax({

@@ -2,6 +2,8 @@ package top.lyxwachs.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import top.lyxwachs.bean.BlogCategory;
 
 public interface BlogCategoryMapper {
@@ -18,4 +20,6 @@ public interface BlogCategoryMapper {
     int updateByPrimaryKey(BlogCategory record);
 
 	int insertBatchCategory(List<BlogCategory> list);
+
+	List<BlogCategory> getCategorysList(@Param("b_id")int bId);
 }

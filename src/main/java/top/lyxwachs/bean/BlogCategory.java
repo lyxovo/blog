@@ -9,6 +9,10 @@ public class BlogCategory {
 
     private Integer bId;
 
+    private Byte cLive;
+
+    private Integer uId;
+
     public Integer getCategoryId() {
         return categoryId;
     }
@@ -39,5 +43,21 @@ public class BlogCategory {
 
     public void setbId(Integer bId) {
         this.bId = bId;
+    }
+
+    public Byte getcLive() {
+        return cLive;
+    }
+
+    public void setcLive(Byte cLive) {
+        this.cLive = cLive;
+    }
+
+    public Integer getuId() {
+        return uId;
+    }
+
+    public void setuId(Integer uId) {
+        this.uId = uId;
     }
 }

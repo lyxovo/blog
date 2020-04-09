@@ -19,4 +19,10 @@ public interface BlogTagMapper {
 
 	int insertBatchTag(List<BlogTag> list_tag);
 
+	List<BlogTag> getTagsList(int b_id);
+
+	int deleteTagsByBid(int b_id);
+
+	Integer getTagsTotal(String tagName);
+
 }
