@@ -283,6 +283,38 @@ public class BlogService {
 		return blogCategoryMapper.getCategorysList(b_id);
 	}
 	
+	/**
+	 * 查询该用户所拥有的专类栏
+	 * @param user_id
+	 * @param b_id 
+	 * @return
+	 */
+	public List<BlogCategory> getategorysListOfUser(Integer user_id, int b_id) {
+		StringBuilder sb=new StringBuilder();
+		List<BlogCategory> list = blogCategoryMapper.getategorysListOfUser(user_id);
+		for (BlogCategory blogCategoryAll : list) {
+			
+			List<BlogCategory> categorysList = blogCategoryMapper.getCategorysList(b_id);
+			for (BlogCategory blogCategory : categorysList) {
+				if(blogCategory.getCategoryName().equals(blogCategoryAll.getCategoryName())) {
+					//相等，还要获取id.
+					//String str=	"<label class='checkbox-inline'><input type='checkbox' checked value='' checked onclick='add_category_checkbox(this)'>月底</label>";
+					//sb.append(str);	
+					
+				}else {//不相等。
+					//String str=	"<label class='checkbox-inline'><input type='checkbox'  value='' checked onclick='add_category_checkbox(this)'>月底</label>";
+					//sb.append(str);
+				}
+			}
+			
+			
+			System.out.println(blogCategoryAll.getCategoryName());
+		}
+		System.out.println(sb.toString());
+		
+		
+		return null;
+	}
 	
 
 }

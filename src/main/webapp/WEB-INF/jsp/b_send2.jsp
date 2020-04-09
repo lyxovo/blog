@@ -153,7 +153,7 @@ input:focus{
 				  <label>分类专栏：</label>
 				  	<!--回显分类专栏 -->
 				   <c:forEach items="${categorysList}" var="category">
-				   		<button onclick='del_tag_category(this)' id="${category.category_id}"  type="button" class="add_tag layui-btn layui-btn-xs layui-btn-radius layui-btn-warm">
+				   		<button onclick='del_tag_category(this)' id="${category.categoryId}"  type="button" class="add_tag layui-btn layui-btn-xs layui-btn-radius layui-btn-warm">
 							<span>${category.categoryName}</span><i class="layui-icon">&#x1006;</i>
 						</button>
 				   </c:forEach>
@@ -165,15 +165,27 @@ input:focus{
 				  </button>
 				</div>
 				
-				<div id="category_checkbox" class="_sort" style="width:200px;height:95px;border: 1px solid gray;overflow:auto;box-shadow: 0px 0px 2px #888888; ">
-					<ul>
+				<div id="category_checkbox" class="_sort" style="width:270px;height:120px;border: 1px solid gray;overflow:auto;box-shadow: 0px 0px 2px #888888;text-align: left; padding-left:10px;">
+<!-- 					<ul>
 						<li style="margin-top:10px;">
 							 写作<input onclick="add_category_checkbox(this)" type="checkbox" id="xz" checked value="写作"/>
 							 阅读 <input onclick="add_category_checkbox(this)" type="checkbox" id="yd" value="阅读"/>
 							  发呆<input onclick="add_category_checkbox(this)" type="checkbox" id="fd" value="发呆"/>
 						</li>
-						
-					</ul>
+					</ul> -->
+					
+					
+<!-- <label class="checkbox-inline">
+  <input type="checkbox" id="10" value="option1" checked onclick="add_category_checkbox(this)"> 月底
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox2" value="option2"> 哈哈哈
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox3" value="option3"> java
+</label> -->
+			
+		
 					
 				</div>
 				
@@ -309,7 +321,7 @@ $(function(){
     ];
 		
        editor.create();
-       editor.txt.html('${blog.bContent}');
+       editor.txt.html("${blog.bContent}");
         //设置
        // editor.txt.html('<span style="color: rgb(194, 79, 74);">撒范德萨地方</span>');
         //追加设置

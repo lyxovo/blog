@@ -21,5 +21,7 @@ public interface BlogCategoryMapper {
 
 	int insertBatchCategory(List<BlogCategory> list);
 
-	List<BlogCategory> getCategorysList(@Param("b_id")int bId);
+	List<BlogCategory> getCategorysList(@Param("bId")int b_id);
+
+	List<BlogCategory> getategorysListOfUser(@Param("uId")Integer user_id);
 }

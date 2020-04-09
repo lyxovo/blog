@@ -117,4 +117,14 @@
     where b_id = #{bId,jdbcType=INTEGER}
   </select>
   
+  
+   <select id="getategorysListOfUser"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blog_category
+    where u_id = #{uId,jdbcType=INTEGER} GROUP BY category_name
+  </select>
+  
+  
+  
 </mapper>

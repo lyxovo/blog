@@ -168,8 +168,8 @@ public class BlogController {
 				mv.addObject("categorysList", categorysList);
 				
 //				分类栏-文本框，查询该用户所有的标签栏
-				List<BlogCategory> categorysListOfUser =blogService.getCategorysList(Integer.parseInt(b_id));
-				mv.addObject("categorysListOfUser", categorysListOfUser);
+				List<BlogCategory> categorysListOfUser =blogService.getategorysListOfUser(user_id,Integer.parseInt(b_id));
+				//mv.addObject("categorysListOfUser", categorysListOfUser);
 				
 				
 				//
