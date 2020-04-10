@@ -114,7 +114,7 @@
     select 
     <include refid="Base_Column_List" />
     from blog_category
-    where b_id = #{bId,jdbcType=INTEGER}
+    where b_id = #{bId,jdbcType=INTEGER} and c_live=1
   </select>
   
   
@@ -125,6 +125,16 @@
     where u_id = #{uId,jdbcType=INTEGER} GROUP BY category_name
   </select>
   
+  
+   <update id="updateLiveByCategoryBId" >
+    update blog_category
+    <set>
+      <if test="cLive != null">
+        c_live = #{cLive,jdbcType=TINYINT}
+      </if>
+    </set>
+    where b_id = #{bId,jdbcType=INTEGER} and u_id=#{bAuthor,jdbcType=INTEGER}
+  </update>
   
   
 </mapper>

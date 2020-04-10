@@ -2,9 +2,13 @@ package top.lyxwachs.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -190,8 +194,30 @@ public class BlogService {
 			}
 			
 			
-			//分类栏
 			
+			//分类栏---先删除（假删除，把c_live设为1，不能真删除，因为页面下面的div框需要用到），后插入
+			//删除
+			blogCategoryMapper.updateLiveByCategoryBId(bId,(byte)0,bAuthor);
+			
+			//添加
+			List<BlogCategory> list_category=new ArrayList<BlogCategory>();
+			if(arr_category.length!=0) {
+				BlogCategory blogCategory=null;
+				for (String category : arr_category) {
+					if (StringUtils.isNotBlank(category)) {
+						blogCategory=new BlogCategory();
+						blogCategory.setbId(bId);
+						blogCategory.setCategoryName(category);
+						blogCategory.setCategoryNumber(1);//专栏数，查询 where catery=""
+						blogCategory.setcLive((byte)1);
+						blogCategory.setuId(bAuthor);
+						list_category.add(blogCategory);
+					}
+				}
+			}
+			if(list_category.size()!=0 && list_category!=null) {
+				blogCategoryMapper.insertBatchCategory(list_category); 
+			}
 			
 		}
 		
@@ -215,9 +241,17 @@ public class BlogService {
 	 * @return
 	 */
 	public BlogWithBLOBs getBlog(String b_id) {
-		if(b_id!=null) {
+		if(!StringUtils.isBlank(b_id)) {
 			BlogWithBLOBs blog = blogMapper.selectByPrimaryKey(Integer.parseInt(b_id));
-			return blog;
+			if(StringUtils.isBlank(blog.getbContent())) {
+				return blog;
+			}else {
+				String html4 = StringEscapeUtils.escapeHtml4(blog.getbContent());
+			//	String html4 = StringEscapeUtils.unescapeHtml4(blog.getbContent());
+				blog.setbContent(html4);
+				return blog;
+			}
+
 		}
 		return null;
 	}
@@ -284,37 +318,45 @@ public class BlogService {
 	}
 	
 	/**
-	 * 查询该用户所拥有的专类栏
+	 * 查询该用户所拥有的专类栏-放到div，组建checkbox放到div下面
 	 * @param user_id
 	 * @param b_id 
 	 * @return
 	 */
-	public List<BlogCategory> getategorysListOfUser(Integer user_id, int b_id) {
+	public String getategorysListOfUser(Integer user_id, int b_id) {
 		StringBuilder sb=new StringBuilder();
 		List<BlogCategory> list = blogCategoryMapper.getategorysListOfUser(user_id);
-		for (BlogCategory blogCategoryAll : list) {
-			
-			List<BlogCategory> categorysList = blogCategoryMapper.getCategorysList(b_id);
+		List<BlogCategory> categorysList = blogCategoryMapper.getCategorysList(b_id);
+		if(categorysList.isEmpty()) {//如果没有选中的分类栏目
 			for (BlogCategory blogCategory : categorysList) {
-				if(blogCategory.getCategoryName().equals(blogCategoryAll.getCategoryName())) {
-					//相等，还要获取id.
-					//String str=	"<label class='checkbox-inline'><input type='checkbox' checked value='' checked onclick='add_category_checkbox(this)'>月底</label>";
-					//sb.append(str);	
-					
-				}else {//不相等。
-					//String str=	"<label class='checkbox-inline'><input type='checkbox'  value='' checked onclick='add_category_checkbox(this)'>月底</label>";
-					//sb.append(str);
+				long num=(int)(Math.random()*10001);//随机数0-10000
+				String random_id = new Date().getTime()+""+num;
+				sb.append("<label class='checkbox-inline'><input type='checkbox' id="+random_id+" value='"+blogCategory.getCategoryName()+"'  onclick='add_category_checkbox(this)'>"+blogCategory.getCategoryName()+"</label>");	
+			}
+		}else {//如果存在选中的分类栏目
+//			选中的
+			for (BlogCategory blogCategoryAll : list) {
+				for (BlogCategory blogCategory : categorysList) {
+					if(blogCategory.getCategoryName().equals(blogCategoryAll.getCategoryName())) {
+						//相等，还要获取id.
+						sb.append("<label class='checkbox-inline'><input type='checkbox' id="+blogCategory.getCategoryId()+" checked value='"+blogCategoryAll.getCategoryName()+"' checked onclick='add_category_checkbox(this)'>"+blogCategoryAll.getCategoryName()+"</label>");	
+						break;
+					}
 				}
 			}
-			
-			
-			System.out.println(blogCategoryAll.getCategoryName());
+//			未中的
+			list.removeAll(categorysList);
+			for (BlogCategory blogCategory : list) {
+				long num=(int)(Math.random()*10001);//随机数0-10000
+				String random_id = new Date().getTime()+""+num;
+				sb.append("<label class='checkbox-inline'><input type='checkbox' id="+random_id+" value='"+blogCategory.getCategoryName()+"'  onclick='add_category_checkbox(this)'>"+blogCategory.getCategoryName()+"</label>");	
+			}
 		}
-		System.out.println(sb.toString());
 		
-		
-		return null;
+		return sb.toString();
 	}
+	
+	
 	
 
 }

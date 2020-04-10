@@ -28,7 +28,7 @@
 	<link rel="stylesheet" href="../css/header.css">
 	<link rel="stylesheet" href="../css/right.css">
 	
-	<title>个人博客！</title>
+	<title>个人博客222！</title>
 	
 <style>
 
@@ -127,7 +127,7 @@ input:focus{
 				<!-- id，用来判断是修改还是保存 -->
 				<input type="hidden" id="b_id" name="b_id" value="${blog.bId}"/>
 				<!-- 标题头 -->
-			    <input type="text" autocomplete="off" class="form-control input-lg input_inner" id="b_title" maxlength="100"  placeholder="请输入文章标题" >
+			    <input type="text" autocomplete="off" class="form-control input-lg input_inner" id="b_title" maxlength="100" value="${blog.bTitle}"  placeholder="请输入文章标题" >
 				
 				<!-- 富文本框 -->
 				<div id="editor" class="text" style="text-align: left;">
@@ -136,6 +136,12 @@ input:focus{
 				<!--标签 -->
 				<div  class="_tag">
 				  <label>文章标签：</label>
+				<!--   回显文章标签 -->
+				   <c:forEach items="${tagsList}" var="tag">
+				   		<button onclick='del_tag_category(this)'  type="button" class="add_tag layui-btn layui-btn-xs layui-btn-radius layui-btn-warm">
+						<span>${tag.tagName}</span><i class="layui-icon">&#x1006;</i>
+						</button>
+				   </c:forEach>
 				  <button id="add_tag" type="button" class="layui-btn layui-btn-xs" onclick="add_tag()">
 					  <i class="layui-icon">&#xe608;</i> 添加文章标签
 				  </button>
@@ -145,25 +151,35 @@ input:focus{
 				<!--分类专栏 -->
 				<div class="_sort">
 				  <label>分类专栏：</label>
+				  	<!--回显分类专栏 -->
+				   <c:forEach items="${categorysList}" var="category">
+				   		<button onclick='del_tag_category(this)' id="${category.categoryId}"  type="button" class="add_category layui-btn layui-btn-xs layui-btn-radius layui-btn-warm">
+							<span>${category.categoryName}</span><i class="layui-icon">&#x1006;</i>
+						</button>
+				   </c:forEach>
+				  
+				  
 				 <!--  新建分类专栏后赋予的值 -->
 				  <button id="add_category"  type="button" class="layui-btn layui-btn-xs " onclick="add_category()">
 					  <i class="layui-icon">&#xe608;</i> 新建分类专栏
 				  </button>
 				</div>
 				
-				<div id="category_checkbox" class="_sort" style="width:200px;height:95px;border: 1px solid gray;overflow:auto;box-shadow: 0px 0px 2px #888888; ">
-					<ul>
-						<li style="margin-top:10px;">
-							 写作<input onclick="add_category_checkbox(this)" type="checkbox" id="xz" value="写作"/>
-							 阅读 <input onclick="add_category_checkbox(this)" type="checkbox" id="yd" value="阅读"/>
-							  发呆<input onclick="add_category_checkbox(this)" type="checkbox" id="fd" value="发呆"/>
-						</li>
-						
-					</ul>
-					
+				<div id="category_checkbox" class="_sort" style="width:270px;height:120px;border: 1px solid gray;overflow:auto;box-shadow: 0px 0px 2px #888888;text-align: left; padding-left:10px;">
+					${categorysLisHtml}
+<!-- <label class="checkbox-inline">
+  <input type="checkbox" id="10" value="option1" checked onclick="add_category_checkbox(this)"> 月底
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox2" value="option2"> 哈哈哈
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox3" value="option3"> java
+</label> -->
+								
 				</div>
 				
-				
+				<input type="hidden" id="_bContent" value="${blog.bContent}">
 				<!--提交按钮 -->
 				<div class="submit_">
 				  <button onclick="save_blog()" type="button" class="layui-btn layui-btn-radius layui-btn-primary">
@@ -196,33 +212,8 @@ input:focus{
 </body>	
 
 
-<script type="text/javascript">
-$(function(){
-	/*根据b_id获取数据库中存储的分类，并回显到页面 */
-/* 	 $("#")
-	 $.ajax({
-			url: "../blog/getCategory.do",
-			data: serialize,
-			dataType: "json", 
-			type:"POST",
-			success: function(result){
-				if(result.flag==1){
-					console.log(result);
-				}else{
-					layer.alert('分类栏获取失败！！！', {icon: 5,anim: 4});
-				}
-			},
-			error:function(){
-				layer.alert('分类栏获取失败！！！', {icon: 5,anim: 4});
-			}
-		});  */
-	
-	
-		// $("#category_checkbox").scrollTop(100);
-});
 
-</script>
-    <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+ <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
 <script type="text/javascript" src="../js/wangEditor.min.js"></script>
 <script type="text/javascript">
         var E = window.wangEditor;
@@ -296,6 +287,9 @@ $(function(){
 		
        editor.create();
        
+  	   val=$("#_bContent").val();
+       editor.txt.text(val);
+       
         //设置
        // editor.txt.html('<span style="color: rgb(194, 79, 74);">撒范德萨地方</span>');
         //追加设置
@@ -347,14 +341,19 @@ function add_tag(){
 		  title: '添加文章标签',//标题
 		  area: ['200px', '20px'] //自定义文本域宽高
 		}, function(value, index, elem){
-		  //alert(value); //得到value
 		  
-	 var tag_html= "<button onclick='del_tag_category(this)'  type=\"button\" class=\"add_tag layui-btn layui-btn-xs layui-btn-radius layui-btn-warm\">\n" +
-			  "		<span>"+value+"</span>\n" +
-			  "		<i class=\"layui-icon\">&#x1006;</i>\n" +
-			  "	</button>";
+		  if(value.length>10){//判断字符串长度10个字符串
+			  layer.msg('标签长度不能超过10个字符', {icon: 5,anim: 4});
+		  }else if($(".add_tag span").length>=4){//判断标签数量是否大于3个
+			  layer.msg('标签数量最多4个', {icon: 5,anim: 6});
+		  }else{
+				 var tag_html= "<button onclick='del_tag_category(this)'  type=\"button\" class=\"add_tag layui-btn layui-btn-xs layui-btn-radius layui-btn-warm\">\n" +
+				  "		<span>"+value+"</span>\n" +
+				  "		<i class=\"layui-icon\">&#x1006;</i>\n" +
+				  "	</button>";
+			  	$("#add_tag").before(tag_html);
+		  }
 		  
-		  $("#add_tag").before(tag_html);
 		  layer.close(index); //点击确定时候关闭，没有点击确定不会关闭
 	});
 	
@@ -403,12 +402,19 @@ function add_category(){
 		  area: ['200px', '20px'] 
 		}, function(value, index, elem){
 		  
-		 var tag_html= "<button onclick='del_tag_category(this)'  type=\"button\" class=\"add_category layui-btn layui-btn-xs layui-btn-radius layui-btn-warm\">\n" +
-			  "		<span>"+value+"</span>\n" +
-			  "		<i class=\"layui-icon\">&#x1006;</i>\n" +
-			  "	</button>";
+		  if(value.length>10){//判断字符串长度10个字符串
+			  layer.msg('分类栏长度不能超过10个字符', {icon: 5,anim: 4});
+		  }else if($(".add_category span").length>=3){//判断标签数量是否大于3个
+			  layer.msg('分类栏最多3个', {icon: 5,anim: 6});
+		  }else{
+				 var tag_html= "<button onclick='del_tag_category(this)'  type=\"button\" class=\"add_category layui-btn layui-btn-xs layui-btn-radius layui-btn-warm\">\n" +
+				  "		<span>"+value+"</span>\n" +
+				  "		<i class=\"layui-icon\">&#x1006;</i>\n" +
+				  "	</button>";
+				 $("#add_category").before(tag_html);
+		  }
 		  
-		  $("#add_category").before(tag_html);
+		  
 		  layer.close(index); 
 	});
 }
@@ -453,6 +459,7 @@ function save_blog(){
 	if(_tag_span==""){//后台保证不出错
 		_tag_span="&tag_name=";
 	}
+	
 	//console.log(_tag_span);
 	//分类专栏
 	var _category_span="";
@@ -476,7 +483,10 @@ function save_blog(){
 	b_contenttext="&b_contenttext="+b_contenttext;
 	//console.log(b_contenttext);
 	//return ;
-	var serialize=b_title + _tag_span + _category_span + b_content + b_contenttext;
+	var b_id=$("#b_id").val(); //获取b_id，用来判断是添加还是修改。
+	b_id="&b_id="+b_id;
+	
+	var serialize=b_title + _tag_span + _category_span + b_content + b_contenttext+b_id;
 	//console.log(serialize);
 	//return;
 	 $.ajax({

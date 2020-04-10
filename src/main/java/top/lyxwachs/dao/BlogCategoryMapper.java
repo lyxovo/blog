@@ -24,4 +24,6 @@ public interface BlogCategoryMapper {
 	List<BlogCategory> getCategorysList(@Param("bId")int b_id);
 
 	List<BlogCategory> getategorysListOfUser(@Param("uId")Integer user_id);
+
+	void updateLiveByCategoryBId(@Param("bId")Integer bId,@Param("cLive") byte i,@Param("bAuthor") Integer bAuthor);
 }

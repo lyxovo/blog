@@ -155,21 +155,23 @@ public class BlogController {
 			if(StringUtils.isBlank(b_id)) {//添加
 				mv = new ModelAndView("b_send");//转发到发博客页面
 			}else {//跳转到编辑页面
-				mv = new ModelAndView("b_send2");//转发到发博客页面
-				BlogWithBLOBs blog=blogService.getBlog(b_id);//根据b_id查询博客
+				mv = new ModelAndView("b_send");//转发到发博客页面
+				
+//				回显博客内容
+				BlogWithBLOBs blog=blogService.getBlog(b_id);
 				mv.addObject("blog", blog);
 				
 //				回显文章标签
 				List<BlogTag> tagsList =blogService.getTagsList(Integer.parseInt(b_id));
 				mv.addObject("tagsList", tagsList);
 				
-//				回显分类栏（没有完成。。。。。思路不清楚）
+//				回显分类栏
 				List<BlogCategory> categorysList =blogService.getCategorysList(Integer.parseInt(b_id));
 				mv.addObject("categorysList", categorysList);
 				
 //				分类栏-文本框，查询该用户所有的标签栏
-				List<BlogCategory> categorysListOfUser =blogService.getategorysListOfUser(user_id,Integer.parseInt(b_id));
-				//mv.addObject("categorysListOfUser", categorysListOfUser);
+				String categorysLisHtml =blogService.getategorysListOfUser(user_id,Integer.parseInt(b_id));
+				mv.addObject("categorysLisHtml", categorysLisHtml);
 				
 				
 				//

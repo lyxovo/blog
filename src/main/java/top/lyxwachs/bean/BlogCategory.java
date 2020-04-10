@@ -60,4 +60,21 @@ public class BlogCategory {
     public void setuId(Integer uId) {
         this.uId = uId;
     }
+    
+    @Override
+	public boolean equals(Object o) {
+		if (o instanceof BlogCategory) {
+			BlogCategory blogCategory = (BlogCategory) o;
+			return 
+//					this.categoryId.equals(blogCategory.categoryId)&&
+					 this.categoryName.equals(blogCategory.categoryName)
+//					&& this.categoryNumber.equals(blogCategory.categoryNumber)
+//					&& this.bId.equals(blogCategory.bId)
+//					&& this.cLive.equals(blogCategory.cLive)
+					&& this.uId.equals(blogCategory.uId);
+		}
+		return super.equals(o);
+	}
+
+    
 }

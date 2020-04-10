@@ -103,9 +103,18 @@
         editor.create();
         
         //设置
-        editor.txt.html('<span style="color: rgb(194, 79, 74);">撒范德萨地方</span>');
+       // editor.txt.html('<span style="color: rgb(194, 79, 74);">撒范德萨地方</span>');
         //追加设置
-        editor.txt.append('<p>追加的内容23</p>');
+       // editor.txt.append('<p>追加的内容23</p>');
+ /*      var str=  "</code></pre><p><br></p><p><br></p><p>&lt;ul class=\"nav nav-pills\"&gt;\n" +
+        		"  &lt;li role=\"presentation\" class=\"active\"&gt;&lt;a href=\"#\"&gt;Home&lt;/a&gt;&lt;/li&gt;\n" +
+        		"  &lt;li role=\"presentation\"&gt;&lt;a href=\"#\"&gt;Profile&lt;/a&gt;&lt;/li&gt;\n" +
+        		"  &lt;li role=\"presentation\"&gt;&lt;a href=\"#\"&gt;Messages&lt;/a&gt;&lt;/li&gt;\n" +
+        		"&lt;/ul&gt;&nbsp;&nbsp;<br></p>"; */
+        		editor.txt.text('<span style="color: rgb(194, 79, 74);">&lt;/ul&gt;&nbsp;&nbsp;<br>撒范德萨地方</span>');
+        		
+      //  editor.txt.html(str);
+        
         
         //清空内容
        // editor.txt.clear();
