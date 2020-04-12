@@ -185,7 +185,7 @@ layui.use('upload', function(){
   var demoListView = $('#demoList')
   ,uploadListIns = upload.render({
     elem: '#testList'
-    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,url: '../blog/upload.do' //改成您自己的上传接口
     ,accept: 'file'
     ,multiple: true
     ,auto: false
@@ -220,14 +220,16 @@ layui.use('upload', function(){
       });
     }
     ,done: function(res, index, upload){
-      if(res.files.file){ //上传成功
+    	console.log(res);
+    	
+/*       if(res.files.file){ //上传成功
         var tr = demoListView.find('tr#upload-'+ index)
         ,tds = tr.children();
         tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
         tds.eq(3).html(''); //清空操作
         return delete this.files[index]; //删除文件队列已经上传成功的文件
-      }
-      this.error(index, upload);
+      } */
+     // this.error(index, upload);//上传失败
     }
     ,error: function(index, upload){
       var tr = demoListView.find('tr#upload-'+ index)
@@ -260,7 +262,7 @@ layui.use('upload', function(){
 	<!-- 左右html -->
 	<div id="main">
 		<div id="left" style="margin-left:-8px;">
-			<div id = "left-nav">
+			<div id = "left-nav" style="margin-left:-30px;">
 				 <ul>
 					<li><a href="../blog/index.do?cat=b_management" >管理博客</a></li>
 					<li><a href="../blog/index.do?cat=b_send" >发博客</a></li>

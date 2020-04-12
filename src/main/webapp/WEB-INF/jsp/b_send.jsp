@@ -79,18 +79,38 @@
 	margin-top:10px;
 }
 
-</style>	
-
-<style> 
-
+/* 遮罩层样式 */
+ .mask {       
+         position: absolute; top: 0px; filter: alpha(opacity=60); background-color: #c2c2c2;     
+         z-index: 1002; left: 0px;     
+         opacity:0.3; -moz-opacity:15.5;   
+         width:270px;
+         height:125px;
+         top:793px;  
+         left:310px;
+     } 
+     
+ .mask_font {       
+   		position: absolute;
+         top:845px;  
+         left:350px;
+         color:red;
+         font-size: 18px;
+         z-index: 1003;
+         font-weight:bold;
+         
+     } 
+        
+        
 /* 聚焦时候文本框变色 */
 input:focus{
     border-style:solid;
     border-color: #03a9f4;
 	box-shadow: 0 0 5px #03a9f4;
-}
+} 
 
-</style>
+</style>	
+
 	
 </head>
 <body>
@@ -167,16 +187,7 @@ input:focus{
 				
 				<div id="category_checkbox" class="_sort" style="width:270px;height:120px;border: 1px solid gray;overflow:auto;box-shadow: 0px 0px 2px #888888;text-align: left; padding-left:10px;">
 					${categorysLisHtml}
-<!-- <label class="checkbox-inline">
-  <input type="checkbox" id="10" value="option1" checked onclick="add_category_checkbox(this)"> 月底
-</label>
-<label class="checkbox-inline">
-  <input type="checkbox" id="inlineCheckbox2" value="option2"> 哈哈哈
-</label>
-<label class="checkbox-inline">
-  <input type="checkbox" id="inlineCheckbox3" value="option3"> java
-</label> -->
-								
+
 				</div>
 				
 				<input type="hidden" id="_bContent" value="${blog.bContent}">
@@ -186,12 +197,18 @@ input:focus{
 					  发布博客
 				  </button>
 				  
-				  <button type="button" class="layui-btn layui-btn-radius layui-btn-primary">
+				  <button type="button" id="return_main" class="layui-btn layui-btn-radius layui-btn-primary">
 					  返回
 				  </button>
 				</div>
 				
 				<div style="margin-top:30px;"></div>
+				<!-- 遮罩层 -->
+				<div id="mask" class="mask"></div>
+				<!-- 遮罩层上面的文字-->
+				<span class="mask_font" >分类最多不能超过3个</span>
+				
+				    
 			</div>
 		</div>
 	
@@ -371,12 +388,17 @@ function del_tag_category(t){
 		//alert(id);
 		$(t).remove();
 		$(id).attr("checked",false);
+		
+		//点击移除分类标签---隐藏遮罩层和文字
+		$("#mask").hide();
+		$(".mask_font").hide(); 
 	}
 	
 }
 
 /* 复选框---选中分类专栏触发事件 */
 function add_category_checkbox(t){
+	
 	var id=$(t).attr("id");
 	if($(t).is(':checked')){//选中',true
 		 var tag_html= "<button onclick='del_tag_category(this)' id='"+id+"'  type=\"button\" class=\"add_category layui-btn layui-btn-xs layui-btn-radius layui-btn-warm\">\n" +
@@ -384,10 +406,19 @@ function add_category_checkbox(t){
 		  "		<i class=\"layui-icon\">&#x1006;</i>\n" +
 		  "	</button>";
 	 	 $("#add_category").before(tag_html);
+	 	 
 	}else{
 		//删除。
 		id="#"+id;
 		$(id).remove();
+	}
+	
+	
+	//验证，点击打钩----工具栏数量
+	if($(".add_category span").length>=3){//判断标签数量是否大于3个
+	  //显示遮罩层    
+	  $("#mask").show();
+	  $(".mask_font").show();
 	}
 }
 
@@ -511,6 +542,26 @@ function save_blog(){
 
 }
 </script>
+<script type="text/javascript">
+//隐藏遮罩层  和 文字,初始化。
+$(function(){
+	if($(".add_category span").length>=3){//当大于等于3的时候出现遮罩层。
+		$("#mask").show();
+		$(".mask_font").show();
+	}else{
+		$("#mask").hide();
+		$(".mask_font").hide();
+	}
+	
+	//返回管理主页
+	$("#return_main").click(function(){
+		history.go(-1);
+	});
+	
+});
+
+</script> 
+
 
 
 </html>	 

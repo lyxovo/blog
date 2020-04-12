@@ -79,4 +79,19 @@
       create_user = #{createUser,jdbcType=INTEGER}
     where fl_id = #{flId,jdbcType=INTEGER}
   </update>
+  
+  
+   <select id="selectFlListByUid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blog_friendly_links
+    where  create_user = #{createUser,jdbcType=INTEGER}
+  </select>
+  
+   <delete id="delFlByflId" >
+    delete from blog_friendly_links
+    where fl_id = #{flId,jdbcType=INTEGER} and create_user = #{createUser,jdbcType=INTEGER}
+  </delete>
+  
+  
 </mapper>

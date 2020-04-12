@@ -35,7 +35,7 @@
 
 	#left-middle{
 	
-	/* margin-right:-50px; */
+	 margin-right:-70px; 
 	margin-top:18px;
 }
 
@@ -72,7 +72,8 @@
 		}
 		
 		 #friendly_link{
-			width:300px;
+			width:280px;
+			margin-left:100px;
 			margin-bottom: 20px;
 			padding-bottom: 15px;
 			padding-bottom: 5px;
@@ -109,42 +110,49 @@
 			text-align: center;
 		}
 		
+		/* 聚焦时候文本框变色 */
+input:focus{
+    border-style:solid;
+    border-color: #03a9f4;
+	box-shadow: 0 0 5px #03a9f4;
+} 
+
+
+		
 </style>	
 
 <script>
 
-$(function(){
-	$("#friendly_link_save").hide();//隐藏添加表单
-	
-	$("#show_fl").click(function(){
-		$("#friendly_link_save").toggle();//点击显示添加表单
-	});
-	
-	$("#del_fl").click(function(){//删除
-		alert(123);
-	});
-	
-});
-
-	
 var layer="";	
 layui.use('layer', function(){
 	  layer = layui.layer;
 });
 
 
-//添加友情链接
 $(function(){
+	$("#friendly_link_save").hide();//隐藏添加表单
+	$("#show_fl").click(function(){
+		$("#friendly_link_save").toggle();//点击显示添加表单
+	});
+	
+	//查询所有的友情连接列表
+	queryFlsList();
+	
+	//添加友情链接
 	$("#_add_fl").click(function(){
 		var fl_name=$("#fl_name").val();
 		var fl_url=$("#fl_url").val();
-		
-		
- 		var li="<li><a href='"+fl_url+"'  target='_blank'>"+fl_name+"</a></li>";
-		$("#fl_ul").append(li);
-		layer.msg("添加成功");
-		return; 
-		
+		//验证
+		if(fl_name==""){
+			layer.msg("请输入链接名称");
+			$("#fl_name").focus();
+			return;
+		}else if(fl_url==""){
+			layer.msg("请输入链接地址");
+			$("#fl_url").focus();
+			return;
+		}
+	
 	 	$.ajax({
 			url:'../blog/saveFriendlink.do',
 			type:"post",
@@ -156,37 +164,86 @@ $(function(){
 			success:function(result){
 				if(result.flag==1){
 					layer.msg("添加成功");
-					console.log(result);
-					var li="";
-					$.each(result,function(i,item){
-						console.log(item);
-						li+="<li><a href='"+item.fl_url+"'  target='_blank'>"+item.fl_name+"</a></li>";
-					});
-					$("#fl_ul").append(li);
-					
+					queryFlsList();
 				}else{
-					alert("失败。");
+					layer.alert("失败。");
 				}
 				
 			},
 			error:function(){
-				alert("出错了");
+				layer.alert("出错了");
 			}
 		}); 
-	
-	
 	});
+	
+	
 });
+
+
+//查询友情连接的列表
+function queryFlsList(){
+ 	$.ajax({
+		url:'../blog/queryFlsList.do',
+		type:"post",
+		dataType:"json",
+		success:function(result){
+			var _html="";
+			$.each(result.fls,function(i,item){
+				console.log(item);
+				_html+="<tr>\n" +
+				"	<td>"+item.flText+"</td>\n" +
+				"	<td>"+item.flUrl+"</td>\n" +
+				"	 <td>\n" +
+				"		<button onclick='del_fl("+item.flId+")'  type=\"button\" class=\"del_fl  layui-btn  layui-btn-normal layui-btn-sm\"><i class=\"layui-icon\">&#xe640;</i></button>\n" +
+				"	</td>\n" +
+				"</tr>";
+			});
+			$("table tbody").html(_html);
+			
+			//最右边的显示链接 
+			var li="";
+			$.each(result.fls,function(i,item){
+				li+="<li><a href='"+item.flUrl+"'  target='_blank'>"+item.flText+"</a></li>";
+			});
+			$("#fl_ul").html(li);
+			
+		},
+		error:function(){
+			alert("出错了");
+		}
+	}); 
+}	
+//删除fl
+function del_fl(flId){
+ 	 $.ajax({
+		url:'../blog/delFlByflId.do',
+		type:"post",
+		data:{
+			flId:flId,
+		},
+		dataType:"json",
+		success:function(result){
+			if(result.flag==1){
+				layer.msg("删除成功");
+				queryFlsList();
+			}else{
+				layer.msg("删除失败。");
+			}
+			
+		},
+		error:function(){
+			layer.alert("出错了");
+		}
+	}); 
+}
 
 
 
 </script>
 
 
-
 	
 </head>
-
 
 <body>
 	<!-- 顶部栏目html -->
@@ -236,23 +293,6 @@ $(function(){
 				    </tr> 
 				  </thead>
 				  <tbody>
-				    <tr>
-				      <td>贤心</td>
-				      <td>2016-11-29</td>
-				       <td>
-				      	<button id="del_fl" type="button" class="layui-btn  layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe640;</i></button>
-				      </td>
-				    </tr>
-				    <tr>
-				      <td>
-				     	于千万
-				      </td>
-				      <td>于千万</td>
-				      <td>
-				      	<button type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe640;</i></button>
-				      </td>
-
-				    </tr>
 				  </tbody>
 				</table>
 				</div>
@@ -271,7 +311,7 @@ $(function(){
 				  </div>
 				</form>
 				  <div class="layui-form-item">
-				      <button id="_add_fl" class="layui-btn" >添加</button>
+				      <button id="_add_fl" class="layui-btn" >提交</button>
 				  </div>
 					
 				</div>
@@ -280,15 +320,14 @@ $(function(){
 		</div>
 	
 		<div id="right">
-			<h2 style="color:red;margin-top:10px;">效果展示</h2>
+			<h2 style="color:red;margin-top:10px;">&nbsp;</h2>
 		   	<div id="friendly_link" ><!-- 友情链接 -->
 				
 				<div class="right_title">
 					<div class="title_content">&nbsp;<span>友情链接 </span></div>
 				</div>
-				<ul id="fl_ul">
-				<!-- 	    <li><a href="#"  target="_blank">个人博客</a></li>
-					    <li><a href="#"  target="_blank">学生会</a></li> -->
+				<ul id="fl_ul" style="margin-left:15px;">
+			
 				</ul>
 			</div>
 		</div>

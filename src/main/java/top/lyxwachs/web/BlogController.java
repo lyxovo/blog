@@ -39,41 +39,6 @@ public class BlogController {
 		return mv;
 	}
 	
-	
-	
-	//测试------------------------
-	
-	@RequestMapping("/upload")
-	@ResponseBody
-	public String upload(@RequestParam("file") MultipartFile file) throws Exception {
-		String realPath="E:/temp_test/";
-		 //获取文件名称 
-	    String fileName = file.getOriginalFilename(); 
-	    realPath=realPath + fileName;
-	    
-	    //写入本地磁盘 
-	    InputStream is = file.getInputStream(); 
-	    byte[] bs = new byte[1024]; 
-	    int len; 
-	    OutputStream os = new FileOutputStream(new File(realPath)); 
-	    while ((len = is.read(bs)) != -1) { 
-	      os.write(bs, 0, len); 
-	    } 
-	    os.close(); 
-	    is.close(); 
-
-		JSONObject json=new JSONObject();
-		JSONObject jdata=new JSONObject();
-		json.put("code",0);
-		json.put("msg","成功");
-		
-		jdata.put("src",realPath);
-		jdata.put("title",fileName);
-		
-		json.put("data",jdata);
-		return json.toString();
-	}
-	
 
 	/**
 	 * 保存博客

@@ -1,5 +1,9 @@
 package top.lyxwachs.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import top.lyxwachs.bean.BlogFriendlyLinks;
 
 public interface BlogFriendlyLinksMapper {
@@ -14,4 +18,8 @@ public interface BlogFriendlyLinksMapper {
     int updateByPrimaryKeySelective(BlogFriendlyLinks record);
 
     int updateByPrimaryKey(BlogFriendlyLinks record);
+
+	List<BlogFriendlyLinks> selectFlListByUid(Integer createUser);
+
+	int delFlByflId(@Param("flId")Integer flId, @Param("createUser")Integer createUser);
 }
