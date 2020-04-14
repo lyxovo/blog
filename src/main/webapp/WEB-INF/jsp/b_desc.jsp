@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="../css/footer.css">
 	<link rel="stylesheet" href="../css/header.css">
  <script type="text/javascript" src="../js/wangEditor.min.js"></script>
+ <script type="text/javascript" src="../js/jquery.min.js"></script><!-- 引入jquery文件 -->
 	
 	<style>
 	    body{
@@ -42,10 +43,11 @@
 		}
 		#art_title{
 			width:740px;
-			height:75px;
+		/* 	height:75px; */
 			float:left;
 			margin-top:20px;
 			margin-left:25px;
+			padding-bottom:30px;
 			border-bottom: 1px solid #ddd;
 		}
 		#art_title h2{
@@ -331,6 +333,18 @@ pre code {
 ul, ol {
   margin: 10px 0 10px 20px;
 }
+
+
+
+
+.tag_cate_css{
+clear: both;float:left;
+
+}
+
+#up_down{
+position: absolute;left:1100px;
+}
 				
 </style>
 
@@ -356,6 +370,37 @@ ul, ol {
                 }
             }
         }
+	
+	$(function(){
+		//获取文章内容赋值显示
+	  	var val=$("#_bContent").val();
+	  	$("#art_content").html(val);
+	  	
+	  	
+	  	
+	  	//展开--收缩：标签和分类栏
+	  	$("#up_down_p").hide();//默认收缩
+		$("#up_down").click(function(){
+			var text=$("#up_down").text();
+			if(text=="展开"){
+				$("#up_down").text("收缩");
+			}else{
+				$("#up_down").text("展开");
+			}
+			$("#up_down_p").toggle(500);//点击显示添加表单
+		});
+		
+	  	
+	  	
+		
+	});
+	
+	
+	
+
+		
+		
+	
 </script>
 
 </head>
@@ -370,33 +415,40 @@ ul, ol {
 					<li><a href=https://www.qsp.net.cn class="nav_on">首页</a></li>
 				</ul>
 			</div>
-			<div id="searchBox">
+	<!-- 		<div id="searchBox">
 				<form action="../search/" method="get" target="_blank">
 					<button type = "submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 					<input type="search" placeholder="搜索本站" name="keywords">
 				</form>
-			</div>
+			</div> -->
 		</div>
 	</div>
-
+<input type="hidden" id="_bContent" value="${blog.bContent}">
 	<div id="main">
 		<div id="left">
 			<div id="art">
-				<div id="art_title">
-					<h2 id="b_title">卖米-飞花</h2>
-					作者：<p id="b_author">谯胜平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					分类：<span id="category_name">阅读</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					标签：<span id="tag_name">散文</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					发布时间：<span id="b_createdate">2019-02-20</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					浏览次数：<span id="b_visitors">1752</span>次</p>
+				<div id="art_title" >
+					<h1 id="b_title" class="tag_cate_css" >${blog.bTitle }</h1>
+					<p class="tag_cate_css" >
+					作者：<span id="b_author">${blog.bAuthor }</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					发布时间：<span id="b_createdate">${blog.createDate}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					阅读量：<span id="b_visitors">${blog.bVisitors}</span>次
+					 <a href="javascript:void(0);" id="up_down" >展开</a>
+					</p>
+					<div id="up_down_p"  class="tag_cate_css" >
+						<p class="tag_cate_css">
+							分类专栏：<span id="category_name">阅读</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						</p>
+						<p class="tag_cate_css">
+							文章标签：<span id="tag_name">散文</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						</p>
+					</div>
 				</div>
+		
 				<!-- 文章的内容 -->
 				<div id="art_content">
-					<h1>abc</h1><p><span style="font-weight: bold;">话为是会计考试的风景</span></p><blockquote><span style="font-weight: bold;">哎哎哎</span></blockquote><blockquote>噢噢噢噢</blockquote><p><img src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png" alt="[坏笑]" data-w-e="1"><span style="background-color: rgb(241, 241, 241); white-space: pre-wrap;">public void AV{</span></p><p>&nbsp; &nbsp; alert();<span style="background-color: rgb(241, 241, 241); white-space: pre-wrap;"><br></span></p><p><span style="background-color: rgb(241, 241, 241); white-space: pre-wrap;">}</span><br></p><p><br></p>
-					<blockquote><span style="font-weight: bold;">哎哎哎123</span></blockquote>
-					<blockquote><span style="font-weight: bold;">哎哎哎456</span></blockquote>
-					<blockquote><span style="font-weight: bold;">哎哎哎789</span></blockquote>
-					<blockquote>哈哈哈哈所付多所军多付</blockquote>
+						<!-- 	<div id="editor" class="text" style="text-align: left;">
+			   				</div> -->
 				</div>
 
 			</div>

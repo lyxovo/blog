@@ -12,15 +12,20 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import top.lyxwachs.bean.BlogCategory;
+import top.lyxwachs.bean.BlogFriendlyLinks;
 import top.lyxwachs.bean.BlogTag;
 import top.lyxwachs.bean.BlogWithBLOBs;
 import top.lyxwachs.dao.BlogCategoryMapper;
+import top.lyxwachs.dao.BlogFriendlyLinksMapper;
 import top.lyxwachs.dao.BlogMapper;
 import top.lyxwachs.dao.BlogTagMapper;
 
@@ -32,7 +37,10 @@ public class BlogService {
 	private BlogTagMapper blogTagMapper;
 	@Autowired
 	private BlogCategoryMapper blogCategoryMapper;
-	
+	@Autowired
+	private JedisPool jedisPool;
+	@Autowired
+	BlogFriendlyLinksMapper blogFriendlyLinksMapper;
 	
 	
 //	  public List<Userinfo> selectUserinfo() {
@@ -107,7 +115,7 @@ public class BlogService {
 			blog.setbCreateupdate(b_createdate);
 			blog.setbTitle(b_title);
 			blog.setbContenttext(b_content_text);//保存博客中的纯文本内容text
-			blog.setbVisitors(0);
+			blog.setbVisitors(1);
 			blog.setbDiscuss(0);
 			blog.setbLive(1);
 			i = blogMapper.insertSelective(blog);
@@ -249,6 +257,12 @@ public class BlogService {
 				String html4 = StringEscapeUtils.escapeHtml4(blog.getbContent());
 			//	String html4 = StringEscapeUtils.unescapeHtml4(blog.getbContent());
 				blog.setbContent(html4);
+				
+				//格式化日期
+				Date bCreatedate = blog.getbCreatedate();
+				String createdate=format_date(bCreatedate,"yyyy-MM-dd HH:mm:ss");
+				blog.setCreateDate(createdate);
+				
 				return blog;
 			}
 
@@ -352,8 +366,54 @@ public class BlogService {
 				sb.append("<label class='checkbox-inline'><input type='checkbox' id="+random_id+" value='"+blogCategory.getCategoryName()+"'  onclick='add_category_checkbox(this)'>"+blogCategory.getCategoryName()+"</label>");	
 			}
 		}
-		
 		return sb.toString();
+	}
+
+	public ModelAndView getBlogDesc(String b_id, String ipAddr,Integer userId, ModelAndView mv) {
+//		JSONObject json=new JSONObject();
+		BlogWithBLOBs blog = getBlog(b_id);
+//		查询标签，分类栏，博客内容，友情链接，热门文章
+		
+		int bId = Integer.parseInt(b_id);
+//		友情链接
+		List<BlogFriendlyLinks> bls=blogFriendlyLinksMapper.selectFlListByUid(userId);
+//		json.put("bls",bls);
+		mv.addObject("bls", bls);
+//		标签
+		List<BlogTag> tagList=blogTagMapper.getTagsList(bId);//当前文章的标签
+//		json.put("tagList",tagList);
+		mv.addObject("tagList", tagList);
+//		分类栏
+		List<BlogCategory> categoryList= blogCategoryMapper.getCategorysList(bId);//当前文章的分类栏
+//		json.put("categoryList",categoryList);
+		mv.addObject("categoryList", categoryList);
+//		修改blog中的浏览文章数量
+//		从池中获取redis对象									
+		Jedis jedis = jedisPool.getResource();
+		try {
+//			先查看redis中是否有ip地址，如果有表示在一定的时间内重复刷新了，所以数量不执行。如果没有，就不一样，存进redis。并且数量+1
+			if(!jedis.exists(ipAddr)) {//不存在
+				Integer count = blog.getbVisitors()+1;
+				blog.setbVisitors(count);
+				int i = blogMapper.updateVisitorsCountByBid(count,bId);//更新数据库
+				if(i==1) {
+					System.out.println(String.valueOf(count));
+					jedis.set(ipAddr,String.valueOf(count));//存到redis
+					jedis.expire(ipAddr, 60);//设置60秒过期
+				}
+			}
+		}catch(Exception e) {
+			e.getStackTrace();
+		}finally {
+			jedis.close();
+			//jedisPool.close();
+		}
+
+//		json.put("blog",blog);
+		mv.addObject("blog", blog);
+
+		
+		return mv;
 	}
 	
 	

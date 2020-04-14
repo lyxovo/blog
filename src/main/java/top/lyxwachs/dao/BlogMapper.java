@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import top.lyxwachs.bean.Blog;
-import top.lyxwachs.bean.BlogTag;
 import top.lyxwachs.bean.BlogWithBLOBs;
 
 public interface BlogMapper {
@@ -24,6 +23,8 @@ public interface BlogMapper {
     int updateByPrimaryKey(Blog record);
 
 	List<BlogWithBLOBs> findBlogList(@Param(value="bTitle") String keywords);
+
+	int updateVisitorsCountByBid(@Param(value="bVisitors")Integer count,@Param(value="bId") int bId);
 
 	
 }

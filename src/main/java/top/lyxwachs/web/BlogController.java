@@ -26,6 +26,7 @@ import top.lyxwachs.bean.BlogCategory;
 import top.lyxwachs.bean.BlogTag;
 import top.lyxwachs.bean.BlogWithBLOBs;
 import top.lyxwachs.service.BlogService;
+import top.lyxwachs.utils.HttpRequestUtil;
 
 @RequestMapping("/blog")
 @Controller
@@ -217,5 +218,27 @@ public class BlogController {
 //		return json.toString();
 //	}
 	
+	
+	/**
+	 * 查询博客详细
+	 * @param bId
+	 * @return
+	 */
+	@RequestMapping("bReturnDesc")
+	public ModelAndView bReturnDesc(String b_id,HttpServletRequest request) {
+		ModelAndView mv=new ModelAndView("b_desc");
+		//BlogWithBLOBs blog = blogService.getBlog(b_id);
+		
+		Integer userId=1;//登录人
+		
+		String ipAddr = HttpRequestUtil.getIpAddr(request);//获取访问的Ip地址
+		System.out.println(ipAddr);
+		return blogService.getBlogDesc(b_id,ipAddr,userId,mv);
+		
+		
+		//mv.addObject("blogDescJson", blogDescJson);
+
+//		return mv; 
+	}
 	
 }

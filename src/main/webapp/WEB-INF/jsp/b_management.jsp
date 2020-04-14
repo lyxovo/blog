@@ -146,14 +146,14 @@ function edit_blog(bId){
 		layer.alert("编辑出错，请联系管理员");
 		return;
 	}
-	window.location.href="http://localhost:8081/blog/index.do?cat=b_send&b_id="+bId;
+	window.location.href="../blog/index.do?cat=b_send&b_id="+bId;
 	
 }
 
 
 //查询博客详细--by id
 function query_blog_desc(bId){
-	alert(bId);
+	window.location.href="../blog/bReturnDesc.do?b_id="+bId;
 }
 </script> 
 <style> 

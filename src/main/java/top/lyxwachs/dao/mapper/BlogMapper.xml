@@ -189,5 +189,9 @@
   	
   </select>
   
+  <update id="updateVisitorsCountByBid" >
+    update blog set b_visitors = #{bVisitors,jdbcType=INTEGER} where b_id = #{bId,jdbcType=INTEGER}
+  </update>
+  
   
 </mapper>

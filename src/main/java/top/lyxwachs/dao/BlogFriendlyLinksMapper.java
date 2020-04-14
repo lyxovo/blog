@@ -18,8 +18,14 @@ public interface BlogFriendlyLinksMapper {
     int updateByPrimaryKeySelective(BlogFriendlyLinks record);
 
     int updateByPrimaryKey(BlogFriendlyLinks record);
-
+	/**
+	 * 根据当前登录人查询友情链接列表
+	 * @param userId
+	 * @return
+	 */
 	List<BlogFriendlyLinks> selectFlListByUid(Integer createUser);
 
 	int delFlByflId(@Param("flId")Integer flId, @Param("createUser")Integer createUser);
+	
+
 }
