@@ -193,5 +193,13 @@
     update blog set b_visitors = #{bVisitors,jdbcType=INTEGER} where b_id = #{bId,jdbcType=INTEGER}
   </update>
   
+   <select id="getHotBlogList" resultMap="ResultMapWithBLOBs">
+  	select *  from blog where b_live=1 and b_author=#{bAuthor,jdbcType=INTEGER}  order by b_visitors desc limit 0,${page}
+  </select>
+  
+  <select id="getNewBlogList" resultMap="ResultMapWithBLOBs">
+  	select *  from blog where b_live=1 and b_author=#{bAuthor,jdbcType=INTEGER}  order by b_createdate desc limit 0,${page}
+  </select>
+  
   
 </mapper>

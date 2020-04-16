@@ -106,7 +106,7 @@ public class BlogController {
 	 */
 	@RequestMapping("index")
 	public ModelAndView b_management(String  cat,String b_id,String keywords,@RequestParam(value="curr",defaultValue = "1")
-	Integer pageNum,@RequestParam(value="limit",defaultValue = "5")Integer pageSize) {
+	Integer pageNum,@RequestParam(value="limit",defaultValue = "20")Integer pageSize) {
 		Integer user_id=1;
 		ModelAndView mv=null;
 		if("b_management".equals(cat)) {
@@ -120,6 +120,11 @@ public class BlogController {
 //			http://localhost:8081/blog/index.do?cat=b_send&b_id=1
 			if(StringUtils.isBlank(b_id)) {//添加
 				mv = new ModelAndView("b_send");//转发到发博客页面
+				
+//				分类栏-文本框，查询该用户所有的标签栏
+				String categorysLisHtml =blogService.getategorysListOfUser(user_id);
+				mv.addObject("categorysLisHtml", categorysLisHtml);
+				
 			}else {//跳转到编辑页面
 				mv = new ModelAndView("b_send");//转发到发博客页面
 				
@@ -199,26 +204,7 @@ public class BlogController {
 		return blogService.delBlog(b_id);
 	}
 	
-	
 
-	/**
-	 * 根据条件查询博客列表
-	 * @param keywords
-	 * @return string
-	 */
-//	@RequestMapping("searchBlogList")
-//	@ResponseBody
-//	public String searchBlogList(String keywords,@RequestParam(value="curr",defaultValue = "1")
-//	Integer pageNum,@RequestParam(value="limit",defaultValue = "15")Integer pageSize) {
-//		JSONObject json=new JSONObject();
-//		PageInfo<BlogWithBLOBs> pageInfo = blogService.findBlogList(keywords,pageNum,pageSize);
-//
-//		
-//		json.put("pageInfo",pageInfo);
-//		return json.toString();
-//	}
-	
-	
 	/**
 	 * 查询博客详细
 	 * @param bId
@@ -232,6 +218,7 @@ public class BlogController {
 		Integer userId=1;//登录人
 		
 		String ipAddr = HttpRequestUtil.getIpAddr(request);//获取访问的Ip地址
+		ipAddr=ipAddr+"."+b_id;//拼接，同一篇文章不能重复记录次数
 		System.out.println(ipAddr);
 		return blogService.getBlogDesc(b_id,ipAddr,userId,mv);
 		

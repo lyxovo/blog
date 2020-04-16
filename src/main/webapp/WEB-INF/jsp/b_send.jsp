@@ -43,12 +43,12 @@
  .text{
 	width:750px;
 	margin-top:18px;
-	height:500px;
+	height:700px;
 	
 } 
 /* 文本内容高度 */
 .w-e-text-container{
-	height:500px !important; 
+	height:700px !important; 
 }
 
 
@@ -71,31 +71,35 @@
 	clear:both;
 	margin-left:0px;
 	margin-top:320px;
+	
 }
 
 /* 距离右边 */
-#left-middle{
-	margin-right:-50px;
-	margin-top:10px;
-}
+ #left-middle{
+ 	
+	margin-top:10px; 
+	width:830px;
+	float:none;
+	margin-left:240px;
+} 
 
 /* 遮罩层样式 */
  .mask {       
-         position: absolute; top: 0px; filter: alpha(opacity=60); background-color: #c2c2c2;     
-         z-index: 1002; left: 0px;     
+         position: relative;  filter: alpha(opacity=60); background-color: #c2c2c2;     
+         z-index: 1002;    
          opacity:0.3; -moz-opacity:15.5;   
          width:270px;
          height:125px;
-         top:793px;  
-         left:310px;
+         top: -260px;
+         left:42px;
      } 
      
  .mask_font {       
-   		position: absolute;
-         top:845px;  
-         left:350px;
+   		position: relative;
+         top: -345px;
+         left:-240px;
          color:red;
-         font-size: 18px;
+         font-size: 20px;
          z-index: 1003;
          font-weight:bold;
          
@@ -107,8 +111,19 @@ input:focus{
     border-style:solid;
     border-color: #03a9f4;
 	box-shadow: 0 0 5px #03a9f4;
+}
+
+ body {
+ 	background: #E9EAED;
+ 
+	/* background-image: url("../image/secai.jpg"); */
 } 
 
+
+/* 提交，返回按钮样式 */
+.bottom_btn{
+margin-bottom:40px;
+}
 </style>	
 
 	
@@ -143,9 +158,11 @@ input:focus{
 			<!-- 中间部分（点击左边触发） -->
 			
 			<div id="left-middle">
+				<div style="margin-left:40px;">
 				<!-- 中间列表2 -->
 				<!-- id，用来判断是修改还是保存 -->
 				<input type="hidden" id="b_id" name="b_id" value="${blog.bId}"/>
+				<br>
 				<!-- 标题头 -->
 			    <input type="text" autocomplete="off" class="form-control input-lg input_inner" id="b_title" maxlength="100" value="${blog.bTitle}"  placeholder="请输入文章标题" >
 				
@@ -187,27 +204,26 @@ input:focus{
 				
 				<div id="category_checkbox" class="_sort" style="width:270px;height:120px;border: 1px solid gray;overflow:auto;box-shadow: 0px 0px 2px #888888;text-align: left; padding-left:10px;">
 					${categorysLisHtml}
-
 				</div>
 				
 				<input type="hidden" id="_bContent" value="${blog.bContent}">
+				
 				<!--提交按钮 -->
 				<div class="submit_">
-				  <button onclick="save_blog()" type="button" class="layui-btn layui-btn-radius layui-btn-primary">
+				  <button onclick="save_blog()" type="button" class="bottom_btn layui-btn layui-btn-radius layui-btn-primary">
 					  发布博客
 				  </button>
 				  
-				  <button type="button" id="return_main" class="layui-btn layui-btn-radius layui-btn-primary">
+				  <button type="button" id="return_main" class="bottom_btn layui-btn layui-btn-radius layui-btn-primary">
 					  返回
 				  </button>
+					</div>
 				</div>
-				
 				<div style="margin-top:30px;"></div>
 				<!-- 遮罩层 -->
 				<div id="mask" class="mask"></div>
 				<!-- 遮罩层上面的文字-->
 				<span class="mask_font" >分类最多不能超过3个</span>
-				
 				    
 			</div>
 		</div>
@@ -359,6 +375,7 @@ function add_tag(){
 		  area: ['200px', '20px'] //自定义文本域宽高
 		}, function(value, index, elem){
 		  
+		//检查程序
 		  if(value.length>10){//判断字符串长度10个字符串
 			  layer.msg('标签长度不能超过10个字符', {icon: 5,anim: 4});
 		  }else if($(".add_tag span").length>=4){//判断标签数量是否大于3个
@@ -382,7 +399,9 @@ function del_tag_category(t){
 	var id=$(t).attr("id");
 	if(id==undefined || id==""){//标签
 		$(t).remove();
-		
+		//点击移除分类标签---隐藏遮罩层和文字
+		$("#mask").hide();
+		$(".mask_font").hide(); 
 	}else{ //选中后，出现-点击上面的删除，把√去掉。
 		id="#"+id;
 		//alert(id);
@@ -433,8 +452,17 @@ function add_category(){
 		  area: ['200px', '20px'] 
 		}, function(value, index, elem){
 		  
+		//检查分类栏
 		  if(value.length>10){//判断字符串长度10个字符串
 			  layer.msg('分类栏长度不能超过10个字符', {icon: 5,anim: 4});
+		  }else if($(".add_category span").length+1==3){//判断标签数量等于3的时候，加遮罩层
+			  $("#mask").show();
+			  $(".mask_font").show();
+				 var tag_html= "<button onclick='del_tag_category(this)'  type=\"button\" class=\"add_category layui-btn layui-btn-xs layui-btn-radius layui-btn-warm\">\n" +
+				  "		<span>"+value+"</span>\n" +
+				  "		<i class=\"layui-icon\">&#x1006;</i>\n" +
+				  "	</button>";
+				 $("#add_category").before(tag_html);
 		  }else if($(".add_category span").length>=3){//判断标签数量是否大于3个
 			  layer.msg('分类栏最多3个', {icon: 5,anim: 6});
 		  }else{
@@ -443,6 +471,7 @@ function add_category(){
 				  "		<i class=\"layui-icon\">&#x1006;</i>\n" +
 				  "	</button>";
 				 $("#add_category").before(tag_html);
+
 		  }
 		  
 		  

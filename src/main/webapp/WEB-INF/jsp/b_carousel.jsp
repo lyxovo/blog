@@ -27,79 +27,29 @@
 	<title>个人博客！</title>
 
 <style>
-
+ body {
+ 	background: #E9EAED;
+	/* background-image: url("../image/secai.jpg"); */
+} 
 
 .nav_on{
 	margin-left:-8px;
 }
 
-	#left-middle{
-	
-	/* margin-right:-50px; */
-	margin-top:18px;
+
+
+#left-middle {
+    margin-top: 10px;
+    width: 830px;
+    float: none;
+    margin-left: 240px;
+} 
+
+#friendly_link_save{
+margin-left:20px;
+
+
 }
-
-
-	#fl_name, #fl_url{
-		width:265px;
-		margin-left:18px;
-		
-	}
-
-	#_add_fl{
-	width:265px;
-	margin-left:-260px;
-	}
-	
-		/* 账号密码文字	 */
-	.layui-form-label{
-		margin-left:-45px;
-		font: bold ;
-	}
-	
-	
-		#friendly_link ul li{
-			float: left;
-			margin-right:15px;
-			margin-bottom: 10px;
-		}
-		#friendly_link ul li a{
-			color:blue; 
-			font-size: 14px;
-		}
-		#friendly_link ul li a:hover{
-			color:#14a7ed;
-		}
-		
-		 #friendly_link{
-			width:300px;
-			margin-bottom: 20px;
-			padding-bottom: 15px;
-			padding-bottom: 5px;
-			background: #f4f5f6;
-		}
-		 #friendly_link ul{
-			margin:0 auto;
-			padding: 0;
-			width:270px;
-			display: inline-block;
-		}
-		
-		.right_title{
-			height: 50px;
-			width:300px;
-			margin-top:8px;
-		}
-		.title_content{
-			float: left;
-			font-size: 17px;
-			line-height: 20px;
-			margin-top: 15px;
-			text-align: left;
-			margin-left: 15px;
-			border-left: 3px solid #14a7ed;
-		}
-		
 </style>	
 
 <script>
@@ -262,7 +212,7 @@ layui.use('upload', function(){
 	<!-- 左右html -->
 	<div id="main">
 		<div id="left" style="margin-left:-8px;">
-			<div id = "left-nav" style="margin-left:-30px;">
+			<div id = "left-nav">
 				 <ul>
 					<li><a href="../blog/index.do?cat=b_management" >管理博客</a></li>
 					<li><a href="../blog/index.do?cat=b_send" >发博客</a></li>
@@ -278,12 +228,13 @@ layui.use('upload', function(){
 					
 					<div class="layui-upload">
 					<div style="float:left;">
+						<br>
 					    <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button> 
 					    <button type="button" class="layui-btn" id="testListAction">开始上传</button>
 					</div>
 					<br>
 					  <div class="layui-upload-list" >
-					    <table class="layui-table">
+					    <table class="layui-table" style="width:99%;">
 					      <thead>
 					        <tr><th>文件名</th>
 					        <th>大小</th>
@@ -295,26 +246,25 @@ layui.use('upload', function(){
 					  </div>
 					  
 					</div> 
-					
+					<br>
 				</div>
 			</div>
 			
 		</div>
 	
-		<div id="right">
+<!-- 		<div id="right">
 			<h2 style="color:red;margin-top:10px;">效果展示</h2>
-		   	<div id="friendly_link" ><!-- 友情链接 -->
-				<div id="slide_show"  class="layui-carousel"><!-- 滑动幻灯片 -->
+		   	<div id="friendly_link" >友情链接
+				<div id="slide_show"  class="layui-carousel">滑动幻灯片
 				  <div carousel-item="">
 					<div>条目1</div>
 					<div>条目2</div>
 					<div>条目3</div>
 				    <div>条目4</div>
 				  </div>
-					
 				</div>
 			</div>
-		</div>
+		</div> -->
 		
 	
 	</div>

@@ -25,6 +25,10 @@ public interface BlogMapper {
 	List<BlogWithBLOBs> findBlogList(@Param(value="bTitle") String keywords);
 
 	int updateVisitorsCountByBid(@Param(value="bVisitors")Integer count,@Param(value="bId") int bId);
+	
+	List<BlogWithBLOBs> getHotBlogList(@Param(value="bAuthor")Integer userId,@Param(value="page")Integer page);
+
+	List<BlogWithBLOBs> getNewBlogList(@Param(value="bAuthor")Integer userId,@Param(value="page")Integer page);
 
 	
 }

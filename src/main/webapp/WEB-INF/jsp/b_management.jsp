@@ -33,11 +33,31 @@
 		#footer{
 			margin-top:90%;
 		}
-		
-	#left-middle{
 	
-	margin-right:-50px;
-	margin-top:10px;
+	/* 中间列表内容1	 */
+/* #left-middle{
+	margin-right:-150px;
+	margin-top:9px;
+	width:700px;
+} */
+
+/* 中间的列表内容2 */
+/* #art-list{
+	float: none;
+    width: 650px;
+    margin-left: 30px;
+} */
+
+/* 左边的菜单样式 */
+/* #left-nav{
+	background:#fff;
+	width: 230px;
+    margin-left: -70px;
+	
+} */
+
+#art-head{
+margin-top: 20px;
 }
 
 /* 分页 */
@@ -49,11 +69,23 @@
 .span_style{
 	margin-left:20px;
 }
+
+a:hover { 
+cursor:pointer;
+text-decoration:none; 
+} 		
 		
-		
-/* body {
-	background-image: url("../image/secai.jpg");
-}  */		
+ body {
+ 	background: #E9EAED;
+ 
+	/* background-image: url("../image/secai.jpg"); */
+}
+
+/* #left-middle{
+background:#fff;
+
+} */
+  		
 </style>
 	
 <script>
@@ -109,34 +141,6 @@ $(document).ready(function() {
 	}, function() { 
 		$(this).removeClass("color"); 
 	});
- 	
- 	
- //条件查询
-/*   $("#search_btn").click(function(){
-	  	var search_val=$("#search_input").val();
-	  	if(search_val==""){
-	  		return;
-	  	}
-		 $.ajax({
-			url:"../blog/searchBlogList.do",
-			dataType: "json",
-			data:{keywords:search_val},
-			type:"post",
-			success: function(result){
-				console.log(result);
-				//$("#").html();
-
-			},
-			error:function(){
-				layer.msg("查询失败！！！");
-			}
-		});  
- 
-	});  */
- 	
-	
- 	
-
  	
 }); 
 
@@ -276,14 +280,8 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 
 					</ul>
 				</div>
-			</div>
-
-		</div>
-	</div>
-	
-	
-<!-- 分页 -->
-<c:if test="${pageInfo.total>20}">
+			<!-- 分页 -->
+<c:if test="${pageInfo.total>0}">
 	<div id="b_page">
 		<nav aria-label="Page navigation">
 		  <ul class="pagination">
@@ -318,7 +316,15 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 		  </ul>
 		</nav>
 	</div>
-</c:if>	
+</c:if>		
+				
+				
+			</div>
+		</div>
+	</div>
+	
+	
+
 	<!-- 底部 -->
 	<div id="footer">
 		<div id="footer_nav">

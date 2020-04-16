@@ -172,7 +172,7 @@
 		}
 
 		#art_tag ul li{
-			float:left;
+			/* float:left; */
 			margin-right: 10px;
 			width: calc(33.3% - 6.6px);
 		}
@@ -348,7 +348,53 @@ position: absolute;left:1100px;
 				
 </style>
 
-	
+<!-- 刷新页面---分类专栏颜色渐变  -->
+ <style>
+/*  body{ text-align:center}
+ body,a{ font-size:13px;} */
+ a{ color:#333333; text-decoration:none;}
+/*  .taglist{ width:350px;overflow:hidden; text-align:left; margin:0 auto;border:#dddddd solid 1px;}
+ .taglist .tit{ width:100%; height:24px; line-height:24px; background-color:#565662;}
+ .taglist .tit a{ padding-left:8px; color:#ffffff;} */
+ #category_css a{height:26px; line-height:26px;padding-right:6px;}
+ #category_css .tags0{}
+ #category_css .tags1{color:#C00; font-size:24px;}
+ #category_css .tags2{color:#030; font-size:16px;}
+ #category_css .tags3{color:#00F;}
+ #category_css .tags4{ font-size:16px;}
+ #category_css .tags5{color:#C00; font-size:20px;}
+ #category_css .tags6{color:#F06 font-size:20px;}
+ #category_css .tags7{color:#030; font-weight:bold; font-size:18px;}
+ #category_css .tags8{color:#F06; font-weight:bold;}
+ #category_css .tags9{color:#C00; font-weight:bold;font-size:16px;}
+ #category_css .tags10{color:#090; font-weight:bold;font-size:18px;}
+ #category_css .tags11{color:#09F;}
+ #category_css .tags12{color:#F90;font-size:14px;}
+ #category_css a:hover{ color:#F00; text-decoration:underline;}
+/*  .w95{ width:95%; margin:0 auto; padding-top:6px; padding-bottom:6px;}
+ .taglist .w95{} */
+ </style>
+<!-- 刷新页面---分类专栏颜色渐变  -->
+<script type="text/javascript">
+ $(document).ready(function() {
+	 var myBackgroundCss=new Array("background:#83AF9B","background:#83AF9B","background:#34afd8",
+			 "background:#43ac6a","background:#FC9D9A","background:#C8C8A9",
+			 "background:#D9D2E9","background:#B4A7D6","background:#9FC5E8",
+			 "background:#FFD966","background:#6FA8DC","background:#8E7CC3",
+			 "background:#3D85C6","background:#E69138","background:#93C47D",
+			 "background:#EA9999","background:#F9CB9C","background:#FFD966");
+ 	 var tags_a = $("#category_css a");
+	 tags_a.each(function(){
+		 var x = 9;
+		 var y = 0;
+		 var rand = parseInt(Math.random() * (x - y + 1) + y);
+		 var bg_rand=parseInt(Math.random() * 18);
+		 $(this).addClass("tags"+rand);
+		 $(this).attr("style","text-align:left;width:265px;"+myBackgroundCss[bg_rand]);
+		 
+	 });
+ })
+ </script>	
 	
 <script>
 	window.onload=
@@ -390,17 +436,9 @@ position: absolute;left:1100px;
 			$("#up_down_p").toggle(500);//点击显示添加表单
 		});
 		
-	  	
-	  	
-		
 	});
 	
-	
-	
 
-		
-		
-	
 </script>
 
 </head>
@@ -437,18 +475,24 @@ position: absolute;left:1100px;
 					</p>
 					<div id="up_down_p"  class="tag_cate_css" >
 						<p class="tag_cate_css">
-							分类专栏：<span id="category_name">阅读</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							分类专栏：
+							<c:forEach items="${categoryList}" var="category">
+								<span class="category_name">${category.categoryName}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</c:forEach>
 						</p>
+						
 						<p class="tag_cate_css">
-							文章标签：<span id="tag_name">散文</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							文章标签：
+							<c:forEach items="${tagList}" var="tag">
+								<span class="tag_name">${tag.tagName}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</c:forEach>
 						</p>
+						
 					</div>
 				</div>
 		
 				<!-- 文章的内容 -->
 				<div id="art_content">
-						<!-- 	<div id="editor" class="text" style="text-align: left;">
-			   				</div> -->
 				</div>
 
 			</div>
@@ -460,11 +504,32 @@ position: absolute;left:1100px;
 					<div class="title_content">&nbsp;热门文章</div>
 				</div>
 				<ul>
-				    <li><div class="row_dot"></div><a href=../art/114.html  target="_blank">17-19年浙大计科考研经验帖汇总</a></li>
-				    <li><div class="row_dot"></div><a href=../art/113.html  target="_blank">【配置教程】sublime text3出现there are no packages available for installation</a></li>
-				    <li><div class="row_dot"></div><a href=../art/111.html  target="_blank">计算机专业大学排名（基于第四轮学科评估）</a></li>
+					<c:forEach items="${hotBlogList}" var="hotBlog">
+						 <li><div class="row_dot"></div><a href="../blog/bReturnDesc.do?b_id=${hotBlog.bId}"  style="color:orange;font-size: 18px;">${hotBlog.bTitle}</a>
+						 <br>
+						 <span style="float:left;font-size: 12px;color:gray;margin-left:12px;">阅读数&nbsp;&nbsp;${hotBlog.bVisitors}</span>
+						 </li>
+					</c:forEach>
 				</ul>
 			</div>
+			
+			<div id="hot_art" ><!-- 热门文章 -->
+				<div class="right_title">
+					<div class="title_content">&nbsp;最新文章</div>
+				</div>
+				<ul>
+					<c:forEach items="${newBlogList}" var="newBlog">
+						 <li><div class="row_dot"></div><a href="../blog/bReturnDesc.do?b_id=${newBlog.bId}"  target="_blank" style="color:orange;font-size: 18px;">${newBlog.bTitle}</a>
+						 </li>
+					</c:forEach>
+				</ul>
+			</div>
+			<div id="hot_art" ><!-- 归档 -->
+				<div class="right_title">
+					<div class="title_content">&nbsp;归档</div>
+				</div>
+			</div>
+			
 			<div id="guess_like" ><!-- 猜你喜欢 -->
 				<div class="right_title">
 					<div class="title_content">&nbsp;猜你喜欢</div>
@@ -473,15 +538,17 @@ position: absolute;left:1100px;
 
 			<div id="art_tag" ><!-- 文章标签 -->
 				<div class="right_title">
-					<div class="title_content">&nbsp;文章标签</div>
+					<div class="title_content">&nbsp;文章分类专栏</div>
 				</div>
 				
-				<ul>
-					<li><a href=../tag/408 style="background: #43ac6a;" title="408(1)">408(1)</a></li>
-					<li><a href=../tag/数学一 style="background: #EDC951;" title="数学一(1)">数学一(1)</a></li>
-					<li><a href=../tag/shadowsocks style="background: #FE4365;" title="shadowsocks(2)">shadowsocks(2)</a></li>
-					<li><a href=../tag/科学上网 style="background: #43ac6a;" title="科学上网(3)">科学上网2(3)</a></li>
+			
+				
+				<ul id="category_css">
+					<c:forEach items="${listCategoryOfUser}" var="cate">
+						<li><a href="#" style="background:#93ac4a;width:220px;" title="${cate.categoryName}(${cate.categoryNumber})">${cate.categoryName} <span style="float:right;">${cate.categoryNumber }篇</span></a></li>
+					</c:forEach>
 				</ul>
+				
 			</div>
 
 			<div id="friendly_link" ><!-- 友情链接 -->
@@ -489,8 +556,9 @@ position: absolute;left:1100px;
 					<div class="title_content">&nbsp;友情链接</div>
 				</div>
 				<ul>
-					<li><a href=https://www.qsp.net.cn  target="_blank">个人博客</a></li>
-					<li><a href=http://www.glh.org.cn  target="_blank">贵联会</a></li>
+					<c:forEach items="${bfls}" var="fl">
+						<li><a href="${fl.flUrl}"  target="_blank">${fl.flText }</a></li>
+					</c:forEach>
 				</ul>
 			</div>
 		</div>

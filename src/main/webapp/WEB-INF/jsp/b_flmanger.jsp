@@ -27,18 +27,26 @@
 	<title>个人博客！</title>
 
 <style>
+/* 		#footer{
+			margin-top:90%;
+		}  */
+ body {
+ 	background: #E9EAED;
+	/* background-image: url("../image/secai.jpg"); */
+}
 
+
+#left-middle {
+    margin-top: 10px;
+    width: 830px;
+    float: none;
+    margin-left: 240px;
+} 
 
 .nav_on{
-	margin-left:-8px;
-}
 
-	#left-middle{
-	
-	 margin-right:-70px; 
-	margin-top:18px;
+margin-left:-8px;
 }
-
 
 	#fl_name, #fl_url{
 		width:265px;
@@ -48,7 +56,8 @@
 
 	#_add_fl{
 	width:265px;
-	margin-left:-260px;
+	margin-left:-410px;
+	margin-bottom: 30px;
 	}
 	
 		/* 账号密码文字	 */
@@ -72,17 +81,23 @@
 		}
 		
 		 #friendly_link{
-			width:280px;
+			width:235px;
 			margin-left:100px;
 			margin-bottom: 20px;
 			padding-bottom: 15px;
 			padding-bottom: 5px;
-			background: #f4f5f6;
+			background: #fff;
+			
+			position: fixed;
+			top:340px;
+			left:195px;
+			
+			
 		}
 		 #friendly_link ul{
 			margin:0 auto;
 			padding: 0;
-			width:270px;
+			width:240px;
 			display: inline-block;
 		}
 		
@@ -101,10 +116,6 @@
 			border-left: 3px solid #14a7ed;
 		}
 		
-		#footer{
-			margin-top:90%;
-		}
-		
 		
 		.fl_tr th{
 			text-align: center;
@@ -117,7 +128,10 @@ input:focus{
 	box-shadow: 0 0 5px #03a9f4;
 } 
 
-
+/* 表格样式 */
+#fl_table_css{
+	margin-left:25px;
+}
 		
 </style>	
 
@@ -272,18 +286,29 @@ function del_fl(flId){
 					<li><a href="../blog/index.do?cat=b_other" >其他</a></li>
 				</ul>
 			</div>
+			
+			
+			<div id="friendly_link" ><!-- 友情链接 -->
+				<div class="right_title">
+					<div class="title_content">&nbsp;<span>友情链接 </span></div>
+				</div>
+				<ul id="fl_ul" style="margin-left:15px;">
+				</ul>
+			</div>
+			
 			<!-- 中间部分（点击左边触发） -->
 			
 			<div id="left-middle">
 			<!-- 表格 -->
 			
-			   <div>
+			   <div id="fl_table_css">
+			   <br>
 			   	<button id="show_fl" style="float:left;" type="button" class="layui-btn  layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
-			   	<table class="layui-table">
+			   	<table class="layui-table" style="width:99%;">
 				  <colgroup>
-				    <col width="150">
+				    <col width="180">
 				    <col >
-				    <col width="200">
+				    <col width="120">
 				  </colgroup>
 				  <thead>
 				    <tr class="fl_tr">
@@ -295,7 +320,7 @@ function del_fl(flId){
 				  <tbody>
 				  </tbody>
 				</table>
-				</div>
+			
 			   	
 			   	<hr>
 			   	<div id="friendly_link_save" ><!-- 友情链接 -->
@@ -313,15 +338,15 @@ function del_fl(flId){
 				  <div class="layui-form-item">
 				      <button id="_add_fl" class="layui-btn" >提交</button>
 				  </div>
-					
 				</div>
 			</div>
-			
 		</div>
+			
+	</div>
 	
-		<div id="right">
+<!-- 		<div id="right">
 			<h2 style="color:red;margin-top:10px;">&nbsp;</h2>
-		   	<div id="friendly_link" ><!-- 友情链接 -->
+		   	<div id="friendly_link" >友情链接
 				
 				<div class="right_title">
 					<div class="title_content">&nbsp;<span>友情链接 </span></div>
@@ -330,12 +355,12 @@ function del_fl(flId){
 			
 				</ul>
 			</div>
-		</div>
+		</div> -->
 		
 	
 	</div>
 	<!-- 底部 -->
-	<div id="footer" >
+<!-- 	<div id="footer" >
 		<div id="footer_nav">
 			<ul>
 				<li class="footer_nav_comm"><a href="./help/关于本站">关于本站</a></li>
@@ -346,7 +371,7 @@ function del_fl(flId){
 			</ul>
 		</div>
 		<div id="footer_right">©2018-2019 6.0 www.qsp.net.cn All Rights Reserved. <a href="http://www.beian.miit.gov.cn/" target="_blank">黔ICP备17002805号-5</a></div>
-	</div>
+	</div> -->
 </body>	
 
 </html>	 

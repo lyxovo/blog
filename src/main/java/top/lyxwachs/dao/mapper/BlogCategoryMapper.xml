@@ -137,4 +137,8 @@
   </update>
   
   
+  <select id="getGategorysList"  resultMap="BaseResultMap">
+  	SELECT category_name,category_id,b_id,count(*) as category_number FROM `blog_category` where u_id=#{bAuthor,jdbcType=INTEGER} and c_live=#{cLive,jdbcType=TINYINT}  GROUP  BY category_name
+  </select>
+  
 </mapper>

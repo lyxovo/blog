@@ -42,15 +42,6 @@ public class BlogService {
 	@Autowired
 	BlogFriendlyLinksMapper blogFriendlyLinksMapper;
 	
-	
-//	  public List<Userinfo> selectUserinfo() {
-//	 	  PageHelper.startPage(2, 3); //使用分页插件
-//		  List<Userinfo> userinfos =studentMapper.selectUserinfo();
-//		  PageInfo<Userinfo> infos=new PageInfo<Userinfo>(userinfos); 
-//		  List<Userinfo> list = infos.getList(); 
-//		  return userinfos; 
-//	  }
-	
 	/**
 	 * 查询list
 	 * @param keywords 
@@ -332,7 +323,7 @@ public class BlogService {
 	}
 	
 	/**
-	 * 查询该用户所拥有的专类栏-放到div，组建checkbox放到div下面
+	 * 查询该用户所拥有的专类栏-放到div，组建checkbox放到div下面()-------------修改的时候
 	 * @param user_id
 	 * @param b_id 
 	 * @return
@@ -368,25 +359,33 @@ public class BlogService {
 		}
 		return sb.toString();
 	}
+	
+	
+	
+	/**
+	 * 查询该用户所拥有的专类栏-放到div，组建checkbox放到div下面()-------------添加的时候
+	 * @param user_id
+	 * @return
+	 */
+	public String getategorysListOfUser(Integer user_id) {
+		StringBuilder sb=new StringBuilder();
+		List<BlogCategory> list = blogCategoryMapper.getategorysListOfUser(user_id);
+//		未中的
+		for (BlogCategory blogCategory : list) {
+			long num=(int)(Math.random()*10001);//随机数0-10000
+			String random_id = new Date().getTime()+""+num;
+			sb.append("<label class='checkbox-inline'><input type='checkbox' id="+random_id+" value='"+blogCategory.getCategoryName()+"'  onclick='add_category_checkbox(this)'>"+blogCategory.getCategoryName()+"</label>");	
+		}
+		return sb.toString();
+	}
 
+	
+	
 	public ModelAndView getBlogDesc(String b_id, String ipAddr,Integer userId, ModelAndView mv) {
 //		JSONObject json=new JSONObject();
 		BlogWithBLOBs blog = getBlog(b_id);
-//		查询标签，分类栏，博客内容，友情链接，热门文章
-		
+//		查询标签，分类栏，博客内容，友情链接，热门文章,最新文章，归档。
 		int bId = Integer.parseInt(b_id);
-//		友情链接
-		List<BlogFriendlyLinks> bls=blogFriendlyLinksMapper.selectFlListByUid(userId);
-//		json.put("bls",bls);
-		mv.addObject("bls", bls);
-//		标签
-		List<BlogTag> tagList=blogTagMapper.getTagsList(bId);//当前文章的标签
-//		json.put("tagList",tagList);
-		mv.addObject("tagList", tagList);
-//		分类栏
-		List<BlogCategory> categoryList= blogCategoryMapper.getCategorysList(bId);//当前文章的分类栏
-//		json.put("categoryList",categoryList);
-		mv.addObject("categoryList", categoryList);
 //		修改blog中的浏览文章数量
 //		从池中获取redis对象									
 		Jedis jedis = jedisPool.getResource();
@@ -408,6 +407,35 @@ public class BlogService {
 			jedis.close();
 			//jedisPool.close();
 		}
+		
+		
+//		友情链接
+		List<BlogFriendlyLinks> bfls=blogFriendlyLinksMapper.selectFlListByUid(userId);
+//		json.put("bls",bls);
+		mv.addObject("bfls", bfls);
+//		标签
+		List<BlogTag> tagList=blogTagMapper.getTagsList(bId);//当前文章的标签
+//		json.put("tagList",tagList);
+		mv.addObject("tagList", tagList);
+//		文章分类专栏
+		List<BlogCategory> categoryList= blogCategoryMapper.getCategorysList(bId);//当前文章的分类栏
+//		json.put("categoryList",categoryList);
+		mv.addObject("categoryList", categoryList);
+		
+		//该用户的所有分类专栏
+		List<BlogCategory> listCategoryOfUser = blogCategoryMapper.getGategorysList(userId,(byte)1);
+		mv.addObject("listCategoryOfUser", listCategoryOfUser);
+		
+		//热门文章--查询该用户阅读量最高的10遍文章 page=10
+		List<BlogWithBLOBs> hotBlogList=blogMapper.getHotBlogList(userId,6);
+		mv.addObject("hotBlogList", hotBlogList);
+		
+		//最新文章--最新日期发布的10篇文章 page=10
+		List<BlogWithBLOBs> newBlogList=blogMapper.getNewBlogList(userId,6);
+		mv.addObject("newBlogList", newBlogList);
+		
+//		归档--按月：2020-12  10篇。该用户
+		
 
 //		json.put("blog",blog);
 		mv.addObject("blog", blog);

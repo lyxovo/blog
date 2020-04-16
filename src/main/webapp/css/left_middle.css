@@ -23,14 +23,19 @@
 			float:left;
 		}
 		#left-nav{
-			width:120px;
 			position: fixed;
 			top:70px;
+			background:#fff;
+			width: 230px;
+   			margin-left: -70px;
 		}
 		#left-middle{
 			float: right;
 			margin-left: 20px;
-			width:650px;
+			margin-right:-150px;
+			margin-top:9px;
+			width:700px;
+			background:#fff;
 		}
 		#right{
 			width:300px;
@@ -142,12 +147,13 @@
 		}
 		#left-nav ul li a{
 			display: block;
-			width:160px;
+			width:130px;
 			height: 40px;
 			line-height: 40px;
-			border-radius: 3px;
+			border-radius: 13px;
 			color: #444;
 			font-size: 16px;
+			margin-top: 10px;
 		}
 		#left-nav ul li a:hover{
 			background: #14a7ed;
@@ -158,8 +164,9 @@
 			color: white;
 		}
 		#art-list{
-			float: right;
-			width:650px;
+			float: none;
+		    width: 650px;
+		    margin-left: 30px;
 		}
 		#art-list ul{
 			margin:0 auto;
