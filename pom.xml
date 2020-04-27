@@ -27,6 +27,13 @@
 		<jedis>2.9.0</jedis>
 	</properties>
 		<dependencies>
+			<!-- fastFDS客户端 -->
+	<dependency>
+  		<groupId>net.oschina.zcx7878</groupId>
+  		<artifactId>fastdfs-client-java</artifactId>
+  		<version>1.27.0.0</version>
+  	</dependency>
+		
 		<!-- 阿里json处理包 -->
 		<dependency>
             <groupId>com.alibaba</groupId>

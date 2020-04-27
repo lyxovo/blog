@@ -34,7 +34,8 @@
     <script type="text/javascript">
         var E = window.wangEditor;
         var editor = new E('#editor');
-        editor.customConfig.uploadImgServer = '/upload';  // 上传图片到服务器
+        editor.customConfig.uploadImgServer = '../upload/doUpload2.do';  // 上传图片到服务器
+        editor.customConfig.uploadFileName = 'photo'
         // 或者 var editor = new E( document.getElementById('editor') )
         //创建
      // 表情面板可以有多个 tab ，因此要配置成一个数组。数组每个元素代表一个 tab 的配置
