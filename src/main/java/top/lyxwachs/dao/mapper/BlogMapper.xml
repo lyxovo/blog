@@ -184,7 +184,7 @@
   <select id="findBlogList" resultMap="ResultMapWithBLOBs">
   	select *  from blog where b_live=1 
 	<if test="bTitle!=null">
-		and b_title like concat('%',#{bTitle},'%') order by b_createdate desc
+		and b_title like concat('%',#{bTitle},'%')
 	</if>
   	
   </select>

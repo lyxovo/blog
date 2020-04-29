@@ -49,6 +49,13 @@
 
 	</style>
 	
+	<script type="text/javascript">
+	//查询博客详细--by id
+	function query_blog_desc(bId){
+		window.location.href="../blog/bReturnDesc.do?b_id="+bId;
+	}
+	</script>
+	
 <body>
 	
 	<div id="header_main">
@@ -78,7 +85,7 @@
 			<h4 style="text-align: right;position:relative; top:25px;margin-right:80px;">仗剑天涯，从你的摘要开始。</h4>
 			
 			<div id="middle_core3" style="width:680px;height:30px; position:relative;top:100px;margin:0 auto">
-				<a  href="#"><i class="layui-icon layui-icon-face-smile"></i>&nbsp;发布成功并查询文章></a>
+				<a  href="javascript:void();" onclick="query_blog_desc(${blog.bId})"><i class="layui-icon layui-icon-face-smile"></i>&nbsp;发布成功并查询文章></a>
 				
 				<a href="../blog/index.do?cat=b_send" style="margin-left:90px;"><i class="layui-icon layui-icon-edit"></i>再写一篇</a>
 			</div>

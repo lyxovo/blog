@@ -50,7 +50,7 @@ public class BlogService {
 	 * @return
 	 */
 	public PageInfo<BlogWithBLOBs> findBlogList(String keywords, Integer pageNum, Integer pageSize) {
-		PageHelper.startPage(pageNum, pageSize); //使用分页插件
+		PageHelper.startPage(pageNum, pageSize,"b_createdate desc"); //使用分页插件
 		List<BlogWithBLOBs> list = blogMapper.findBlogList(keywords);
 		
 		PageInfo<BlogWithBLOBs> infos=new PageInfo<BlogWithBLOBs>(list,10); 

@@ -82,13 +82,13 @@ margin-left:-8px;
 		
 		 #friendly_link{
 			width:235px;
-			margin-left:100px;
+			margin-left:-72px;
 			margin-bottom: 20px;
 			padding-bottom: 5px;
 			background: #fff;
 			position: fixed;
 			top:340px;
-			left:225px;
+			
 			
 		}
 		 #friendly_link ul{

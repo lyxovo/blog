@@ -238,7 +238,7 @@ setInterval("changeBg()", 500); //设定定时切换，单位为毫秒这里是3
 						
 						<div id="searchBox" style="margin-top:-13px;">
 							<form action="./index.do?cat=b_management&curr=1" method="post" >
-								<button type = "submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+								<button id="submit_btn" type = "submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 								<input type="search" value="${keywords}" placeholder="搜索本站" name="keywords">
 							</form>
 						</div>

@@ -76,7 +76,7 @@
 			outline: none;
 			color:#666;
 			right:2px;
-			z-index: 13;
+			z-index: 3;
 		}
 		#searchBox form input{
 			position:absolute;
