@@ -252,7 +252,22 @@ margin-bottom:40px;
         var E = window.wangEditor;
         var editor = new E('#editor');
         editor.customConfig.zIndex = 1;//设置zIndex区域
-        editor.customConfig.uploadImgServer = '/upload';  // 上传图片到服务器
+        //editor.customConfig.uploadImgServer = '/upload';  // 上传图片到服务器
+        editor.customConfig.uploadImgServer = '../upload/doUpload.do';  // 上传图片到服务器
+        editor.customConfig.uploadFileName = 'photo';
+        
+        // 将图片大小限制为 5M,默认5M
+        editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024;
+        	
+        // 限制一次最多上传 5 张图片，默认5
+        editor.customConfig.uploadImgMaxLength = 5;
+        
+        
+        editor.customConfig.customAlert = function (info) {
+            // info 是需要提示的内容
+            alert('自定义提示：' + info)
+        }
+        
         // 或者 var editor = new E( document.getElementById('editor') )
         //创建
      // 表情面板可以有多个 tab ，因此要配置成一个数组。数组每个元素代表一个 tab 的配置

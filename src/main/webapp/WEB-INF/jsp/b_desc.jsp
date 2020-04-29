@@ -343,7 +343,7 @@ clear: both;float:left;
 }
 
 #up_down{
-position: absolute;left:1100px;
+position: relative;left:300px;
 }
 				
 </style>

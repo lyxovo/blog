@@ -47,9 +47,10 @@
 
 #friendly_link_save{
 margin-left:20px;
-
-
+	
 }
+
+
 </style>	
 
 <script>
@@ -59,53 +60,57 @@ layui.use('layer', function(){
 	  layer = layui.layer;
 });
 
-
-//添加友情链接
 $(function(){
-	$("#_add_fl").click(function(){
-		var fl_name=$("#fl_name").val();
-		var fl_url=$("#fl_url").val();
-		
-		
-/* 		var li="<li><a href='"+fl_url+"'  target='_blank'>"+fl_name+"</a></li>";
-		$("#fl_ul").append(li);
-		layer.msg("添加成功");
-		return; */
-		
-	 	$.ajax({
-			url:'../blog/saveFriendlink.do',
-			type:"post",
-			data:{
-				fl_name:fl_name,
-				fl_url:fl_url
-			},
-			dataType:"json",
-			success:function(result){
-				if(result.flag==1){
-					layer.msg("添加成功");
-					console.log(result);
-					var li="";
-					$.each(result,function(i,item){
-						console.log(item);
-						li+="<li><a href='"+item.fl_url+"'  target='_blank'>"+item.fl_name+"</a></li>";
-					});
-					$("#fl_ul").append(li);
-					
-				}else{
-					alert("失败。");
-				}
-				
-			},
-			error:function(){
-				alert("出错了");
-			}
-		}); 
-	
-	
-	});
+	selectPhotos();
 });
 
+//查询图片列表
+function selectPhotos(){
+	$.ajax({
+		url:"../blog/queryBlogCarousels.do",
+		dataType:"json",
+		success:function(res){
+		       var tr_html="";
+		       $.each(res.bcList,function(i,item){
+					console.log(item);
+					tr_html+='<tr>'
+					+'<td><img src="'+item.carouselUrl+'"/></td>'
+					+'<td>'+item.carouselName+'</td>'
+					+'<td>'+item.fileSize+'kb</td>'
+					+'<td><span style="color: #5FB878;">上传成功</span></td>'
+					+'<td><button onclick=delCarouselId('+item.carouselId+') class="layui-btn layui-btn-xs layui-btn-danger demo-delete"><i class="layui-icon layui-icon-delete"></i>删除</button></td>'
+					+'</tr>';
+				});
+				 $("#demoList").html(tr_html);
+		},
+		error:function(){
+			alert("出错了");
+			 $("#demoList").html("");
+		}
+	});
+	
+}
 
+
+//删除图片
+function delCarouselId(cid){
+	$.ajax({
+		url:"../blog/delCarouselById.do",
+		data:{cid:cid},
+		dataType:"json",
+		success:function(res){
+			if(res.flag==1){
+				layer.msg('删除成功.',{icon: 1}); 
+				selectPhotos();
+			}else{
+				layer.alert('删除失败.',{icon: 5}); 
+			}
+		},
+		error:function(){
+			layer.alert('出错了.',{icon: 5}); 
+		}
+	});
+}
 
 </script>
 
@@ -135,22 +140,27 @@ layui.use('upload', function(){
   var demoListView = $('#demoList')
   ,uploadListIns = upload.render({
     elem: '#testList'
-    ,url: '../blog/upload.do' //改成您自己的上传接口
-    ,accept: 'file'
-    ,multiple: true
+    ,url: '../blog/doUpload2.do' //改成您自己的上传接口
+    //,url: '../blog/upload.do' //测试
+    ,accept: 'images' //指定允许上传时校验的文件类型
+    ,multiple: true //是否允许多文件上传。
+    ,field:"photo" //设定文件域的字段名
     ,auto: false
+    ,size:5120 //设定文件最大上传5M 1024*5
     ,bindAction: '#testListAction'
     ,choose: function(obj){   
       var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
       //读取本地文件
       obj.preview(function(index, file, result){
+    	  console.log(file);
         var tr = $(['<tr id="upload-'+ index +'">'
+          ,'<td></td>'
           ,'<td>'+ file.name +'</td>'
           ,'<td>'+ (file.size/1024).toFixed(1) +'kb</td>'
           ,'<td>等待上传</td>'
           ,'<td>'
             ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
-            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+            ,'<button class="layui-btn layui-btn-xs layui-btn-normal demo-delete "><i class="layui-icon layui-icon-delete"></i>删除</button>'
           ,'</td>'
         ,'</tr>'].join(''));
         
@@ -169,17 +179,54 @@ layui.use('upload', function(){
         demoListView.append(tr);
       });
     }
-    ,done: function(res, index, upload){
+    ,done: function(res, index, upload){//上传成功,返回的数据信息
     	console.log(res);
-    	
-/*       if(res.files.file){ //上传成功
+    	console.log(index);
+    	console.log(upload);
+    	/*   if(res.errno==0){ //上传成功
+    	//获取上传成功行
         var tr = demoListView.find('tr#upload-'+ index)
         ,tds = tr.children();
         tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
-        tds.eq(3).html(''); //清空操作
+        tds.eq(3).html("<img src='"+res.data+"' />"); //清空操作
         return delete this.files[index]; //删除文件队列已经上传成功的文件
-      } */
-     // this.error(index, upload);//上传失败
+      }  */
+      
+     if(res.errno==0){ //上传成功
+    	//获取上传成功行
+    	
+        //var tr = demoListView.find('tr#upload-'+ index);
+ /*        ,tds = tr.children();
+        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+        tds.eq(3).html("<img src='"+res.data+"' />"); */
+        
+       // res.bcList
+     
+       var tr_html="";
+       $.each(res.bcList,function(i,item){
+			console.log(item);
+/* 			tr_html+='<tr>'
+			+'<td>"'+item.carouselName+'"</td>'
+			+'<td>上传成功</td>'
+			+'<td><span style="color: #5FB878;">上传成功</span></td>'
+			+'<td></td>'
+			+'</tr>'; */
+			
+			tr_html+='<tr>'
+				+'<td><img src="'+item.carouselUrl+'"/></td>'
+				+'<td>'+item.carouselName+'</td>'
+				+'<td>'+item.fileSize+'kb</td>'
+				+'<td><span style="color: #5FB878;">上传成功</span></td>'
+				+'<td><button onclick=delCarouselId('+item.carouselId+') class="layui-btn layui-btn-xs layui-btn-danger demo-delete"><i class="layui-icon layui-icon-delete"></i>删除</button></td>'
+				+'</tr>';
+			
+		});//参数数组对象
+
+		 $("#demoList").html(tr_html);
+        
+        return delete this.files[index]; //删除文件队列已经上传成功的文件
+      }
+      
     }
     ,error: function(index, upload){
       var tr = demoListView.find('tr#upload-'+ index)
@@ -224,7 +271,7 @@ layui.use('upload', function(){
 			<!-- 中间部分（点击左边触发） -->
 			
 			<div id="left-middle">
-			   	<div id="friendly_link_save" ><!-- 友情链接 -->
+			   	<div id="friendly_link_save" >
 					
 					<div class="layui-upload">
 					<div style="float:left;">
@@ -236,7 +283,9 @@ layui.use('upload', function(){
 					  <div class="layui-upload-list" >
 					    <table class="layui-table" style="width:99%;">
 					      <thead>
-					        <tr><th>文件名</th>
+					        <tr>
+					        <th>图片</th>
+					        <th>文件名</th>
 					        <th>大小</th>
 					        <th>状态</th>
 					        <th>操作</th>

@@ -84,14 +84,11 @@ margin-left:-8px;
 			width:235px;
 			margin-left:100px;
 			margin-bottom: 20px;
-			padding-bottom: 15px;
 			padding-bottom: 5px;
 			background: #fff;
-			
 			position: fixed;
 			top:340px;
-			left:195px;
-			
+			left:225px;
 			
 		}
 		 #friendly_link ul{

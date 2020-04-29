@@ -8,8 +8,28 @@ public class BlogCarousel {
     private String carouselName;
 
     private Integer createUser;
+    
+    private String fileSize;
 
-    public Integer getCarouselId() {
+    private Integer state;
+
+    public String getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(String fileSize) {
+		this.fileSize = fileSize;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
+	public Integer getCarouselId() {
         return carouselId;
     }
 

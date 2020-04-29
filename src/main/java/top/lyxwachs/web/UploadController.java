@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import top.lyxwachs.service.UploadService;
+import top.lyxwachs.utils.StringMethodUtils;
 
 /**
  * @program: fastdfs-demo
@@ -27,31 +29,27 @@ public class UploadController {
     private UploadService uploadService;
 
     /**
-     * 作上传
+     * 	文本域图片上传
      */
-    @RequestMapping("doUpload")
-    public Map<String,Object> doUpload(MultipartFile mf){
-        System.out.println(mf.getOriginalFilename());
-        Map<String, Object> map=null;
-//        Map<String, Object> map = uploadService.upload(mf);
-        return map;
-    }
-    
 	//https://blog.csdn.net/qq_39565055/article/details/79941737?utm_source=blogxgwz1
-	@RequestMapping("doUpload2")
+	@RequestMapping("doUpload")
 	@ResponseBody
-    public String doUpload2(@RequestParam("photo")List<MultipartFile> list){
+    public String doUpload(@RequestParam("photo")List<MultipartFile> list){
 		JSONObject json=new JSONObject();
-//		JSONArray array=new JSONArray();
 		ArrayList<String> data=new ArrayList<String>();
 		for (MultipartFile mf : list) {
 			String imageUrl = uploadService.upload(mf);
-//				json.put("imageUrl", imageUrl);
+			if(imageUrl==null) {
+				json.put("errno",1);
+				data.add(imageUrl);
+				break;
+			}
+
+			json.put("errno",0);
 			data.add(imageUrl);
 			System.out.println(imageUrl);
 		}
 		
-		json.put("errno",0);
 		json.put("data",data);
 		return json.toString();
     }
@@ -63,13 +61,8 @@ public class UploadController {
 //      "图片2地址",
 //      "……"
 //  ]
-    @RequestMapping("test")
-    public void test(){
-    	System.out.println(1);
-    	uploadService.test();
-    	System.out.println(2);
-    }
     
+
 
 }
 

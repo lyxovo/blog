@@ -46,12 +46,7 @@ public class UploadService {
             System.out.println("上传失败");
             throw  new RuntimeException("上传失败");
         }
-        
         return webServiceIp+fileId; //访问服务器上图片的地址
-//        Map<String, Object> map=new HashMap<String, Object>();
-//        map.put("errno",0);
-//        map.put("msg","上传成功");
-//        map.put("fileId",fileId);
     }
 
 
@@ -100,13 +95,6 @@ public class UploadService {
         }
     }
     
-    public void test() {
-        try {
-        	System.out.println(123333);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
 
 }
 
