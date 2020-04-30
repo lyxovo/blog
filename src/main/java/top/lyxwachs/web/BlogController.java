@@ -228,4 +228,45 @@ public class BlogController {
 //		return mv; 
 	}
 	
+	
+//	../blog/getBlogListByCategoryName?categoryName=${cate.categoryName}
+	/**
+	 * 	按照分类栏 查询博客列表
+	 * @param categoryName
+	 * @param keywords
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping("getBlogListByCategoryName2")
+	public ModelAndView getBlogListByCategoryName(String  categoryName,String keywords,@RequestParam(value="curr",defaultValue = "1")
+	Integer pageNum,@RequestParam(value="limit",defaultValue = "20")Integer pageSize) {
+		Integer userId=1;
+		Integer cLive=1;
+		ModelAndView mv = new ModelAndView("b_category_list");//转发到管理页面
+//		分页
+		return blogService.getBlogListByCategoryName(keywords,pageNum,pageSize,categoryName,userId,cLive,mv);
+	}
+	
+	/**
+	 * 测试 main.jsp
+	 * @param categoryName
+	 * @param keywords
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping("getBlogListByCategoryName")
+	public ModelAndView getBlogListByCategoryName222222(String  categoryName,String keywords,@RequestParam(value="curr",defaultValue = "1")
+	Integer pageNum,@RequestParam(value="limit",defaultValue = "20")Integer pageSize) {
+		Integer userId=1;
+		Integer cLive=1;
+		ModelAndView mv = new ModelAndView("main");//转发到管理页面
+//		分页
+		return blogService.getBlogListByCategoryName(keywords,pageNum,pageSize,categoryName,userId,cLive,mv);
+
+	}
+	
+	
+	
 }

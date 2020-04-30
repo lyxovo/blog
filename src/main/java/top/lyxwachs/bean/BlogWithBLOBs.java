@@ -9,7 +9,17 @@ public class BlogWithBLOBs extends Blog {
     
     private String updateDate;
     
-    public String getCreateDate() {
+    private BlogCategory blogCategory;//多对一（一对一）博客，使用在mybatis中
+    
+    public BlogCategory getBlogCategory() {
+		return blogCategory;
+	}
+
+	public void setBlogCategory(BlogCategory blogCategory) {
+		this.blogCategory = blogCategory;
+	}
+
+	public String getCreateDate() {
 		return createDate;
 	}
 

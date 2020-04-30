@@ -14,6 +14,8 @@
 	<link rel="stylesheet" href="../css/header.css">
  <script type="text/javascript" src="../js/wangEditor.min.js"></script>
  <script type="text/javascript" src="../js/jquery.min.js"></script><!-- 引入jquery文件 -->
+ 	<script type="text/javascript" src="../bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" >
 	
 	<style>
 	    body{
@@ -374,6 +376,31 @@ position: relative;left:300px;
 /*  .w95{ width:95%; margin:0 auto; padding-top:6px; padding-bottom:6px;}
  .taglist .w95{} */
  </style>
+ 
+ 
+ <style> 
+.color { 
+	background:#f2f2f2; 
+} 
+
+/* 聚焦时候文本框变色 */
+input:focus{
+    border-style:solid;
+    border-color: #03a9f4;
+	box-shadow: 10 0 0px #03a9f4;
+}
+
+.span_style{
+	margin-left:20px;
+}
+
+a:hover { 
+cursor:pointer;
+text-decoration:none; 
+} 	
+
+</style> 
+ 
 <!-- 刷新页面---分类专栏颜色渐变  -->
 <script type="text/javascript">
  $(document).ready(function() {
@@ -394,9 +421,22 @@ position: relative;left:300px;
 		 
 	 });
  })
- </script>	
+ 
+</script>	
+ 
 	
 <script>
+
+/* 鼠标移动到ul li 显示颜色 */
+$(document).ready(function() { 
+ 	$("ul li").hover(function() { 
+		$(this).addClass("color"); 
+	}, function() { 
+		$(this).removeClass("color"); 
+	});
+ 	
+}); 
+
 	window.onload=
         function(){
             var oDiv = document.getElementById("friendly_link"),
@@ -417,26 +457,17 @@ position: relative;left:300px;
             }
         }
 	
-	$(function(){
+/* 	$(function(){
 		//获取文章内容赋值显示
 	  	var val=$("#_bContent").val();
 	  	$("#art_content").html(val);
-	  	
-	  	
-	  	
-	  	//展开--收缩：标签和分类栏
-	  	$("#up_down_p").hide();//默认收缩
-		$("#up_down").click(function(){
-			var text=$("#up_down").text();
-			if(text=="展开"){
-				$("#up_down").text("收缩");
-			}else{
-				$("#up_down").text("展开");
-			}
-			$("#up_down_p").toggle(500);//点击显示添加表单
-		});
 		
-	});
+	}); */
+	
+	//查询博客详细--by id
+	function query_blog_desc(bId){
+		window.location.href="../blog/bReturnDesc.do?b_id="+bId;
+	}
 	
 
 </script>
@@ -461,43 +492,109 @@ position: relative;left:300px;
 			</div> -->
 		</div>
 	</div>
-<input type="hidden" id="_bContent" value="${blog.bContent}">
+<%-- <input type="hidden" id="_bContent" value="${blog.bContent}"> --%>
 	<div id="main">
 		<div id="left">
 			<div id="art">
 				<div id="art_title" >
-					<h1 id="b_title" class="tag_cate_css" >${blog.bTitle }</h1>
+					<div>
+						<img src="http://192.168.10.55/group1/M00/00/00/wKgKN16pjhCAe174ABa39eAjKJo079.jpg" style="width:15%;float:left;"/>
+						<span  style="color:green;float:left;font-size: 40px; margin-left:10px;">${categoryTitle }</span>
+					<%-- 	<span id="b_title" class="tag_cate_css" style="color:green;">${categoryTitle }</span> --%>
+					</div>
+
 					<p class="tag_cate_css" >
 					作者：<span id="b_author">${blog.bAuthor }</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					发布时间：<span id="b_createdate">${blog.createDate}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					阅读量：<span id="b_visitors">${blog.bVisitors}</span>次
-					 <a href="javascript:void(0);" id="up_down" >展开</a>
+					文章数：<span id="b_createdate">${pageInfo.total}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					访问量：<span id="b_visitors">${categoryVisitorsTotal}</span>
 					</p>
-					<div id="up_down_p"  class="tag_cate_css" >
-						<p class="tag_cate_css">
-							分类专栏：
-							<c:forEach items="${categoryList}" var="category">
-								<span class="category_name">${category.categoryName}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							</c:forEach>
-						</p>
-						
-						<p class="tag_cate_css">
-							文章标签：
-							<c:forEach items="${tagList}" var="tag">
-								<span class="tag_name">${tag.tagName}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							</c:forEach>
-						</p>
-						
-					</div>
 				</div>
 		
 				<!-- 文章的内容 -->
-				<div id="art_content">
+			<!-- 中间部分（点击左边触发） -->
+			 <div id="middle_list" style="margin-top:160px;margin-left:-40px;">
+				<!-- 中间列表2 -->
+				<div id="a-list">
+					<input id="page_total" type="hidden" value="${pageInfo.total}"/>
+						<ul>
+						<c:if test="${pageInfo.total==0}">
+							<li >
+								<div class="title_and_info">
+									您还没写有博客，请先去发布博客。
+								</div>
+							</li>
+						</c:if>
+						
+						
+						<c:forEach items="${pageInfo.list}" var="blog" step="1" varStatus="status">
+							<li>
+								<div class="list_content">
+									<div class="list_title" style="text-align:left;  font-size: 26px;">
+										<a target="_blank" onclick="query_blog_desc(${blog.bId})">${blog.bTitle}</a>
+									</div>
+									
+									<div class="info_a"  style="text-align:left;font-size: 16px;margin-top:8px;">
+										<a target="_blank" onclick="query_blog_desc(${blog.bId})">${blog.bContenttext}...</a>
+									</div>
+									
+									<div class="info_b" style="text-align:left;color:gray;margin-top:8px;">
+										<span>${blog.createDate}</span>
+										<span class="span_style">浏览(${blog.bVisitors}) </span>
+										<span class="span_style">评论(${blog.bDiscuss})</span>
+	
+									</div>
+								</div>
+							</li>
+							<hr>
+							
+						</c:forEach>
+
+					</ul>
 				</div>
+			<!-- 分页 -->
+<c:if test="${pageInfo.total>0}">
+	<div id="b_page" style="margin:0 auto;margin-top:39px;">
+		<nav aria-label="Page navigation">
+		  <ul class="pagination">
+		  
+		 	<c:if test="${pageInfo.pageNum>1}">
+		    <li>
+		      <a href="../blog/index.do?cat=b_management&curr=${pageInfo.pageNum-1}&keywords=${keywords}" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+		    </c:if>
+		    
+		    <c:forEach items="${pageInfo.navigatepageNums}" var="num">
+				<c:choose>
+					<c:when test="${pageInfo.pageNum==num}">
+						<li class="active"><a href="../blog/index.do?cat=b_management&curr=${num}&keywords=${keywords}">${num}</a></li>			
+					</c:when>
+					<c:otherwise>
+						<li ><a href="../blog/index.do?cat=b_management&curr=${num}&keywords=${keywords}">${num}</a></li>			
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		    
+		    <c:if test="${pageInfo.pageNum<pageInfo.pages}">
+		    <li>
+		      <a href="../blog/index.do?cat=b_management&curr=${pageInfo.pageNum+1}&keywords=${keywords}" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		    </c:if>
+		    
+		  </ul>
+		</nav>
+	</div>
+</c:if>		
+</div>
+<!-- 中间列表 end-->
 
-			</div>
-		</div>
 
+
+	</div>
+</div>
 		<div id="right">
 			<div id="hot_art" ><!-- 热门文章 -->
 				<div class="right_title">

@@ -59,6 +59,28 @@ public class BlogService {
 		//long total = infos.getTotal();//总页数
 		
 //		截取字符串显示
+		/*
+		 * for (BlogWithBLOBs blog : blogList) { Date bCreatedate =
+		 * blog.getbCreatedate(); String
+		 * createdate=format_date(bCreatedate,"yyyy-MM-dd HH:mm:ss");//格式化日期
+		 * blog.setCreateDate(createdate);
+		 * 
+		 * String contenttext = blog.getbContenttext();
+		 * contenttext=contenttext.replaceAll("[\\s\\t\\n\\r]", "");//替换掉所有的空格回车换行符
+		 * 
+		 * if(contenttext==null) { break; } if(contenttext.length()>66) { String
+		 * bContenttext = contenttext.substring(0,66);
+		 * blog.setbContenttext(bContenttext); } }
+		 */
+		replaceBlogContent(blogList,66);
+		return infos;
+		//return blogMapper.findBlogList();
+	}
+	
+	/**
+	 * 替换、格式格式内容，输出固定字数，
+	 */
+	public void replaceBlogContent(List<BlogWithBLOBs> blogList ,int fontSize) {
 		for (BlogWithBLOBs blog : blogList) {
 			Date bCreatedate = blog.getbCreatedate();
 			String createdate=format_date(bCreatedate,"yyyy-MM-dd HH:mm:ss");//格式化日期
@@ -66,18 +88,17 @@ public class BlogService {
 			
 			String contenttext = blog.getbContenttext();
 			contenttext=contenttext.replaceAll("[\\s\\t\\n\\r]", "");//替换掉所有的空格回车换行符
-			
 			if(contenttext==null) {
 				break;
 			}
-			if(contenttext.length()>66) {
+			if(contenttext.length()>fontSize) {
 				String bContenttext = contenttext.substring(0,66);
 				blog.setbContenttext(bContenttext);
 			}
 		}
-		return infos;
-		//return blogMapper.findBlogList();
+		
 	}
+	
 	
 	/**
 	 * 保存博客，返回1：保存成功。0，失败
@@ -106,7 +127,7 @@ public class BlogService {
 			blog.setbCreateupdate(b_createdate);
 			blog.setbTitle(b_title);
 			blog.setbContenttext(b_content_text);//保存博客中的纯文本内容text
-			blog.setbVisitors(1);
+			blog.setbVisitors(0);
 			blog.setbDiscuss(0);
 			blog.setbLive(1);
 			i = blogMapper.insertSelective(blog);
@@ -409,18 +430,31 @@ public class BlogService {
 		}
 		
 		
-//		友情链接
-		List<BlogFriendlyLinks> bfls=blogFriendlyLinksMapper.selectFlListByUid(userId);
-//		json.put("bls",bls);
-		mv.addObject("bfls", bfls);
 //		标签
 		List<BlogTag> tagList=blogTagMapper.getTagsList(bId);//当前文章的标签
-//		json.put("tagList",tagList);
 		mv.addObject("tagList", tagList);
 //		文章分类专栏
 		List<BlogCategory> categoryList= blogCategoryMapper.getCategorysList(bId);//当前文章的分类栏
-//		json.put("categoryList",categoryList);
 		mv.addObject("categoryList", categoryList);
+		
+		queryBlogRightMenuByUserId(mv,userId);//重用
+		
+
+//		json.put("blog",blog);
+		mv.addObject("blog", blog);
+
+		
+		return mv;
+	}
+	
+	
+	/**
+	 *  查询右边菜单常用的列表--所属当前登录用户
+	 */
+	public void queryBlogRightMenuByUserId(ModelAndView mv,Integer userId) {
+//		友情链接
+		List<BlogFriendlyLinks> bfls=blogFriendlyLinksMapper.selectFlListByUid(userId);
+		mv.addObject("bfls", bfls);
 		
 		//该用户的所有分类专栏
 		List<BlogCategory> listCategoryOfUser = blogCategoryMapper.getGategorysList(userId,(byte)1);
@@ -435,13 +469,50 @@ public class BlogService {
 		mv.addObject("newBlogList", newBlogList);
 		
 //		归档--按月：2020-12  10篇。该用户
+	}
+	
+
+	
+	/**
+	 * 	分类栏列表内容显示博客
+	 * @param keywords
+	 * @param pageNum
+	 * @param pageSize
+	 * @param categoryName
+	 * @param userId
+	 * @param cLive
+	 * @param mv 
+	 * @return
+	 */
+	public ModelAndView getBlogListByCategoryName(String keywords, Integer pageNum, Integer pageSize,
+			String categoryName, Integer userId, Integer cLive, ModelAndView mv) {
 		
-
-//		json.put("blog",blog);
-		mv.addObject("blog", blog);
-
+		PageHelper.startPage(pageNum, pageSize,"b_createdate desc"); //使用分页插件
+		List<BlogWithBLOBs> list=blogMapper.getBlogListByCategoryName(keywords,categoryName,userId,cLive);
+		PageInfo<BlogWithBLOBs> infos=new PageInfo<BlogWithBLOBs>(list,10); 
+		List<BlogWithBLOBs> blogList = infos.getList(); 
+		replaceBlogContent(blogList,66);//截取一定字数再输出
+		
+		
+		mv.addObject("pageInfo", infos);
+	//		回显关键字
+		mv.addObject("keywords", keywords);
+		
+//		分类栏列表页面显示的标题
+		mv.addObject("categoryTitle", categoryName);
+		
+//		访问数量
+		Integer visitors=0;
+		for (BlogWithBLOBs blog : blogList) {
+			visitors+= blog.getbVisitors();
+		}
+		mv.addObject("categoryVisitorsTotal", visitors);
+		
+		queryBlogRightMenuByUserId(mv,userId);//重用
 		
 		return mv;
+		
+		//return infos;
 	}
 	
 	

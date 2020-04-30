@@ -30,5 +30,7 @@ public interface BlogMapper {
 
 	List<BlogWithBLOBs> getNewBlogList(@Param(value="bAuthor")Integer userId,@Param(value="page")Integer page);
 
+	List<BlogWithBLOBs> getBlogListByCategoryName(@Param(value="bTitle")String keywords, @Param(value="categoryName")String categoryName, @Param(value="userId")Integer userId, @Param(value="cLive")Integer cLive);
+
 	
 }

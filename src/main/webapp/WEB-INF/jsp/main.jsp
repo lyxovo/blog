@@ -14,6 +14,11 @@
 	<link rel="stylesheet" href="../css/header.css">
  <script type="text/javascript" src="../js/wangEditor.min.js"></script>
  <script type="text/javascript" src="../js/jquery.min.js"></script><!-- 引入jquery文件 -->
+ 	<script type="text/javascript" src="../bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+  	<script src="../layui/layui.js" charset="utf-8"></script>
+	
 	
 	<style>
 	    body{
@@ -374,6 +379,45 @@ position: relative;left:300px;
 /*  .w95{ width:95%; margin:0 auto; padding-top:6px; padding-bottom:6px;}
  .taglist .w95{} */
  </style>
+ 
+ 
+ <style> 
+.color { 
+	background:#f2f2f2; 
+} 
+
+/* 聚焦时候文本框变色 */
+input:focus{
+    border-style:solid;
+    border-color: #03a9f4;
+	box-shadow: 10 0 0px #03a9f4;
+}
+
+.span_style{
+	margin-left:20px;
+}
+
+a:hover { 
+cursor:pointer;
+text-decoration:none; 
+} 	
+
+
+#blog_list-title {
+    height: 30px;
+    display: inline-block;
+    border-bottom: 2px solid #E9EAED;
+    color: #14a7ed;
+    font-weight: bold;
+    font-size: 18px;
+    width:96%; 
+    text-align: left;
+    margin-top:45px;
+   
+}
+
+</style> 
+ 
 <!-- 刷新页面---分类专栏颜色渐变  -->
 <script type="text/javascript">
  $(document).ready(function() {
@@ -394,9 +438,22 @@ position: relative;left:300px;
 		 
 	 });
  })
- </script>	
+ 
+</script>	
+ 
 	
 <script>
+
+/* 鼠标移动到ul li 显示颜色 */
+$(document).ready(function() { 
+ 	$("ul li").hover(function() { 
+		$(this).addClass("color"); 
+	}, function() { 
+		$(this).removeClass("color"); 
+	});
+ 	
+}); 
+
 	window.onload=
         function(){
             var oDiv = document.getElementById("friendly_link"),
@@ -421,24 +478,33 @@ position: relative;left:300px;
 		//获取文章内容赋值显示
 	  	var val=$("#_bContent").val();
 	  	$("#art_content").html(val);
-	  	
-	  	
-	  	
-	  	//展开--收缩：标签和分类栏
-	  	$("#up_down_p").hide();//默认收缩
-		$("#up_down").click(function(){
-			var text=$("#up_down").text();
-			if(text=="展开"){
-				$("#up_down").text("收缩");
-			}else{
-				$("#up_down").text("展开");
-			}
-			$("#up_down_p").toggle(500);//点击显示添加表单
-		});
 		
 	});
 	
+	//查询博客详细--by id
+	function query_blog_desc(bId){
+		window.location.href="../blog/bReturnDesc.do?b_id="+bId;
+	}
+	
 
+</script>
+
+
+<!--layui 图片轮播 -->
+<script>
+layui.use(['carousel', 'form'], function(){
+  var carousel = layui.carousel
+  ,form = layui.form;
+  
+  //图片轮播
+  carousel.render({
+    elem: '#slide_show'
+    ,width: '740px'
+    ,height: '340px'
+    ,interval: 2000
+  });
+  
+}); 
 </script>
 
 </head>
@@ -461,44 +527,145 @@ position: relative;left:300px;
 			</div> -->
 		</div>
 	</div>
-<input type="hidden" id="_bContent" value="${blog.bContent}">
-	<div id="main">
-		<div id="left">
+<%-- <input type="hidden" id="_bContent" value="${blog.bContent}"> --%>
+
+
+
+	<div id="main" style="width:1450px;">
+		<div id="menu_left" style="position: fixed;">
+		
+			<div id="art_tag" ><!-- 文章分类专栏 -->
+				<div class="right_title">
+					<div class="title_content">&nbsp;文章分类专栏</div>
+				</div>
+				<ul id="category_css">
+					<c:forEach items="${listCategoryOfUser}" var="cate">
+						<li><a href="../blog/getBlogListByCategoryName.do?categoryName=${cate.categoryName}" style="background:#93ac4a;width:220px;" title="${cate.categoryName}(${cate.categoryNumber})">${cate.categoryName} <span style="float:right;">${cate.categoryNumber }篇</span></a></li>
+					</c:forEach>
+				</ul>
+			</div>
+		
+			<div id="hot_art" ><!-- 归档 -->
+				<div class="right_title">
+					<div class="title_content">&nbsp;归档</div>
+				</div>
+			</div>
+			<div id="guess_like" ><!-- 猜你喜欢 -->
+				<div class="right_title">
+					<div class="title_content">&nbsp;猜你喜欢</div>
+				</div>
+			</div>
+	
+		</div>
+	
+	
+<!-- 	    position: fixed;
+    top: 70px;
+    background: #fff;
+    width: 230px;
+    margin-left: -70px; -->
+		<div id="left" style="margin-left:335px;">
 			<div id="art">
 				<div id="art_title" >
-					<h1 id="b_title" class="tag_cate_css" >${blog.bTitle }</h1>
-					<p class="tag_cate_css" >
-					作者：<span id="b_author">${blog.bAuthor }</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					发布时间：<span id="b_createdate">${blog.createDate}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					阅读量：<span id="b_visitors">${blog.bVisitors}</span>次
-					 <a href="javascript:void(0);" id="up_down" >展开</a>
-					</p>
-					<div id="up_down_p"  class="tag_cate_css" >
-						<p class="tag_cate_css">
-							分类专栏：
-							<c:forEach items="${categoryList}" var="category">
-								<span class="category_name">${category.categoryName}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							</c:forEach>
-						</p>
-						
-						<p class="tag_cate_css">
-							文章标签：
-							<c:forEach items="${tagList}" var="tag">
-								<span class="tag_name">${tag.tagName}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							</c:forEach>
-						</p>
-						
+					<div id="slide_show"  class="layui-carousel"><!-- 滑动幻灯片 -->
+					  <div carousel-item="">
+					    <div><img src="../picture/ubang_image_20190903391582.png"></div>
+					    <div><img src="../picture/ubang_image_20190903882007.png"></div>
+					    <div><img src="../picture/ubang_image_20190903391582.png"></div>
+					    <div>条目5</div>
+					  </div>
 					</div>
 				</div>
-		
+				
+				<div id="blog_list-title"><span>推荐</span></div>
+				
 				<!-- 文章的内容 -->
-				<div id="art_content">
+			<!-- 中间部分（点击左边触发） -->
+			 <div id="middle_list" style="margin-top:12px;">
+			 
+				<!-- 中间列表2 -->
+				<div id="a-list">
+					<input id="page_total" type="hidden" value="${pageInfo.total}"/>
+						<ul>
+						<c:if test="${pageInfo.total==0}">
+							<li >
+								<div class="title_and_info">
+									您还没写有博客，请先去发布博客。
+								</div>
+							</li>
+						</c:if>
+						
+						
+						<c:forEach items="${pageInfo.list}" var="blog" step="1" varStatus="status">
+							<li>
+								<div class="list_content">
+									<div class="list_title" style="text-align:left; font-size:26px;">
+										<a target="_blank" onclick="query_blog_desc(${blog.bId})">${blog.bTitle}</a>
+									</div>
+									
+									<div class="info_a"  style="text-align:left;font-size: 16px;margin-top:8px;">
+										<a target="_blank" onclick="query_blog_desc(${blog.bId})">${blog.bContenttext}...</a>
+									</div>
+									
+									<div class="info_b" style="text-align:left;color:gray;margin-top:8px;">
+										<span>${blog.createDate}</span>
+										<span class="span_style">浏览(${blog.bVisitors}) </span>
+										<span class="span_style">评论(${blog.bDiscuss})</span>
+
+									</div>
+								</div>
+							</li>
+							<hr>
+							
+						</c:forEach>
+
+					</ul>
 				</div>
+			<!-- 分页 -->
+<c:if test="${pageInfo.total>0}">
+	<div id="b_page" style="margin:0 auto;margin-top:39px;">
+		<nav aria-label="Page navigation">
+		  <ul class="pagination">
+		  
+		 	<c:if test="${pageInfo.pageNum>1}">
+		    <li>
+		      <a href="../blog/index.do?cat=b_management&curr=${pageInfo.pageNum-1}&keywords=${keywords}" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+		    </c:if>
+		    
+		    <c:forEach items="${pageInfo.navigatepageNums}" var="num">
+				<c:choose>
+					<c:when test="${pageInfo.pageNum==num}">
+						<li class="active"><a href="../blog/index.do?cat=b_management&curr=${num}&keywords=${keywords}">${num}</a></li>			
+					</c:when>
+					<c:otherwise>
+						<li ><a href="../blog/index.do?cat=b_management&curr=${num}&keywords=${keywords}">${num}</a></li>			
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		    
+		    <c:if test="${pageInfo.pageNum<pageInfo.pages}">
+		    <li>
+		      <a href="../blog/index.do?cat=b_management&curr=${pageInfo.pageNum+1}&keywords=${keywords}" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		    </c:if>
+		    
+		  </ul>
+		</nav>
+	</div>
+</c:if>		
+</div>
+<!-- 中间列表 end-->
 
-			</div>
-		</div>
 
-		<div id="right">
+
+	</div>
+</div>
+		<div id="right" >
 			<div id="hot_art" ><!-- 热门文章 -->
 				<div class="right_title">
 					<div class="title_content">&nbsp;热门文章</div>
@@ -523,32 +690,6 @@ position: relative;left:300px;
 						 </li>
 					</c:forEach>
 				</ul>
-			</div>
-			<div id="hot_art" ><!-- 归档 -->
-				<div class="right_title">
-					<div class="title_content">&nbsp;归档</div>
-				</div>
-			</div>
-			
-			<div id="guess_like" ><!-- 猜你喜欢 -->
-				<div class="right_title">
-					<div class="title_content">&nbsp;猜你喜欢</div>
-				</div>
-			</div>
-
-			<div id="art_tag" ><!-- 文章标签 -->
-				<div class="right_title">
-					<div class="title_content">&nbsp;文章分类专栏</div>
-				</div>
-				
-			
-				
-				<ul id="category_css">
-					<c:forEach items="${listCategoryOfUser}" var="cate">
-						<li><a href="../blog/getBlogListByCategoryName.do?categoryName=${cate.categoryName}" style="background:#93ac4a;width:220px;" title="${cate.categoryName}(${cate.categoryNumber})">${cate.categoryName} <span style="float:right;">${cate.categoryNumber }篇</span></a></li>
-					</c:forEach>
-				</ul>
-				
 			</div>
 
 			<div id="friendly_link" ><!-- 友情链接 -->

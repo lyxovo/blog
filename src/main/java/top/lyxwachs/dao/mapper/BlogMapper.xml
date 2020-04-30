@@ -16,6 +16,29 @@
     <result column="b_content" jdbcType="LONGVARCHAR" property="bContent" />
     <result column="b_contentText" jdbcType="LONGVARCHAR" property="bContenttext" />
   </resultMap>
+  
+  
+   <resultMap id="selectByCateNameResultMap" type="top.lyxwachs.bean.BlogWithBLOBs">
+    <id column="b_id" jdbcType="INTEGER" property="bId" />
+    <result column="b_picture" jdbcType="VARCHAR" property="bPicture" />
+    <result column="b_title" jdbcType="VARCHAR" property="bTitle" />
+    <result column="b_author" jdbcType="INTEGER" property="bAuthor" />
+    <result column="b_createdate" jdbcType="TIMESTAMP" property="bCreatedate" />
+    <result column="b_createupdate" jdbcType="TIMESTAMP" property="bCreateupdate" />
+    <result column="b_visitors" jdbcType="INTEGER" property="bVisitors" />
+    <result column="b_discuss" jdbcType="INTEGER" property="bDiscuss" />
+    <result column="b_live" jdbcType="INTEGER" property="bLive" />
+    <result column="b_content" jdbcType="LONGVARCHAR" property="bContent" />
+    <result column="b_contentText" jdbcType="LONGVARCHAR" property="bContenttext" />
+    <!-- 关联 User 对象 -->
+    <association property="blogCategory" javaType="top.lyxwachs.bean.BlogCategory" column="b_id">
+        <id property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+    </association>
+    
+  </resultMap>
+  
+  
   <sql id="Base_Column_List">
     b_id, b_picture, b_title, b_author, b_createdate, b_createupdate, b_visitors, b_discuss,b_live
   </sql>
@@ -199,6 +222,14 @@
   
   <select id="getNewBlogList" resultMap="ResultMapWithBLOBs">
   	select *  from blog where b_live=1 and b_author=#{bAuthor,jdbcType=INTEGER}  order by b_createdate desc limit 0,${page}
+  </select>
+  
+  
+  <select id="getBlogListByCategoryName" resultMap="selectByCateNameResultMap">
+    SELECT * FROM `blog_category` a INNER JOIN blog b ON a.b_id=b.b_id where a.category_name=#{categoryName,jdbcType=VARCHAR}  and a.u_id=#{userId,jdbcType=INTEGER} and a.c_live=#{cLive,jdbcType=INTEGER}
+   	<if test="bTitle!=null">
+		and b.b_title like concat('%',#{bTitle},'%')
+	</if>
   </select>
   
   
